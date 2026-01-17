@@ -1,0 +1,164 @@
+/**
+ * Atmos UI Tokens for ARK Breeding Calculator
+ * Following the Atmos UI Manifesto: "Atmosphere over Interface"
+ */
+
+:root {
+   /* Spacing Scale */
+   --space-xs: 4px;
+   --space-sm: 8px;
+   --space-md: 12px;
+   --space-lg: 16px;
+   --space-xl: 24px;
+   --space-2xl: 32px;
+   --space-3xl: 48px;
+
+   /* Radius Scale */
+   --radius-sm: 4px;
+   --radius-md: 8px;
+   --radius-lg: 12px;
+   --radius-xl: 16px;
+   --radius-full: 9999px;
+
+   /* Typography */
+   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+   --text-xs: 0.75rem;
+   --text-sm: 0.875rem;
+   --text-base: 1rem;
+   --text-lg: 1.125rem;
+   --text-xl: 1.25rem;
+   --text-2xl: 1.5rem;
+   --text-3xl: 2rem;
+
+   /* Transitions */
+   --transition-fast: 150ms ease;
+   --transition-base: 250ms ease;
+   --transition-slow: 400ms ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: ATMOS DARK (Default / Prehistoric Depths)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-atmos-dark,
+body:not([class*="theme-"]) {
+   --surface: 15 30 35;
+   --surface-container: 25 55 60;
+   --surface-container-high: 35 75 80;
+   --primary: 80 200 200;
+   --primary-container: 40 100 100;
+   --on-surface: 220 245 245;
+   --on-surface-variant: 160 190 195;
+   --on-primary: 10 30 35;
+   --outline: 60 120 125;
+   --outline-variant: 40 80 85;
+   --glass-blur: 16px;
+   --glass-bg: rgb(var(--surface-container) / 0.7);
+   --glass-border: rgb(var(--outline) / 0.3);
+   --highlight-bg: rgb(var(--primary) / 0.15);
+   --highlight-border: rgb(var(--primary) / 0.5);
+   --bg-color: #0a1418;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: ATMOS LIGHT (Clean / Fossil Ash)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-atmos-light {
+   --surface: 245 247 250;
+   --surface-container: 225 230 235;
+   --surface-container-high: 210 215 220;
+   --primary: 37 99 235;
+   --primary-container: 219 234 254;
+   --on-surface: 15 23 42;
+   --on-surface-variant: 71 85 105;
+   --on-primary: 255 255 255;
+   --outline: 148 163 184;
+   --outline-variant: 203 213 225;
+   --glass-blur: 8px;
+   --glass-bg: rgb(255 255 255 / 0.8);
+   --glass-border: rgb(var(--outline) / 0.4);
+   --highlight-bg: rgb(var(--primary) / 0.1);
+   --highlight-border: rgb(var(--primary) / 0.6);
+   --bg-color: #f1f5f9;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: TEK PULSE (Neon / Futuristic Blue)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-tek-pulse {
+   --surface: 5 15 25;
+   --surface-container: 0 40 60;
+   --surface-container-high: 0 60 90;
+   --primary: 0 242 255;
+   --primary-container: 0 80 120;
+   --on-surface: 200 250 255;
+   --on-surface-variant: 100 200 220;
+   --on-primary: 0 30 40;
+   --outline: 0 160 200;
+   --outline-variant: 0 100 130;
+   --glass-blur: 20px;
+   --glass-bg: rgb(0 20 30 / 0.6);
+   --glass-border: rgb(var(--primary) / 0.4);
+   --highlight-bg: rgb(var(--primary) / 0.2);
+   --highlight-border: rgb(var(--primary) / 1);
+   --bg-color: #020810;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: PRIMAL DAWN (Earth / Sunset Amber)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-primal-dawn {
+   --surface: 40 25 15;
+   --surface-container: 60 40 25;
+   --surface-container-high: 90 60 40;
+   --primary: 245 158 11;
+   --primary-container: 120 80 0;
+   --on-surface: 254 243 199;
+   --on-surface-variant: 217 119 6;
+   --on-primary: 40 20 0;
+   --outline: 180 100 20;
+   --outline-variant: 140 70 10;
+   --glass-blur: 12px;
+   --glass-bg: rgb(30 20 10 / 0.7);
+   --glass-border: rgb(var(--primary) / 0.3);
+   --highlight-bg: rgb(var(--primary) / 0.15);
+   --highlight-border: rgb(var(--primary) / 0.5);
+   --bg-color: #1a1008;
+}
+
+/* Semantic Overrides */
+:root {
+   --error: 255 100 100;
+   --warning: 255 180 80;
+   --success: 100 220 150;
+   --info: 100 180 255;
+}
+
+/* Utility Classes */
+.bg-surface {
+   background-color: rgb(var(--surface));
+}
+
+.bg-surface-container {
+   background-color: rgb(var(--surface-container));
+}
+
+.text-on-surface {
+   color: rgb(var(--on-surface));
+}
+
+.text-on-surface-variant {
+   color: rgb(var(--on-surface-variant));
+}
+
+.text-primary {
+   color: rgb(var(--primary));
+}
+
+.glass {
+   background: var(--glass-bg);
+   backdrop-filter: blur(var(--glass-blur));
+   -webkit-backdrop-filter: blur(var(--glass-blur));
+   border: 1px solid var(--glass-border);
+}
