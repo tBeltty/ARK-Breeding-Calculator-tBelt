@@ -1,0 +1,201 @@
+/**
+ * DataPanel Component Styles
+ * Encapsulated using CSS Modules
+ */
+
+.panel {
+    background: linear-gradient(180deg,
+            rgb(var(--surface-container) / 0.8) 0%,
+            rgb(var(--surface-container) / 0.5) 100%);
+    border: 1px solid rgb(var(--outline) / 0.3);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    user-select: none;
+}
+
+.header:hover {
+    background-color: rgb(var(--surface-container-high) / 0.5);
+}
+
+.header.collapsed {
+    color: rgb(var(--on-surface-variant));
+}
+
+.title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin: 0;
+}
+
+.chevron {
+    font-size: var(--text-xs);
+    transition: transform var(--transition-fast);
+}
+
+.chevron.open {
+    transform: rotate(180deg);
+}
+
+.content {
+    padding: var(--space-sm) var(--space-md);
+    animation: slideDown var(--transition-fast);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Data Row */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xs) var(--space-sm);
+    margin: 0 calc(var(--space-sm) * -1);
+    border-bottom: 1px solid rgb(var(--outline-variant) / 0.3);
+    transition: all var(--transition-fast);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.highlighted {
+    background: linear-gradient(90deg,
+            rgb(var(--primary) / 0.1) 0%,
+            transparent 100%);
+    border-left: 2px solid rgb(var(--primary));
+    padding-left: calc(var(--space-sm) - 2px);
+    box-shadow: inset 10px 0 15px -10px rgb(var(--primary) / 0.4);
+}
+
+.highlightValue {
+    color: rgb(var(--primary));
+    font-weight: 600;
+    text-shadow: 0 0 10px rgb(var(--primary) / 0.3);
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.label {
+    font-weight: 500;
+    color: rgb(var(--on-surface));
+    font-size: var(--text-sm);
+    cursor: help;
+}
+
+.infoIcon {
+    font-size: 10px;
+    color: rgb(var(--on-surface-variant) / 0.6);
+    cursor: help;
+    padding: 2px;
+    border: 1px solid rgb(var(--outline) / 0.3);
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.infoIcon:hover {
+    color: rgb(var(--primary));
+    border-color: rgb(var(--primary) / 0.5);
+    background: rgb(var(--primary) / 0.1);
+}
+
+.value {
+    color: rgb(var(--on-surface));
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+}
+
+/* Input styling */
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.input {
+    width: 80px;
+    padding: var(--space-xs) var(--space-sm);
+    background-color: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-align: right;
+    transition: border-color var(--transition-fast);
+}
+
+
+
+.input:hover,
+.input:focus {
+    border-color: rgb(var(--primary));
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: rgb(var(--primary));
+    cursor: pointer;
+}
+
+.suffix {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+}
+
+/* Stepper buttons */
+.stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: rgb(var(--surface-container-high));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-lg);
+    font-weight: 300;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.stepper:hover {
+    background: rgb(var(--primary) / 0.2);
+    border-color: rgb(var(--primary));
+    color: rgb(var(--primary));
+}
+
+.stepper:active {
+    transform: scale(0.95);
+}
