@@ -331,6 +331,7 @@ export function TroughCalculator({
             <TroughCreatureList
                 creatureList={creatureList}
                 onAdd={addCurrentCreature}
+                onReset={handleReset}
                 onRemove={removeCreature}
                 onUpdateMaturation={updateMaturation}
                 onUpdateQuantity={updateQuantity}
