@@ -282,6 +282,13 @@ export function TroughCalculator({
         }
     };
 
+    const handleReset = () => {
+        if (window.confirm(t('ui.confirm_reset') || 'Reset all trough calculator data? This will clear everything and reload.')) {
+            localStorage.removeItem('ark_trough_data');
+            window.location.reload();
+        }
+    };
+
     const addCurrentCreature = () => {
         if (!currentCreature || !creatures[currentCreature]) return;
 
