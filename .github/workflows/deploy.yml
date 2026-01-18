@@ -1,0 +1,28 @@
+name: Deploy to Self-Hosted VPS
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clean install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to Nginx
+        # Rsync the build output (dist/) to the web root
+        # Using -r (recursive) and --delete to remove old files
+        run: rsync -r --delete dist/ ${{ secrets.DEPLOY_PATH }}
