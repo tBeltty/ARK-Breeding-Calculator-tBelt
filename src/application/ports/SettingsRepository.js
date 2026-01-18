@@ -32,7 +32,7 @@ export const SettingsRepository = {
      * @param {BreedingSettings} settings - Settings to persist
      * @returns {void}
      */
-    save: (settings) => { throw new Error('Not implemented'); },
+    save: (_settings) => { throw new Error('Not implemented'); },
 
     /**
      * Clear all saved settings.

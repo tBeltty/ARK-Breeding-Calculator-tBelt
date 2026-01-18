@@ -16,6 +16,7 @@ import {
     calculateFoodForPeriod,
     foodPointsToItems,
     calculateHandFeedThreshold,
+    calculateDailyFood,
     DEFAULT_SETTINGS
 } from '../../domain/breeding';
 
@@ -88,10 +89,15 @@ export function calculateBreedingStats({ creature, food, weight, maturationProgr
     const currentWeight = safeWeight * safeMaturation;
     const foodCapacity = Math.floor(currentWeight / food.weight);
     const currentFoodRate = maxFoodRate - foodRateDecay * maturationTimeComplete;
-    const currentBuffer = foodCapacity > 0 ? (foodCapacity * food.food) / currentFoodRate : 0;
+    // Prevent division by zero / Infinity
+    const safeFoodRate = Math.max(currentFoodRate, 0.000001);
+    const currentBuffer = foodCapacity > 0 ? (foodCapacity * food.food) / safeFoodRate : 0;
 
     // Calculate hand feed threshold
     const handFeed = calculateHandFeedThreshold(creature, food, safeWeight, settings);
+
+    // Calculate daily food breakdown
+    const dailyFood = calculateDailyFood(creature, food, settings);
 
     return {
         birthLabel: creature.birthtype,
@@ -108,7 +114,8 @@ export function calculateBreedingStats({ creature, food, weight, maturationProgr
         foodCapacity,
         currentFoodRate: currentFoodRate * 60, // Convert to per minute
         handFeedUntil: handFeed.handFeedUntil,
-        handFeedTime: handFeed.handFeedTime
+        handFeedTime: handFeed.handFeedTime,
+        dailyFood // Expose for UI breakdown
     };
 }
 
