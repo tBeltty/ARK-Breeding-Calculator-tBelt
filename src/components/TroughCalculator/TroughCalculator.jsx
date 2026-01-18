@@ -10,7 +10,7 @@ import { TroughResults } from './TroughResults';
 import { FoodSelectorSection } from './FoodSelectorSection';
 import { FoodStackRow } from './FoodStackRow';
 import { useAutoDuration } from './useAutoDuration';
-import { useTroughCalculations } from './useTroughCalculations';
+
 
 import { simulateTrough, TROUGH_TYPES } from '@/domain/trough';
 import { calculateMaturationTime } from '@/domain/breeding';
