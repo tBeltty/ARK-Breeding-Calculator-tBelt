@@ -8,6 +8,10 @@ import i18n from './i18n';
 import { CreatureSelector } from './components/CreatureSelector';
 import { DataPanel, DataRow, DataInput, LabelWithTooltip } from './components/DataPanel';
 import { TroughCalculator } from './components/TroughCalculator';
+import { SettingsMenu } from './components/SettingsMenu';
+import { NotificationManager } from './infrastructure/NotificationManager';
+
+import { Modal } from './components/Modal';
 
 // Domain - only formatTime needed for presentation
 import { formatTime } from './domain/breeding';
@@ -33,14 +37,31 @@ export default function App() {
 
   const [selectedCreature, setSelectedCreature] = useState(initialSession.selectedCreature);
   const [weight, setWeight] = useState(initialSession.weight);
+  const [maxFood, setMaxFood] = useState(initialSession.maxFood || 0);
   const [maturationProgress, setMaturationProgress] = useState(initialSession.maturationProgress);
   const [selectedFood, setSelectedFood] = useState(initialSession.selectedFood);
   const [settings, setSettings] = useState(loadSettings);
 
   // New State for Polish features
   const [gameVersion, setGameVersion] = useState(initialSession.gameVersion || 'ASA');
-  const [activeTheme, setActiveTheme] = useState(initialSession.theme || 'atmos-dark');
+
+  // Valid themes list - used for validation
+  const validThemes = ['arat-prime', 'tek-pulse', 'primal-dawn', 'aberrant-depths', 'frozen-peaks', 'crystal-horizon'];
+  const savedTheme = initialSession.theme || 'arat-prime';
+  const initialTheme = validThemes.includes(savedTheme) ? savedTheme : 'arat-prime';
+
+
+  const [activeTheme, setActiveTheme] = useState(initialTheme);
   const [language, setLanguage] = useState(initialSession.language || 'en');
+
+  // UI States
+  const [isBreakdownOpen, setIsBreakdownOpen] = useState(false); // New Modal State
+
+  // Global Settings State (Lifted from TroughCalculator)
+  const [advancedMode, setAdvancedMode] = useState(initialSession.advancedMode || false);
+  const [useStasisMode, setUseStasisMode] = useState(initialSession.useStasisMode || false);
+  const [notifyEnabled, setNotifyEnabled] = useState(initialSession.notifyEnabled || false);
+  const [notifyTime, setNotifyTime] = useState(initialSession.notifyTime || 10);
 
   const [panelStates, setPanelStates] = useState({
     creature: true,
@@ -57,19 +78,38 @@ export default function App() {
   // Apply Theme & Language
   useEffect(() => {
     document.body.className = `theme-${activeTheme}`;
+
+    // Dynamic Background per Theme
+    const themeBackgrounds = {
+      'arat-prime': 'aratprime.png',
+      'tek-pulse': 'tekpulse.png',
+      'primal-dawn': 'primaldawn.png',
+      'aberrant-depths': 'aberrantdepths.png',
+      'frozen-peaks': 'ash.png',
+      'crystal-horizon': 'crystal.png'
+    };
+    const bgImage = themeBackgrounds[activeTheme] || 'aratprime.png';
+
+    // Set CSS variable for background image
+    document.documentElement.style.setProperty('--bg-image', `url('/${bgImage}')`);
   }, [activeTheme]);
 
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
 
+  // Update max food default when weight changes if needed, or just let user override
+  // Current logic: we don't auto-calc max food in state, we let UseCase handle it unless overriden.
+  // But for the input, we start at 0 (auto) or saved value.
+
   // Update food when creature changes (only if current food is incompatible)
   useEffect(() => {
     const newFoods = foodLists[creature?.type] || foodLists['Carnivore'];
     if (!newFoods.includes(selectedFood)) {
+      // eslint-disable-next-line
       setSelectedFood(newFoods[0]);
     }
-  }, [selectedCreature, creature]);
+  }, [selectedCreature, creature, selectedFood]);
 
   // Handle creature change - update weight to creature default
   const handleCreatureChange = useCallback((newCreature) => {
@@ -78,8 +118,23 @@ export default function App() {
     if (creatureData) {
       setWeight(creatureData.weight);
       setMaturationProgress(0); // Reset maturation when changing creature
+      setMaxFood(0); // Reset max food override
     }
   }, []);
+
+  // Handle Notification Toggle
+  const handleNotifyToggle = async () => {
+    if (!notifyEnabled) {
+      const granted = await NotificationManager.requestPermission();
+      if (granted) {
+        setNotifyEnabled(true);
+      } else {
+        alert(t('notifications.perm_denied'));
+      }
+    } else {
+      setNotifyEnabled(false);
+    }
+  };
 
   // Persist settings via Infrastructure layer
   useEffect(() => {
@@ -91,13 +146,22 @@ export default function App() {
     saveSession({
       selectedCreature,
       weight,
+      maxFood,
       maturationProgress,
       selectedFood,
       gameVersion,
       theme: activeTheme,
-      language
+      language,
+      advancedMode,
+      useStasisMode,
+      notifyEnabled,
+      notifyTime
     });
-  }, [selectedCreature, weight, maturationProgress, selectedFood, gameVersion, activeTheme, language]);
+  }, [
+    selectedCreature, weight, maxFood, maturationProgress, selectedFood,
+    gameVersion, activeTheme, language,
+    advancedMode, useStasisMode, notifyEnabled, notifyTime
+  ]);
 
   // Use Application layer Use Case for calculations
   const calculations = useMemo(() => {
@@ -137,11 +201,25 @@ export default function App() {
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.headerMain}>
-            <h1 className={styles.title}>{t('title')}</h1>
-            <p className={styles.subtitle}>v2.1 • {t('ui.version_edition', { version: gameVersion })}</p>
+            <img src="/logo.png?v=3" alt="ARK Breeding Calculator" className={styles.logo} />
+            <div className={styles.headerText}>
+              <h1 className={styles.title}>{t('title')}</h1>
+              <p className={styles.subtitle}>v2.1 • {t('ui.version_edition', { version: gameVersion })}</p>
+            </div>
           </div>
 
           <div className={styles.quickSettings}>
+            <SettingsMenu
+              advancedMode={advancedMode}
+              onToggleAdvanced={setAdvancedMode}
+              notifyEnabled={notifyEnabled}
+              onToggleNotify={handleNotifyToggle}
+              notifyTime={notifyTime}
+              onNotifyTimeChange={setNotifyTime}
+              useStasisMode={useStasisMode}
+              onToggleStasisMode={setUseStasisMode}
+            />
+
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
@@ -158,10 +236,12 @@ export default function App() {
               className={styles.miniSelect}
               title={t('ui.theme')}
             >
-              <option value="atmos-dark">{t('ui.themes.atmos-dark')}</option>
-              <option value="atmos-light">{t('ui.themes.atmos-light')}</option>
-              <option value="tek-pulse">{t('ui.themes.tek-pulse')}</option>
-              <option value="primal-dawn">{t('ui.themes.primal-dawn')}</option>
+              <option value="arat-prime">Arat Prime</option>
+              <option value="crystal-horizon">Crystal Horizon</option>
+              <option value="aberrant-depths">Aberrant Depths</option>
+              <option value="frozen-peaks">Frozen Peaks</option>
+              <option value="tek-pulse">Tek Pulse</option>
+              <option value="primal-dawn">Primal Dawn</option>
             </select>
 
             <button
@@ -193,6 +273,21 @@ export default function App() {
               min={1}
               max={10000}
             />
+
+            {/* Max Food Input - Only in Advanced Mode */}
+            {advancedMode && (
+              <DataInput
+                label={t('fields.max_food')}
+                tooltip={t('tooltips.max_food')}
+                value={maxFood}
+                onChange={setMaxFood}
+                min={0}
+                max={1000000}
+                placeholder={t('ui.auto_calculated')}
+                step={10}
+              />
+            )}
+
             <div className={styles.foodSelect}>
               <LabelWithTooltip
                 label={t('fields.selected_food')}
@@ -327,14 +422,76 @@ export default function App() {
             <DataRow
               label={t('fields.food_capacity')}
               tooltip={t('tooltips.food_capacity', { food: selectedFood })}
-              value={calculations.foodCapacity.toLocaleString()}
+              value={maxFood > 0 ? `${maxFood.toLocaleString()} (Custom)` : calculations.foodCapacity.toLocaleString()}
             />
             <DataRow
               label={t('fields.food_rate')}
               tooltip={t('tooltips.food_rate')}
               value={t('ui.food_rate_value', { rate: calculations.currentFoodRate.toFixed(2) })}
             />
+            <DataRow
+              label={t('fields.food_to_adult')}
+              tooltip={t('tooltips.food_to_adult')}
+              value={calculations.toAdultFoodItems.toLocaleString()}
+            />
+
+            {/* Food Breakdown Button */}
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              <button
+                style={{
+                  background: 'rgb(var(--primary) / 0.15)',
+                  color: 'rgb(var(--primary))',
+                  border: '1px solid rgb(var(--primary) / 0.3)',
+                  padding: '6px 16px',
+                  borderRadius: '16px',
+                  fontSize: '0.85rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+                onClick={() => setIsBreakdownOpen(true)}
+              >
+                📊 {t('ui.view_breakdown')}
+              </button>
+            </div>
           </DataPanel>
+
+          {/* Breakdown Modal */}
+          {isBreakdownOpen && calculations?.dailyFood && (
+            <Modal
+              isOpen={isBreakdownOpen}
+              onClose={() => setIsBreakdownOpen(false)}
+              title={t('ui.breakdown_daily_title')}
+            >
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                maxHeight: '60vh',
+                overflowY: 'auto'
+              }}>
+                {Object.entries(calculations.dailyFood).map(([day, amount]) => (
+                  <div key={day} style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 12px',
+                    background: 'rgb(var(--surface-container-high) / 0.3)',
+                    borderRadius: 'var(--radius-sm)',
+                    fontSize: '0.9rem'
+                  }}>
+                    <span style={{ opacity: 0.9 }}>{t('ui.day')} {day}</span>
+                    <strong style={{ color: 'rgb(var(--primary))' }}>{amount.toLocaleString()}</strong>
+                  </div>
+                ))}
+                {Object.keys(calculations.dailyFood).length === 0 && (
+                  <p style={{ opacity: 0.6, fontStyle: 'italic' }}>{t('ui.no_data_available')}</p>
+                )}
+              </div>
+            </Modal>
+          )}
 
           <TroughCalculator
             creatures={creatures}
@@ -343,10 +500,22 @@ export default function App() {
             settings={settings}
             currentCreature={selectedCreature}
             currentMaturation={maturationProgress}
+            currentMaxFood={maxFood > 0 ? maxFood : null}
+            gameVersion={gameVersion}
+
+            // Global Settings Props
+            advancedMode={advancedMode}
+            useStasisMode={useStasisMode}
+            notifyEnabled={notifyEnabled}
+            notifyTime={notifyTime}
           />
         </main>
 
         <footer className={styles.footer}>
+          <a href="https://github.com/tBeltty/ARK-Breeding-Calculator-tBelt" target="_blank" rel="noopener noreferrer">
+            {t('ui.remake_credit')}
+          </a>
+          {' • '}
           <a href="https://github.com/Crumplecorn/ARK-Breeding-Calculator" target="_blank" rel="noopener noreferrer">
             {t('ui.author_credit')}
           </a>

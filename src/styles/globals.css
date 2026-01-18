@@ -30,22 +30,14 @@ body {
     font-size: var(--text-base);
     line-height: 1.6;
     color: rgb(var(--on-surface));
-    background-color: rgb(var(--surface));
     min-height: 100vh;
-}
 
-/* Background image layer */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url('/back.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    opacity: 0.3;
-    z-index: -1;
-    pointer-events: none;
+    /* Dynamic theme background with overlay */
+    background:
+        linear-gradient(180deg,
+            rgb(var(--surface) / 0.3) 0%,
+            rgb(var(--surface) / 0.3) 100%),
+        var(--bg-image, url('/aratprime.png')) center/cover no-repeat fixed;
 }
 
 /* ═════════════════════════════════════════════════════════════════

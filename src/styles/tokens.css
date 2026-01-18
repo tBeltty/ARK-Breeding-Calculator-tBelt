@@ -39,10 +39,41 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   THEME: ATMOS DARK (Default / Prehistoric Depths)
+   THEME: ARAT PRIME (Default / Ethereal Purple)
    ═══════════════════════════════════════════════════════════ */
-body.theme-atmos-dark,
+body.theme-arat-prime,
 body:not([class*="theme-"]) {
+   --surface: 20 12 30;
+   --surface-container: 40 25 55;
+   --surface-container-high: 60 40 80;
+   --primary: 255 100 180;
+   --primary-container: 140 50 100;
+   --on-surface: 240 230 250;
+   --on-surface-variant: 180 150 200;
+   --on-primary: 30 10 40;
+   --outline: 120 80 150;
+   --outline-variant: 80 50 100;
+   --glass-blur: 16px;
+   --glass-bg: rgb(30 15 45 / 0.75);
+   --glass-border: rgb(var(--primary) / 0.35);
+   --highlight-bg: rgb(var(--primary) / 0.2);
+   --highlight-border: rgb(var(--primary) / 0.6);
+   --bg-color: #0d0618;
+   --bg-image: url('/aratprime.png');
+
+   /* Full background for initial load */
+   background:
+      linear-gradient(to bottom, rgb(20 12 30 / 0.3), rgb(20 12 30 / 0.3)),
+      url('/aratprime.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: ABERRANT DEPTHS (Bioluminescent / Underground)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-aberrant-depths {
    --surface: 15 30 35;
    --surface-container: 25 55 60;
    --surface-container-high: 35 75 80;
@@ -59,12 +90,20 @@ body:not([class*="theme-"]) {
    --highlight-bg: rgb(var(--primary) / 0.15);
    --highlight-border: rgb(var(--primary) / 0.5);
    --bg-color: #0a1418;
+   --bg-image: url('/aberrantdepths.png');
+
+   background:
+      linear-gradient(to bottom, rgb(15 30 35 / 0.3), rgb(15 30 35 / 0.3)),
+      url('/aberrantdepths.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   THEME: ATMOS LIGHT (Clean / Fossil Ash)
+   THEME: FROZEN PEAKS (Clean / Snowy Mountains)
    ═══════════════════════════════════════════════════════════ */
-body.theme-atmos-light {
+body.theme-frozen-peaks {
    --surface: 245 247 250;
    --surface-container: 225 230 235;
    --surface-container-high: 210 215 220;
@@ -81,6 +120,14 @@ body.theme-atmos-light {
    --highlight-bg: rgb(var(--primary) / 0.1);
    --highlight-border: rgb(var(--primary) / 0.6);
    --bg-color: #f1f5f9;
+   --bg-image: url('/ash.png');
+
+   background:
+      linear-gradient(to bottom, rgb(245 247 250 / 0.3), rgb(245 247 250 / 0.3)),
+      url('/ash.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -103,6 +150,14 @@ body.theme-tek-pulse {
    --highlight-bg: rgb(var(--primary) / 0.2);
    --highlight-border: rgb(var(--primary) / 1);
    --bg-color: #020810;
+   --bg-image: url('/tekpulse.png');
+
+   background:
+      linear-gradient(to bottom, rgb(5 15 25 / 0.3), rgb(5 15 25 / 0.3)),
+      url('/tekpulse.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -125,6 +180,44 @@ body.theme-primal-dawn {
    --highlight-bg: rgb(var(--primary) / 0.15);
    --highlight-border: rgb(var(--primary) / 0.5);
    --bg-color: #1a1008;
+   --bg-image: url('/primaldawn.png');
+
+   background:
+      linear-gradient(to bottom, rgb(40 25 15 / 0.3), rgb(40 25 15 / 0.3)),
+      url('/primaldawn.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME: CRYSTAL HORIZON (Clean / Slate & Cyan)
+   ═══════════════════════════════════════════════════════════ */
+body.theme-crystal-horizon {
+   --surface: 15 23 42;
+   --surface-container: 30 41 59;
+   --surface-container-high: 51 65 85;
+   --primary: 6 182 212;
+   --primary-container: 8 145 178;
+   --on-surface: 244 248 251;
+   --on-surface-variant: 148 163 184;
+   --on-primary: 255 255 255;
+   --outline: 51 65 85;
+   --outline-variant: 71 85 105;
+   --glass-blur: 12px;
+   --glass-bg: rgb(15 23 42 / 0.85);
+   --glass-border: rgb(var(--outline) / 0.3);
+   --highlight-bg: rgb(var(--primary) / 0.15);
+   --highlight-border: rgb(var(--primary) / 0.5);
+   --bg-color: #0f172a;
+   --bg-image: url('/crystal.png');
+
+   background:
+      linear-gradient(to bottom, rgb(15 23 42 / 0.3), rgb(15 23 42 / 0.3)),
+      url('/crystal.png');
+   background-size: cover, cover;
+   background-position: center, center;
+   background-attachment: fixed, fixed;
 }
 
 /* Semantic Overrides */
