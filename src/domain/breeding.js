@@ -13,6 +13,8 @@ export const DEFAULT_SETTINGS = {
     lossFactor: 0,
     gen2HatchEffect: false,
     gen2GrowthEffect: false,
+    consumablesSpoilTime: 1,
+    stackMultiplier: 1,
 };
 
 /**
