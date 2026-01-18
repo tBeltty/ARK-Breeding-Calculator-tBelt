@@ -1,16 +1,12 @@
 import { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styles from './CreatureSelector.module.css';
-import { DataPanel, DataRow, DataInput, LabelWithTooltip } from '../DataPanel';
+import { LabelWithTooltip } from '../DataPanel';
 
 /**
  * CreatureSelector Component
  * Provides autocomplete search and selection for ARK creatures.
- * 
- * Props:
- * - creatures: Object - creature data keyed by name
- * - selectedCreature: string - currently selected creature name
- * - onSelect: (creatureName: string) => void - callback when creature selected
  */
 export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
     const { t } = useTranslation();
@@ -57,6 +53,7 @@ export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
                     onFocus={handleInputFocus}
                     onBlur={() => setTimeout(() => setIsOpen(false), 200)}
                     title={t('tooltips.creature')}
+                    maxLength={30}
                 />
                 {isOpen && filteredCreatures.length > 0 && (
                     <ul className={styles.dropdown}>
@@ -76,5 +73,11 @@ export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
         </div>
     );
 }
+
+CreatureSelector.propTypes = {
+    creatures: PropTypes.object.isRequired,
+    selectedCreature: PropTypes.string,
+    onSelect: PropTypes.func.isRequired
+};
 
 export default CreatureSelector;

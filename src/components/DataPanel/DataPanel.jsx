@@ -1,17 +1,12 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from './DataPanel.module.css';
 
 /**
  * DataPanel Component
  * Collapsible panel that displays breeding data in a table format.
- * 
- * Props:
- * - title: string - Panel header title
- * - isOpen: boolean - Whether panel is expanded
- * - onToggle: () => void - Callback to toggle panel
- * - children: ReactNode - Panel content
  */
-export function DataPanel({ title, isOpen = true, onToggle, children }) {
+export function DataPanel({ title, isOpen = true, onToggle, headerActions, children }) {
     return (
         <section className={styles.panel}>
             <header
@@ -22,7 +17,12 @@ export function DataPanel({ title, isOpen = true, onToggle, children }) {
                 onKeyDown={(e) => e.key === 'Enter' && onToggle?.()}
             >
                 <h3 className={styles.title}>{title}</h3>
-                <span className={`${styles.chevron} ${isOpen ? styles.open : ''}`}>▼</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div onClick={(e) => e.stopPropagation()}>
+                        {headerActions}
+                    </div>
+                    <span className={`${styles.chevron} ${isOpen ? styles.open : ''}`}>▼</span>
+                </div>
             </header>
             {isOpen && (
                 <div className={styles.content}>
@@ -33,52 +33,60 @@ export function DataPanel({ title, isOpen = true, onToggle, children }) {
     );
 }
 
+DataPanel.propTypes = {
+    title: PropTypes.string.isRequired,
+    isOpen: PropTypes.bool,
+    onToggle: PropTypes.func,
+    children: PropTypes.node
+};
+
 /**
  * LabelWithTooltip Component
- * Standardized label with an optional info icon and tooltip.
+ * Wraps label and renders tooltip on hover
  */
-export function LabelWithTooltip({ label, tooltip, className }) {
+export function LabelWithTooltip({ label, tooltip, className, style }) {
     return (
-        <div className={`${styles.labelContainer} ${className || ''}`}>
+        <div className={`${styles.labelContainer} ${styles.hasTooltip} ${className || ''}`} style={style}>
             <span className={styles.label}>{label}</span>
-            {tooltip && <span className={styles.infoIcon} title={tooltip}>ⓘ</span>}
+            {tooltip && <div className={styles.rowTooltip}>{tooltip}</div>}
         </div>
     );
 }
 
+LabelWithTooltip.propTypes = {
+    label: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object
+};
+
 /**
  * DataRow Component
- * Single row in a data table with label and value.
- * 
- * Props:
- * - label: string - Row label
- * - tooltip: string - Optional tooltip on hover
- * - value: ReactNode - The data value
+ * Row with hover tooltip, highlight effect, and improved alignment.
  */
-export function DataRow({ label, value, tooltip, highlight = false }) {
+export function DataRow({ label, value, tooltip, highlight = false, children }) {
     return (
-        <div className={`${styles.row} ${highlight ? styles.highlighted : ''}`}>
-            <LabelWithTooltip label={label} tooltip={tooltip} />
-            <span className={`${styles.value} ${highlight ? styles.highlightValue : ''}`}>{value}</span>
+        <div className={`${styles.row} ${highlight ? styles.highlighted : ''} ${tooltip ? styles.hasTooltip : ''}`}>
+            <LabelWithTooltip label={label} />
+            <div className={`${styles.value} ${highlight ? styles.highlightValue : ''}`}>
+                {value}
+                {children}
+            </div>
+            {tooltip && <div className={styles.rowTooltip}>{tooltip}</div>}
         </div>
     );
 }
+
+DataRow.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.node,
+    tooltip: PropTypes.string,
+    highlight: PropTypes.bool
+};
 
 /**
  * DataInput Component
  * Row with an input field, supporting steppers and decimal input.
- * 
- * Props:
- * - label: string - Row label
- * - tooltip: string - Optional tooltip
- * - value: number - Current value
- * - onChange: (value: number) => void - Change handler
- * - type: 'number' | 'text' | 'checkbox'
- * - min/max/step: number - Input constraints
- * - suffix: string - Unit suffix (e.g., "%", "Minutes")
- * - placeholder: string - Placeholder text
- * - showSteppers: boolean - Show +/- buttons (default true for number)
- * - decimals: number - Decimal places to allow (default 2)
  */
 export function DataInput({
     label,
@@ -92,19 +100,28 @@ export function DataInput({
     suffix,
     placeholder = '0',
     showSteppers = true,
-    decimals = 2
+    decimals = 2,
+    hideLabel = false,
+    className,
+    disabled = false
 }) {
     // Use string state to allow editing without immediate conversion
-    const [displayValue, setDisplayValue] = useState('');
+    const [displayValue, setDisplayValue] = useState(value !== undefined && value !== null ? String(value) : '');
 
     // Sync display value with prop value
     useEffect(() => {
-        if (document.activeElement?.dataset?.inputId !== label) {
-            setDisplayValue(value !== undefined && value !== null ? String(value) : '');
+        if (value !== undefined && value !== null && String(value) !== displayValue) {
+            // Only update if the prop value is different from current display (e.g. external update)
+            // and we are NOT currently focusing it (avoid overwriting user typing)
+            if (document.activeElement?.dataset?.inputId !== label) {
+                setDisplayValue(String(value));
+            }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, label]);
 
     const handleChange = (e) => {
+        if (disabled) return;
         if (type === 'checkbox') {
             onChange(e.target.checked);
             return;
@@ -120,6 +137,7 @@ export function DataInput({
     };
 
     const handleBlur = () => {
+        if (disabled) return;
         // Convert to number on blur
         const parsed = parseFloat(displayValue);
         if (!isNaN(parsed)) {
@@ -135,6 +153,7 @@ export function DataInput({
     };
 
     const handleStep = (delta) => {
+        if (disabled) return;
         const current = parseFloat(displayValue) || 0;
         const newValue = current + delta;
         const clamped = max !== undefined ? Math.min(newValue, max) : newValue;
@@ -145,6 +164,7 @@ export function DataInput({
     };
 
     const handleKeyDown = (e) => {
+        if (disabled) return;
         if (e.key === 'Enter') {
             e.target.blur();
         }
@@ -159,55 +179,84 @@ export function DataInput({
     };
 
     return (
-        <div className={styles.row}>
-            <LabelWithTooltip label={label} tooltip={tooltip} />
+        <div className={`${styles.row} ${className || ''} ${tooltip ? styles.hasTooltip : ''} ${disabled ? styles.disabled : ''}`}>
+            {!hideLabel && <LabelWithTooltip label={label} />}
             <span className={styles.inputWrapper}>
                 {type === 'checkbox' ? (
                     <input
                         type="checkbox"
-                        checked={value}
+                        checked={!!value}
                         onChange={handleChange}
                         className={styles.checkbox}
+                        disabled={disabled}
                     />
                 ) : (
                     <>
-                        {showSteppers && (
-                            <button
-                                type="button"
-                                className={styles.stepper}
-                                onClick={() => handleStep(-step)}
-                                tabIndex={-1}
-                            >
-                                −
-                            </button>
-                        )}
-                        <input
-                            type="text"
-                            inputMode="decimal"
-                            data-input-id={label}
-                            value={displayValue}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            onKeyDown={handleKeyDown}
-                            placeholder={placeholder}
-                            className={styles.input}
-                        />
-                        {showSteppers && (
-                            <button
-                                type="button"
-                                className={styles.stepper}
-                                onClick={() => handleStep(step)}
-                                tabIndex={-1}
-                            >
-                                +
-                            </button>
-                        )}
+                        <div className={styles.inputGroup}>
+                            <input
+                                type="text"
+                                inputMode="decimal"
+                                data-input-id={label}
+                                value={displayValue}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                onKeyDown={handleKeyDown}
+                                placeholder={placeholder}
+                                className={styles.input}
+                                disabled={disabled}
+                            />
+                            {showSteppers && !disabled && (
+                                <div className={styles.stepperColumn}>
+                                    <button
+                                        type="button"
+                                        className={styles.stepperBtn}
+                                        onClick={() => handleStep(step)}
+                                        tabIndex={-1}
+                                        disabled={disabled}
+                                    >
+                                        <svg width="8" height="8" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2 8L6 4L10 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={styles.stepperBtn}
+                                        onClick={() => handleStep(-step)}
+                                        tabIndex={-1}
+                                        disabled={disabled}
+                                    >
+                                        <svg width="8" height="8" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </>
                 )}
                 {suffix && <span className={styles.suffix}>{suffix}</span>}
             </span>
+            {tooltip && <div className={styles.rowTooltip}>{tooltip}</div>}
         </div>
     );
 }
+
+DataInput.propTypes = {
+    label: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    step: PropTypes.number,
+    suffix: PropTypes.string,
+    placeholder: PropTypes.string,
+    showSteppers: PropTypes.bool,
+    decimals: PropTypes.number,
+    hideLabel: PropTypes.bool,
+    className: PropTypes.string,
+    disabled: PropTypes.bool
+};
 
 export default DataPanel;
