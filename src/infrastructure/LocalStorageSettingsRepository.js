@@ -22,9 +22,40 @@ const DEFAULT_SESSION = {
     maturationProgress: 0,
     selectedFood: 'Raw Meat',
     gameVersion: 'ASA',
-    theme: 'atmos-dark',
+    theme: 'arat-prime',
     language: 'en'
 };
+
+/**
+ * Load settings from localStorage.
+ * @returns {Object} Settings merged with defaults
+ */
+/**
+ * Validate settings object to prevent corruption/logic bombs.
+ * @param {Object} data - Raw data from storage
+ * @returns {Object} Validated settings
+ */
+function validateSettings(data) {
+    if (!data || typeof data !== 'object') return { ...DEFAULT_SETTINGS };
+
+    const safeNumber = (val, def, min, max) => {
+        const num = parseFloat(val);
+        if (isNaN(num)) return def;
+        if (min !== undefined && num < min) return min;
+        if (max !== undefined && num > max) return max;
+        return num;
+    };
+
+    return {
+        ...DEFAULT_SETTINGS,
+        maturationSpeed: safeNumber(data.maturationSpeed, DEFAULT_SETTINGS.maturationSpeed, 0.001, 1000),
+        hatchSpeed: safeNumber(data.hatchSpeed, DEFAULT_SETTINGS.hatchSpeed, 0.001, 1000),
+        consumptionSpeed: safeNumber(data.consumptionSpeed, DEFAULT_SETTINGS.consumptionSpeed, 0.001, 1000),
+        // Booleans
+        gen2HatchEffect: typeof data.gen2HatchEffect === 'boolean' ? data.gen2HatchEffect : DEFAULT_SETTINGS.gen2HatchEffect,
+        gen2GrowthEffect: typeof data.gen2GrowthEffect === 'boolean' ? data.gen2GrowthEffect : DEFAULT_SETTINGS.gen2GrowthEffect
+    };
+}
 
 /**
  * Load settings from localStorage.
@@ -35,7 +66,7 @@ export function loadSettings() {
         const saved = localStorage.getItem(SETTINGS_KEY);
         if (saved) {
             const parsed = JSON.parse(saved);
-            return { ...DEFAULT_SETTINGS, ...parsed };
+            return validateSettings(parsed);
         }
     } catch (error) {
         console.warn('Failed to load settings from localStorage:', error);
