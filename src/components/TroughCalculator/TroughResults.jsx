@@ -55,10 +55,10 @@ export function TroughResults({ results, troughType, settings, troughConfig }) {
 
             <div style={{ marginTop: '16px', fontSize: '0.7em', opacity: 0.5, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8px' }}>
                 <div>Debug Info:</div>
-                <div>Spoil Mult: {troughConfig?.spoilMultiplier}x</div>
-                <div>Settings: SpoilTime {settings?.consumablesSpoilTime}x</div>
+                <div>Spoil Mult: {troughConfig?.spoilMultiplier || 1}x</div>
+                <div>Settings: SpoilTime {settings?.consumablesSpoilTime || 1}x</div>
                 {settings?.stackMultiplier && <div>Stack Mult: {settings.stackMultiplier}x</div>}
-                <div>Initial Stacks: {results?.totalInitialStacks}</div>
+                <div>Initial Stacks: {results?.totalInitialStacks || 0}</div>
             </div>
         </div>
     );
