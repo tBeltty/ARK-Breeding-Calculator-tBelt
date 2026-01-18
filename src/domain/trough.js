@@ -6,14 +6,18 @@
  */
 
 import { calculateFoodRates, calculateMaturationTime } from './breeding';
+import { FoodValue } from './models/FoodValue';
 
 /**
- * Trough type multipliers for spoil times.
+ * Trough type configurations.
+ * - spoilMultiplier: how much longer food lasts vs player inventory
+ *   (base food.spoil is player inventory time, e.g. 600s = 10min for meat)
+ * - slots: max inventory slots (null = weight-based for Maewing)
  */
 export const TROUGH_TYPES = {
-    Normal: 1,
-    'Tek Trough': 100,
-    'Maewing': 1 // Maewing has different mechanics but same spoil
+    Normal: { spoilMultiplier: 4, slots: 60 },        // 4x player = 40 min for meat
+    'Tek Trough': { spoilMultiplier: 100, slots: 100 }, // 100x player
+    'Maewing': { spoilMultiplier: 4, slots: null }    // Same as dino inventory
 };
 
 /**
@@ -79,6 +83,7 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
                 foodRateDecay,
                 foodRate: maxFoodRate - foodRateDecay * entry.maturation * maturationTime,
                 hunger: 0,
+                maxFood: entry.maxFood || null,
                 foods: foodLists[creature.type] || foodLists['Carnivore'],
                 foodMultipliers: creature.foodmultipliers || createDefaultMultipliers(foodLists[creature.type]),
                 wasteMultipliers: creature.wastemultipliers || createDefaultMultipliers(foodLists[creature.type])
@@ -106,9 +111,20 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
             // Skip adults
             if (creature.foodRate < creature.minFoodRate) continue;
 
-            // Update food rate and hunger
+            // Update metabolic food rate
             creature.foodRate -= creature.foodRateDecay;
-            creature.hunger += creature.foodRate;
+            let currentConsumption = creature.foodRate;
+
+            // Render Logic: Add Growth Fill Consumption
+            if (creature.maxFood && creature.maturationTime > 0) {
+                const maturationSpeed = 1 / creature.maturationTime;
+                if (Number.isFinite(maturationSpeed)) {
+                    const growthFillRate = 0.75 * creature.maxFood * maturationSpeed;
+                    currentConsumption += growthFillRate;
+                }
+            }
+
+            creature.hunger += currentConsumption;
 
             // Skip if can't eat anything yet
             if (creature.hunger < 20) continue;
@@ -120,13 +136,19 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
 
                 const foodMult = creature.foodMultipliers[stack.type] || 1;
                 const wasteMult = creature.wasteMultipliers[stack.type] || 1;
+                const nursingMult = settings.nursingMultiplier || 1; // Maewing bonus
 
-                if (stack.food * foodMult < creature.hunger) {
+                // Use FoodValue VO
+                const baseFood = new FoodValue(stack.food, stack.foodSpoil);
+                const effectiveFood = baseFood.withNursingEffectiveness(nursingMult);
+                const effectiveFoodPoints = effectiveFood.points * foodMult;
+
+                if (effectiveFoodPoints < creature.hunger) {
                     stack.stackSize--;
                     eatenFood++;
-                    eatenPoints += stack.food * foodMult;
+                    eatenPoints += effectiveFoodPoints;
                     wastedPoints += stack.waste * wasteMult;
-                    creature.hunger -= stack.food * foodMult;
+                    creature.hunger -= effectiveFoodPoints;
 
                     if (stack.stackSize === 0) {
                         totalStackCount--;

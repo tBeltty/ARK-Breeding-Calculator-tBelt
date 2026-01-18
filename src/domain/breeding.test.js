@@ -29,19 +29,6 @@ const argentavis = {
     weight: 400
 };
 
-// Giganotosaurus for testing longer maturation
-const giganotosaurus = {
-    birthtype: 'Incubation',
-    type: 'Carnivore',
-    basefoodrate: 0.002314,
-    babyfoodrate: 45,
-    extrababyfoodrate: 20,
-    agespeed: 0.000003,
-    agespeedmult: 0.3795,
-    eggspeed: 0.005556,
-    eggspeedmult: 0.1,
-    weight: 700
-};
 
 // Basilosaurus (gestation creature)
 const basilosaurus = {

@@ -183,17 +183,30 @@ export function formatPercentage(value) {
  * @returns {Object} Object with day numbers as keys and food items as values
  */
 export function calculateDailyFood(creature, food, settings = DEFAULT_SETTINGS) {
-    const maturationTime = calculateMaturationTime(creature, settings);
     const dailyFood = {};
     const secondsPerDay = 86400;
+    const totalMaturationTime = calculateMaturationTime(creature, settings);
 
     let day = 1;
-    let foodPoints = calculateFoodForPeriod((day - 1) * secondsPerDay, day * secondsPerDay, creature, settings);
+    let currentSeconds = 0;
 
-    while (foodPoints > 0 && day < 20) {
-        dailyFood[day] = Math.ceil(foodPointsToItems(foodPoints * (1 + settings.lossFactor / 100), food));
+    // Loop until we cover the total maturation time
+    while (currentSeconds < totalMaturationTime) {
+        const startSec = (day - 1) * secondsPerDay;
+        // Cap the end of the day at the total maturation time to avoid calculating food for time after adult
+        const endSec = Math.min(day * secondsPerDay, totalMaturationTime);
+
+        const foodPoints = calculateFoodForPeriod(startSec, endSec, creature, settings);
+
+        if (foodPoints > 0) {
+            dailyFood[day] = Math.ceil(foodPointsToItems(foodPoints * (1 + settings.lossFactor / 100), food));
+        }
+
+        currentSeconds = endSec;
         day++;
-        foodPoints = calculateFoodForPeriod((day - 1) * secondsPerDay, day * secondsPerDay, creature, settings);
+
+        // Safety break for extremely long maturation times (e.g. > 100 days) though unlikely in normal settings
+        if (day > 100) break;
     }
 
     return dailyFood;
