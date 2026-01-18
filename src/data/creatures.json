@@ -571,8 +571,8 @@
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
     "agespeedmult": 0.5,
-    "eggspeed": 0.000035,
-    "eggspeedmult": 1,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 0.0675,
     "weight": 3000
   },
   "Dunkleosteus": {
@@ -737,8 +737,8 @@
     "basefoodrate": 0.001929,
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
-    "agespeed": 0.000008382,
-    "agespeedmult": 1.7,
+    "agespeed": 0.000003,
+    "agespeedmult": 1.95,
     "eggspeed": 0.005699,
     "eggspeedmult": 1,
     "weight": 100
