@@ -282,12 +282,7 @@ export function TroughCalculator({
         }
     };
 
-    const handleReset = () => {
-        if (window.confirm(t('ui.confirm_reset') || 'Reset all trough calculator data? This will clear everything and reload.')) {
-            localStorage.removeItem('ark_trough_data');
-            window.location.reload();
-        }
-    };
+
 
     const addCurrentCreature = () => {
         if (!currentCreature || !creatures[currentCreature]) return;
@@ -338,7 +333,6 @@ export function TroughCalculator({
             <TroughCreatureList
                 creatureList={creatureList}
                 onAdd={addCurrentCreature}
-                onReset={handleReset}
                 onRemove={removeCreature}
                 onUpdateMaturation={updateMaturation}
                 onUpdateQuantity={updateQuantity}
@@ -559,8 +553,6 @@ export function TroughCalculator({
             {results && <TroughResults
                 results={results}
                 troughType={troughType}
-                settings={settings}
-                troughConfig={troughConfig}
             />
             }
             {breakdownModal.isOpen && breakdownModal.data && (
