@@ -7,7 +7,7 @@ import styles from './TroughCalculator.module.css';
 /**
  * Results display for trough simulation.
  */
-export function TroughResults({ results, troughType, settings, troughConfig }) {
+export function TroughResults({ results, troughType }) {
     const { t } = useTranslation();
 
     if (!results) return null;
@@ -52,14 +52,6 @@ export function TroughResults({ results, troughType, settings, troughConfig }) {
                     </div>
                 </div>
             )}
-
-            <div style={{ marginTop: '16px', fontSize: '0.7em', opacity: 0.5, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8px' }}>
-                <div>Debug Info:</div>
-                <div>Spoil Mult: {troughConfig?.spoilMultiplier || 1}x</div>
-                <div>Settings: SpoilTime {settings?.consumablesSpoilTime || 1}x</div>
-                {settings?.stackMultiplier && <div>Stack Mult: {settings.stackMultiplier}x</div>}
-                <div>Initial Stacks: {results?.totalInitialStacks || 0}</div>
-            </div>
         </div>
     );
 }

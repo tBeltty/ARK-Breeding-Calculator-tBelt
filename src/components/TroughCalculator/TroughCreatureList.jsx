@@ -12,8 +12,7 @@ export function TroughCreatureList({
     onAdd,
     onRemove,
     onUpdateMaturation,
-    onUpdateQuantity,
-    onReset
+    onUpdateQuantity
 }) {
     const { t } = useTranslation();
 
@@ -21,23 +20,13 @@ export function TroughCreatureList({
         <div className={styles.section}>
             <div className={styles.sectionHeader}>
                 <span>{t('ui.creatures_in_trough')}</span>
-                <div>
-                    <button
-                        className={styles.addButton}
-                        onClick={onReset}
-                        title={t('ui.reset_tooltip') || 'Reset Calculator'}
-                        style={{ backgroundColor: 'rgba(255, 60, 60, 0.2)', marginRight: '8px', border: '1px solid rgba(255, 60, 60, 0.4)' }}
-                    >
-                        {t('ui.reset') || 'Reset'}
-                    </button>
-                    <button
-                        className={styles.addButton}
-                        onClick={onAdd}
-                        title={t('tooltips.add_current_creature')}
-                    >
-                        {t('ui.add_current')}
-                    </button>
-                </div>
+                <button
+                    className={styles.addButton}
+                    onClick={onAdd}
+                    title={t('tooltips.add_current_creature')}
+                >
+                    {t('ui.add_current')}
+                </button>
             </div>
 
             {creatureList.length === 0 ? (
@@ -109,6 +98,5 @@ TroughCreatureList.propTypes = {
     onAdd: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     onUpdateMaturation: PropTypes.func.isRequired,
-    onUpdateQuantity: PropTypes.func.isRequired,
-    onReset: PropTypes.func
+    onUpdateQuantity: PropTypes.func.isRequired
 };
