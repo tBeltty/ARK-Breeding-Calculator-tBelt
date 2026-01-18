@@ -257,10 +257,16 @@ export function TroughCalculator({
     };
 
     const handleAutoClick = (foodName, stacks, maxDuration = null, forceModal = false) => {
-        if (stacks > maxSlots || forceModal) {
-            // Fill to max capacity AND show breakdown
-            updateFoodStacks(foodName, maxSlots);
+        const targetStacks = (stacks > maxSlots || forceModal) ? maxSlots : stacks;
 
+        // If in Auto Duration mode, we want to replace all stacks to avoid "ghost" items spoiling
+        if (isAutoDuration) {
+            setFoodStacks({ [foodName]: targetStacks });
+        } else {
+            updateFoodStacks(foodName, targetStacks);
+        }
+
+        if (stacks > maxSlots || forceModal) {
             const fullTroughs = Math.floor(stacks / maxSlots);
             const leftover = stacks % maxSlots;
 
@@ -273,8 +279,6 @@ export function TroughCalculator({
                 isOpen: true,
                 data: { foodName, totalStacks: stacks, fullTroughs, leftover, maxDuration, refillCount }
             });
-        } else {
-            updateFoodStacks(foodName, stacks);
         }
     };
 
