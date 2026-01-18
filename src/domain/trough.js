@@ -185,7 +185,8 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
         eatenPoints,
         spoiledFood,
         spoiledPoints,
-        wastedPoints
+        wastedPoints,
+        totalInitialStacks: stacks.length
     };
 }
 

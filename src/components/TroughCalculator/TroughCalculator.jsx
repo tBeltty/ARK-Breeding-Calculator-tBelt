@@ -544,12 +544,13 @@ export function TroughCalculator({
                 </div>
             )}
 
-            {results && (
-                <TroughResults
-                    results={results}
-                    troughType={troughType}
-                />
-            )}
+            {results && <TroughResults
+                results={results}
+                troughType={troughType}
+                settings={settings}
+                troughConfig={troughConfig}
+            />
+            }
             {breakdownModal.isOpen && breakdownModal.data && (
                 <TroughBreakdownModal
                     isOpen={breakdownModal.isOpen}
