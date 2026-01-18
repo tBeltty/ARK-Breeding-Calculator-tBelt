@@ -7,7 +7,7 @@ import styles from './TroughCalculator.module.css';
 /**
  * Results display for trough simulation.
  */
-export function TroughResults({ results, troughType }) {
+export function TroughResults({ results, troughType, settings, troughConfig }) {
     const { t } = useTranslation();
 
     if (!results) return null;
