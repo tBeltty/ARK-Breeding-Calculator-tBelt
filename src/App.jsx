@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import './styles/tokens.css';
 import './styles/globals.css';
 import './i18n';
@@ -10,6 +10,7 @@ import { DataPanel, DataRow, DataInput, LabelWithTooltip } from './components/Da
 import { TroughCalculator } from './components/TroughCalculator';
 import { SettingsMenu } from './components/SettingsMenu';
 import { NotificationManager } from './infrastructure/NotificationManager';
+import { useToast } from './components/Toast';
 
 import { Modal } from './components/Modal';
 
@@ -57,11 +58,22 @@ export default function App() {
   // UI States
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(false); // New Modal State
 
+  // Refs for Notification Logic
+  const notificationTimeoutRef = useRef(null);
+  const lastAlertTimeRef = useRef(0);
+
   // Global Settings State (Lifted from TroughCalculator)
   const [advancedMode, setAdvancedMode] = useState(initialSession.advancedMode || false);
   const [useStasisMode, setUseStasisMode] = useState(initialSession.useStasisMode || false);
   const [notifyEnabled, setNotifyEnabled] = useState(initialSession.notifyEnabled || false);
   const [notifyTime, setNotifyTime] = useState(initialSession.notifyTime || 10);
+
+  // Phase 1 New State
+  const [desiredBuffer, setDesiredBuffer] = useState(60);
+  const [desiredBufferUnit, setDesiredBufferUnit] = useState('m'); // 'm' or 'h'
+  const [notifyBufferTime, setNotifyBufferTime] = useState(5); // minutes before empty
+
+  const { addToast, ToastContainer } = useToast();
 
   const [panelStates, setPanelStates] = useState({
     creature: true,
@@ -128,11 +140,13 @@ export default function App() {
       const granted = await NotificationManager.requestPermission();
       if (granted) {
         setNotifyEnabled(true);
+        addToast(t('messages.notification_enabled', 'Notifications Enabled'), 'success');
       } else {
-        alert(t('notifications.perm_denied'));
+        addToast(t('notifications.perm_denied'), 'error');
       }
     } else {
       setNotifyEnabled(false);
+      addToast(t('messages.notification_disabled', 'Notifications Disabled'), 'info');
     }
   };
 
@@ -183,6 +197,39 @@ export default function App() {
       return null;
     }
   }, [creature, settings, maturationProgress, weight, selectedFood]);
+
+  // Phase 1: Calculate Maturation Needed for Desired Buffer
+  // Formula: Buffer = (Capacity * FoodValue) / Rate
+  // Capacity = (Weight * Maturation * 0.1 ?) No, Capacity = Weight * Maturation / FoodWeight
+  // So: Buffer = ((Weight * Maturation / FoodWeight) * FoodValue) / Rate
+  // Solve for Maturation:
+  // Maturation = (Buffer * Rate * FoodWeight) / (Weight * FoodValue)
+  const maturationNeededForBuffer = useMemo(() => {
+    if (!calculations || !weight || !creature) return 0;
+
+    // Safety: rate is per minute, buffer is in minutes.
+    // calculations.currentFoodRate is per minute.
+
+    const food = foods[selectedFood];
+    if (!food) return 0;
+
+    const rate = calculations.currentFoodRate; // per minute
+    if (rate <= 0) return 0;
+
+    // Convert input to minutes based on unit
+    const bufferInMinutes = desiredBufferUnit === 'h' ? desiredBuffer * 60 : desiredBuffer;
+
+    const neededCapacityValues = (bufferInMinutes * rate); // Food points needed
+    const neededSlots = neededCapacityValues / food.food;
+    const neededWeight = neededSlots * food.weight;
+
+    const neededMaturation = neededWeight / weight;
+    return Math.min(100, Math.max(0, neededMaturation * 100)); // Percentage 0-100
+  }, [calculations, desiredBuffer, desiredBufferUnit, weight, selectedFood, creature]);
+
+
+  // Phase 1: Manual Buffer Notification State
+  const [bufferLeadTime, setBufferLeadTime] = useState(10); // Default 10 mins lead time
 
   const togglePanel = (panel) => {
     setPanelStates(prev => ({ ...prev, [panel]: !prev[panel] }));
@@ -402,14 +449,13 @@ export default function App() {
           >
             <DataRow
               label={t('fields.hand_feed_for')}
-              tooltip={t('tooltips.hand_feed')}
+              tooltip={t('tooltips.hand_feed_extended', { pct: calculations.totalHandFeedPct.toFixed(1) })}
               highlight={true}
               value={
-                maturationProgress * 100 >= calculations.handFeedUntil
+                maturationProgress * 100 >= calculations.totalHandFeedPct
                   ? t('ui.done')
-                  : t('ui.more', {
-                    pct: (calculations.handFeedUntil - maturationProgress * 100).toFixed(1),
-                    time: formatTime(calculations.handFeedTime - calculations.maturationTimeComplete)
+                  : t('ui.hand_feed_remaining', {
+                    pct: (calculations.totalHandFeedPct - maturationProgress * 100).toFixed(1)
                   })
               }
             />
@@ -417,8 +463,142 @@ export default function App() {
               label={t('fields.current_buffer')}
               tooltip={t('tooltips.current_buffer')}
               highlight={true}
-              value={formatTime(calculations.currentBuffer)}
+              value={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span>{formatTime(calculations.currentBuffer)}</span>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginLeft: 'auto' }}>
+                    {/* Buffer Lead Time Input */}
+                    <input
+                      type="number"
+                      value={bufferLeadTime === '' ? '' : bufferLeadTime}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setBufferLeadTime(val === '' ? '' : Number(val));
+                      }}
+                      onClick={(e) => e.target.select()} // Auto-select on click
+                      placeholder="10"
+                      style={{
+                        width: '40px',
+                        textAlign: 'center',
+                        background: 'rgba(0,0,0,0.2)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '4px',
+                        padding: '2px',
+                        fontSize: '0.8rem',
+                        color: 'inherit'
+                      }}
+                      title={t('tooltips.notify_lead_time')}
+                    />
+                    <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>m</span>
+
+                    <button
+                      onClick={() => {
+                        // Use default if empty
+                        const time = bufferLeadTime === '' ? 10 : bufferLeadTime;
+
+                        // Calculate actual delay: Buffer Duration - LeadTime
+                        // currentBuffer is in seconds
+                        const delaySeconds = calculations.currentBuffer - (time * 60);
+
+                        if (delaySeconds <= 0) {
+                          addToast(t('messages.too_soon_for_notification'), 'warning');
+                          return;
+                        }
+
+                        const delayMs = delaySeconds * 1000;
+                        const id = NotificationManager.schedule(
+                          'buffer-alert',
+                          t('notifications.title_depleted'),
+                          t('notifications.body_depleted', { creature: creature.name || 'Creature' }),
+                          delayMs
+                        );
+
+                        if (id) {
+                          addToast(t('ui.notification_set_lead', { time: formatTime(calculations.currentBuffer), lead: bufferLeadTime }), 'success');
+                        } else {
+                          NotificationManager.requestPermission().then(granted => {
+                            if (granted) {
+                              addToast(t('permissions.granted_retry', 'Permission granted. Try again.'), 'info');
+                            } else {
+                              addToast(t('notifications.perm_denied'), 'error');
+                            }
+                          });
+                        }
+                      }}
+                      style={{
+                        background: 'transparent',
+                        border: '1px solid var(--outline)',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.9rem',
+                        padding: '2px 6px',
+                        color: 'var(--primary)',
+                        marginLeft: '4px'
+                      }}
+                      title={t('ui.set_notification')}
+                    >
+                      🔔
+                    </button>
+                  </div>
+                </div>
+              }
             />
+
+            {/* Phase 1: Desired Buffer Input */}
+            <div className={styles.inputGroup} style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-end' }}>
+              <div style={{ flex: 1 }}>
+                <DataInput
+                  label={t('fields.desired_buffer')}
+                  value={desiredBuffer}
+                  onChange={setDesiredBuffer}
+                  min={1}
+                  hideLabel={false}
+                />
+              </div>
+              <select
+                value={desiredBufferUnit}
+                onChange={(e) => setDesiredBufferUnit(e.target.value)}
+                className={styles.miniSelect}
+                style={{
+                  marginLeft: '8px',
+                  padding: '4px',
+                  height: '32px',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'rgb(var(--surface-container-high))',
+                  border: '1px solid rgb(var(--outline) / 0.3)',
+                  marginBottom: '4px' // Align with input
+                }}
+              >
+                <option value="m">{t('ui.minutes_short') || 'min'}</option>
+                <option value="h">{t('ui.hours_short') || 'h'}</option>
+              </select>
+            </div>
+            {/* Display Maturation Needed for this buffer */}
+            <DataRow
+              label={t('fields.maturation_needed')}
+              tooltip={t('tooltips.maturation_needed')}
+              value={
+                <span>
+                  {maturationNeededForBuffer.toFixed(2)}%
+                  <span style={{ fontSize: '0.8em', opacity: 0.7, marginLeft: '6px' }}>
+                    ({maturationProgress * 100 < maturationNeededForBuffer ? '+' : ''}
+                    {(maturationNeededForBuffer - maturationProgress * 100).toFixed(2)}%)
+                  </span>
+                </span>
+              }
+            />
+
+            {/* Phase 1: Notify Buffer Time */}
+            <DataInput
+              label={t('fields.notify_buffer_time')}
+              value={notifyBufferTime}
+              onChange={setNotifyBufferTime}
+              min={1}
+              max={60}
+              suffix="m"
+            />
+
             <DataRow
               label={t('fields.food_capacity')}
               tooltip={t('tooltips.food_capacity', { food: selectedFood })}
@@ -429,6 +609,17 @@ export default function App() {
               tooltip={t('tooltips.food_rate')}
               value={t('ui.food_rate_value', { rate: calculations.currentFoodRate.toFixed(2) })}
             />
+
+            {/* Phase 1: Food to Juvenile */}
+            <DataRow
+              label={t('fields.food_to_juvenile')}
+              value={
+                calculations.toJuvFoodItems > 0
+                  ? calculations.toJuvFoodItems.toLocaleString()
+                  : t('ui.ready')
+              }
+            />
+
             <DataRow
               label={t('fields.food_to_adult')}
               tooltip={t('tooltips.food_to_adult')}
@@ -508,8 +699,11 @@ export default function App() {
             useStasisMode={useStasisMode}
             notifyEnabled={notifyEnabled}
             notifyTime={notifyTime}
+            onToast={addToast}
           />
         </main>
+
+        <ToastContainer />
 
         <footer className={styles.footer}>
           <a href="https://github.com/tBeltty/ARK-Breeding-Calculator-tBelt" target="_blank" rel="noopener noreferrer">

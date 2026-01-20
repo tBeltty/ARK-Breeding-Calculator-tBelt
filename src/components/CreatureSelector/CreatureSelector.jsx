@@ -46,6 +46,7 @@ export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
             <div className={styles.inputWrapper}>
                 <input
                     type="text"
+                    autoComplete="off"
                     className={styles.input}
                     placeholder={selectedCreature || t('ui.search_creatures')}
                     value={searchTerm}

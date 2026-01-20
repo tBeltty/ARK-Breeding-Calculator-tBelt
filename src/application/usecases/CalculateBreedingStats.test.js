@@ -107,6 +107,18 @@ describe('CalculateBreedingStats Use Case', () => {
             expect(result).toHaveProperty('currentBuffer');
             expect(result).toHaveProperty('foodCapacity');
             expect(result).toHaveProperty('currentFoodRate');
+            expect(result).toHaveProperty('totalHandFeedPct');
+        });
+
+        it('should return 0 food to juvenile if already past juvenile', () => {
+            const result = calculateBreedingStats({
+                creature: argentavis,
+                food: rawMeat,
+                weight: 400,
+                maturationProgress: 0.11 // Past 10%
+            });
+
+            expect(result.toJuvFoodItems).toBe(0);
         });
 
         it('should correctly identify birth type', () => {

@@ -114,6 +114,7 @@ export function calculateBreedingStats({ creature, food, weight, maturationProgr
         foodCapacity,
         currentFoodRate: currentFoodRate * 60, // Convert to per minute
         handFeedUntil: handFeed.handFeedUntil,
+        totalHandFeedPct: handFeed.handFeedUntil, // Explicit alias for UI
         handFeedTime: handFeed.handFeedTime,
         dailyFood // Expose for UI breakdown
     };
