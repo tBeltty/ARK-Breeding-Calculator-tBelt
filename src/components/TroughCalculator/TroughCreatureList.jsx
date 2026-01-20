@@ -66,6 +66,7 @@ export function TroughCreatureList({
                                         style={{ width: '100%', textAlign: 'center', height: '26px' }}
                                         value={entry.quantity}
                                         onChange={(e) => onUpdateQuantity(index, parseInt(e.target.value) || 1)}
+                                        onClick={(e) => e.target.select()}
                                         min={1}
                                         max={100}
                                     />

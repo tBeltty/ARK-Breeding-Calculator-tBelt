@@ -18,6 +18,9 @@
         "time_to_juvenile": "Time to Juvenile",
         "time_to_adult": "Time to Adult",
         "current_buffer": "Current Buffer",
+        "desired_buffer": "Desired Buffer",
+        "maturation_needed": "Maturation Needed",
+        "notify_buffer_time": "Notify before empty (mins)",
         "food_capacity": "Food Capacity",
         "food_rate": "Food Rate",
         "hand_feed_for": "Hand Feed For",
@@ -32,11 +35,17 @@
         "food_spoiled": "Food Spoiled",
         "efficiency": "Efficiency",
         "max_food": "Max Food",
-        "food_to_adult": "Food to Adult"
+        "food_to_adult": "Food to Adult",
+        "food_to_juvenile": "Food to Juvenile"
     },
     "ui": {
         "done": "Done! ✓",
+        "ready": "Ready!",
         "more": "{{pct}}% more ({{time}})",
+        "hand_feed_remaining": "Handfeed for {{pct}}%",
+        "minutes_short": "min",
+        "hours_short": "h",
+        "notification_set_lead": "Notification set for {{time}} ({{lead}}m before)",
         "game_version": "Game Version",
         "theme": "Theme",
         "languages": {
@@ -71,7 +80,6 @@
         "efficiency_recommendation": "Add exactly {{count}} stacks to maximize efficiency. Adding more will result in spoilage.",
         "remind_me": "Remind me before empty",
         "desired_duration": "Desired Duration (hours)",
-        "hours_short": "h",
         "not_achievable": "Max: {{hours}}h",
         "maewing_weight": "Maewing Weight",
         "maewing_food": "Food Stat",
@@ -105,6 +113,8 @@
         "food_to_adult": "Food to Adult",
         "hand_feed_for": "Hand feed for",
         "notify_before": "Notify before",
+        "set_notification": "Set Refill Notification",
+        "notification_set": "Notification set for {{time}}",
         "view_breakdown": "View Breakdown",
         "breakdown_daily_title": "Daily Food Analysis",
         "day": "Day",
@@ -122,6 +132,9 @@
         "maewing_weight_limited": "Maewing capacity is weight-limited",
         "or": "OR"
     },
+    "permissions": {
+        "granted_retry": "Permission granted. Try again."
+    },
     "notifications": {
         "enable_push": "Enable Notifications",
         "enable_push_tooltip": "Browser notification when trough buffer drops below specific time (keep tab open)",
@@ -134,6 +147,12 @@
         "Incubation": "Incubation",
         "Gestation": "Gestation"
     },
+    "messages": {
+        "notification_enabled": "Notifications Enabled",
+        "notification_disabled": "Notifications Disabled",
+        "too_soon_for_notification": "Too soon to schedule notification for that lead time!",
+        "save_success": "Settings saved successfully"
+    },
     "tooltips": {
         "creature": "Select the creature species to calculate for",
         "weight": "Creature's maximum weight stat (standard weight)",
@@ -142,8 +161,11 @@
         "elapsed_time": "Time passed since birth/incubation started",
         "time_to_juvenile": "Time remaining until the baby reaches 10% maturation (Juvenile)",
         "time_to_adult": "Time remaining until the creature is fully grown",
+        "hand_feed_extended": "Can survive with full inventory at {{pct}}% maturation",
         "hand_feed": "Feed manually until this maturation percentage - then a full inventory lasts until Juvenile",
         "current_buffer": "How long the baby can survive with its current inventory capacity",
+        "maturation_needed": "Maturation % required to sustain the Desired Buffer with a full inventory",
+        "notify_lead_time": "Minutes before empty to notify",
         "food_capacity": "Total amount of {{food}} that fits in the inventory based on current weight capacity",
         "food_rate": "Total food points consumed per minute (scaled by maturation)",
         "gen2_hatch": "Enable if using Maewing or being in Genesis 2 area for hatch bonus",

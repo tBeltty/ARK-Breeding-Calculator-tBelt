@@ -50,7 +50,7 @@
     left: 0;
     right: 0;
     margin-top: var(--space-xs);
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));

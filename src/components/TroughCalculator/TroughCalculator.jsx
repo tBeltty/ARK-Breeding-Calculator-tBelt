@@ -34,7 +34,8 @@ export function TroughCalculator({
     advancedMode,
     useStasisMode,
     notifyEnabled,
-    notifyTime
+    notifyTime,
+    onToast
 }) {
     const { t } = useTranslation();
     const [creatureList, setCreatureList] = useState([]);
@@ -553,6 +554,7 @@ export function TroughCalculator({
             {results && <TroughResults
                 results={results}
                 troughType={troughType}
+                onToast={onToast}
             />
             }
             {breakdownModal.isOpen && breakdownModal.data && (

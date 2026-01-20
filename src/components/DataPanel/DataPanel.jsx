@@ -201,6 +201,7 @@ export function DataInput({
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 onKeyDown={handleKeyDown}
+                                onClick={(e) => !disabled && e.target.select()}
                                 placeholder={placeholder}
                                 className={styles.input}
                                 disabled={disabled}
