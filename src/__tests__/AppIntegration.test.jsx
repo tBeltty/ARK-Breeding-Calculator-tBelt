@@ -23,7 +23,7 @@ vi.mock('../components/Layout/MainLayout', () => ({
 describe('App Integration', () => {
     beforeEach(() => {
         // Bypass onboarding
-        localStorage.setItem('onboardingCompleted', 'true');
+        localStorage.setItem('onboardingCompleted', 'v2.5');
     });
 
     it('renders without crashing', () => {
