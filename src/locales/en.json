@@ -9,6 +9,7 @@
         "trough": "Trough Calculator"
     },
     "fields": {
+        "dino_name": "Dino Name",
         "creature": "Creature",
         "weight": "Weight",
         "maturation_pct": "Maturation %",
@@ -40,6 +41,7 @@
     },
     "ui": {
         "done": "Done! ✓",
+        "creatures": "Creatures",
         "ready": "Ready!",
         "more": "{{pct}}% more ({{time}})",
         "hand_feed_remaining": "Handfeed for {{pct}}%",
@@ -67,6 +69,7 @@
         "add_current": "+ Add Current",
         "trough_hint": "Add creatures to calculate trough duration",
         "trough_type": "Trough Type",
+        "name": "Name",
         "food_stacks": "Food Stacks",
         "results": "Results",
         "creatures_in_trough": "Creatures in Trough",
@@ -130,7 +133,12 @@
         "tek_refill_consumption": "OR Refill {{count}} times (every {{hours}}h)",
         "tek_consumption_note": "Refills based on consumption (spoiled meat may remain)",
         "maewing_weight_limited": "Maewing capacity is weight-limited",
-        "or": "OR"
+        "or": "OR",
+        "cancel": "Cancel",
+        "remove": "Remove",
+        "start_tracking": "Start Tracking",
+        "click_to_track": "Click to start tracking",
+        "click_to_pause": "Click to pause tracking"
     },
     "permissions": {
         "granted_retry": "Permission granted. Try again."
@@ -139,13 +147,51 @@
         "enable_push": "Enable Notifications",
         "enable_push_tooltip": "Browser notification when trough buffer drops below specific time (keep tab open)",
         "perm_denied": "Permission Denied",
+        "perm_blocked_hint": "Notifications are blocked. Please unblock them in your browser settings URL bar.",
         "title_depleted": "⚠️ Food Depleted!",
         "body_depleted": "Your {{creature}} is about to run out of food!",
-        "minutes_before": "{{minutes}} min before"
+        "minutes_before": "{{minutes}} min before",
+        "configure_title": "Configure Notification",
+        "configure_desc": "Set a lead time to be notified before the trough is empty."
     },
     "birth_types": {
         "Incubation": "Incubation",
         "Gestation": "Gestation"
+    },
+    "creature_types": {
+        "Carnivore": "Carnivore",
+        "Herbivore": "Herbivore",
+        "Omnivore": "Omnivore",
+        "Carrion": "Carrion Eater",
+        "Piscivore": "Piscivore",
+        "Microraptor": "Microraptor",
+        "Archaeopteryx": "Archaeopteryx",
+        "Sinomacrops": "Sinomacrops",
+        "Vulture": "Vulture",
+        "Wyvern": "Wyvern",
+        "CrystalWyvern": "Crystal Wyvern",
+        "Magmasaur": "Magmasaur",
+        "RockDrake": "Rock Drake",
+        "BloodStalker": "Bloodstalker",
+        "Archelon": "Archelon"
+    },
+    "creature_types_plural": {
+        "Carnivore": "Carnivores",
+        "Herbivore": "Herbivores",
+        "Omnivore": "Omnivores",
+        "Carrion": "Carrion Eaters",
+        "Piscivore": "Piscivores",
+        "Microraptor": "Microraptors",
+        "Archaeopteryx": "Archaeopteryx",
+        "Sinomacrops": "Sinomacrops",
+        "Vulture": "Vultures",
+        "Wyvern": "Wyverns",
+        "CrystalWyvern": "Crystal Wyverns",
+        "Magmasaur": "Magmasaurs",
+        "RockDrake": "Rock Drakes",
+        "BloodStalker": "Bloodstalkers",
+        "Archelon": "Archelons",
+        "Unknown": "Unknown"
     },
     "messages": {
         "notification_enabled": "Notifications Enabled",
@@ -186,6 +232,33 @@
         "food_stack": "Number of full food stacks in the trough",
         "game_version": "Toggle between ASA (Ark Survival Ascended) and ASE (Ark Survival Evolved) logic",
         "theme": "Switch between different visual themes",
-        "max_food": "The maximum amount of food points the creature can hold (Stomach Size)"
+        "max_food": "The maximum amount of food points the creature can hold (Stomach Size)",
+        "configure_desc": "Set how many minutes before empty you want to be notified.",
+        "start_tracking_desc": "Automatically increment maturation % based on species growth rate."
+    },
+    "onboarding": {
+        "welcome_title": "Welcome to ARK Breeding Calculator",
+        "welcome_subtitle": "Let's set up your experience in just a few steps.",
+        "language_title": "Choose Your Language",
+        "game_version_title": "Select Your Game",
+        "game_version_desc": "Different versions have different breeding mechanics.",
+        "ase_desc": "Ark Survival Evolved",
+        "asa_desc": "Ark Survival Ascended",
+        "theme_title": "Choose Your Atmosphere",
+        "notifications_title": "Stay Informed",
+        "notifications_desc": "Get alerts when your creatures need attention.",
+        "notifications_on": "Enable Notifications",
+        "notifications_off": "Maybe Later",
+        "creature_title": "Add Your First Creature",
+        "creature_desc": "Start tracking a baby to see the calculator in action.",
+        "name_placeholder": "Give it a name...",
+        "skip_creature": "You can skip this and add creatures later.",
+        "back": "← Back",
+        "next": "Next →",
+        "skip": "Skip Setup",
+        "complete": "Get Started"
+    },
+    "errors": {
+        "tracking_limit_reached": "Tracking limit reached ({{limit}}). Pause some creatures first."
     }
 }

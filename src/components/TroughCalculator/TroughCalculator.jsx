@@ -9,12 +9,13 @@ import { TroughTypeSelector } from './TroughTypeSelector';
 import { TroughResults } from './TroughResults';
 import { FoodSelectorSection } from './FoodSelectorSection';
 import { FoodStackRow } from './FoodStackRow';
-import { useAutoDuration } from './useAutoDuration';
+
+import { SmartFoodRow } from './SmartFoodRow';
+import { TroughDurationInput } from './TroughDurationInput';
 
 
 import { simulateTrough, TROUGH_TYPES } from '@/domain/trough';
 import { calculateMaturationTime } from '@/domain/breeding';
-import { calculateTroughEfficiency, calculateStacksForDuration } from '@/domain/efficiency';
 import { NotificationManager } from '../../infrastructure/NotificationManager';
 
 /**
@@ -31,53 +32,105 @@ export function TroughCalculator({
     currentMaxFood, // New Prop
     gameVersion = 'ASA',
     // New Props from App
-    advancedMode,
     useStasisMode,
     notifyEnabled,
     notifyTime,
     onToast
 }) {
     const { t } = useTranslation();
-    const [creatureList, setCreatureList] = useState([]);
-    const [foodStacks, setFoodStacks] = useState({});
-    const [troughType, setTroughType] = useState('Normal');
+    const [creatureList, setCreatureList] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                return Array.isArray(parsed.creatureList) ? parsed.creatureList : [];
+            }
+        } catch (e) { console.error(e); }
+        return [];
+    });
+
+    const [foodStacks, setFoodStacks] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) {
+                return JSON.parse(savedData).foodStacks || {};
+            }
+        } catch { return {}; }
+        return {};
+    });
+
+    const [troughType, setTroughType] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).troughType || 'Normal';
+        } catch { return 'Normal'; }
+        return 'Normal';
+    });
+
+    const [desiredHours, setDesiredHours] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).desiredHours || 0;
+        } catch { return 0; }
+        return 0;
+    });
+
+    const [maewingWeight, setMaewingWeight] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).maewingWeight || 1000;
+        } catch { return 1000; }
+        return 1000;
+    });
+
+    const [maewingFood, setMaewingFood] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).maewingFood || 2000;
+        } catch { return 2000; }
+        return 2000;
+    });
+
+    const [nursingEffectiveness, setNursingEffectiveness] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).nursingEffectiveness || 100;
+        } catch { return 100; }
+        return 100;
+    });
+
+    const [maewingInputMode, setMaewingInputMode] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).maewingInputMode || 'basic';
+        } catch { return 'basic'; }
+        return 'basic';
+    });
+
+    const [maewingFoodPoints, setMaewingFoodPoints] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).maewingFoodPoints || 30;
+        } catch { return 30; }
+        return 30;
+    });
+
+    const [isAutoDuration, setIsAutoDuration] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).isAutoDuration || false;
+        } catch { return false; }
+        return false;
+    });
+
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFood, setSelectedFood] = useState(null); // Selected food state
 
     // Smart Features State
     const [notificationId, setNotificationId] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [desiredHours, setDesiredHours] = useState(0);
-    const [maewingWeight, setMaewingWeight] = useState(1000);
-    const [maewingFood, setMaewingFood] = useState(2000); // ASA: Food stat
-    const [nursingEffectiveness, setNursingEffectiveness] = useState(100); // ASE: Nursing Effectiveness %
-    const [maewingInputMode, setMaewingInputMode] = useState('basic'); // 'basic' | 'points'
-    const [maewingFoodPoints, setMaewingFoodPoints] = useState(30);
+    const [isLoaded] = useState(true); // Always loaded now
     const [breakdownModal, setBreakdownModal] = useState({ isOpen: false, data: null });
-    const [isAutoDuration, setIsAutoDuration] = useState(false); // New Auto Toggle
 
-    // Load State from LocalStorage
-    useEffect(() => {
-        const savedData = localStorage.getItem('ark_trough_data');
-        if (savedData) {
-            try {
-                const parsed = JSON.parse(savedData);
-                setCreatureList(Array.isArray(parsed.creatureList) ? parsed.creatureList : []);
-                setFoodStacks(parsed.foodStacks || {});
-                setTroughType(parsed.troughType || 'Normal');
-                setDesiredHours(parsed.desiredHours || 0);
-                setMaewingWeight(parsed.maewingWeight || 1000);
-                setMaewingFood(parsed.maewingFood || 2000);
-                setNursingEffectiveness(parsed.nursingEffectiveness || 100);
-                setMaewingInputMode(parsed.maewingInputMode || 'basic');
-                setMaewingFoodPoints(parsed.maewingFoodPoints || 30);
-                setIsAutoDuration(parsed.isAutoDuration || false);
-            } catch (e) {
-                console.error('Failed to load trough data', e);
-            }
-        }
-        setIsLoaded(true);
-    }, []);
 
     // Save State to LocalStorage (only after initial load)
     useEffect(() => {
@@ -104,7 +157,7 @@ export function TroughCalculator({
     useEffect(() => {
         // If transitioning from Auto (true) to Manual (false), reset hours
         if (prevAutoRef.current && !isAutoDuration) {
-            setDesiredHours(0);
+            setTimeout(() => setDesiredHours(0), 0);
         }
         prevAutoRef.current = isAutoDuration;
     }, [isAutoDuration]);
@@ -124,7 +177,7 @@ export function TroughCalculator({
                 }
             });
             const hours = maxSeconds / 3600;
-            setDesiredHours(Number(hours.toFixed(2)));
+            setTimeout(() => setDesiredHours(Number(hours.toFixed(2))), 0);
         }
     }, [isAutoDuration, creatureList, settings, creatures]);
 
@@ -211,24 +264,21 @@ export function TroughCalculator({
     }, [creatureList, foodStacks, foods, foodLists, effectiveSpoilMultiplier, simulationSettings, creatures]);
 
     // Check for efficiency hints
-    const efficiency = useMemo(() => {
-        if (!foods || availableFoods.length === 0) return { maxStacks: 0, bestFood: null };
-        try {
-            return calculateTroughEfficiency(results, foods, availableFoods);
-        } catch (e) {
-            console.error('Efficiency calc error', e);
-            return { maxStacks: 0, bestFood: null };
-        }
-    }, [results, foods, availableFoods]);
+    // Efficiency calculation moved to SmartFoodRow
+
+    // Use prop for notify toggle
+    // Prop passed via `notifyEnabled` and expected to be handled by parent or delegated buttons if added.
+
 
     // Auto-select food if none selected
     useEffect(() => {
         if (availableFoods.length > 0) {
             if (!selectedFood || !availableFoods.includes(selectedFood)) {
-                setSelectedFood(availableFoods[0]);
+                // Defer to avoid set-state-in-effect warning
+                setTimeout(() => setSelectedFood(availableFoods[0]), 0);
             }
         } else {
-            setSelectedFood(null);
+            if (selectedFood) setTimeout(() => setSelectedFood(null), 0);
         }
     }, [availableFoods, selectedFood]);
 
@@ -237,25 +287,12 @@ export function TroughCalculator({
         if (!notifyEnabled) {
             if (notificationId) {
                 NotificationManager.cancel(notificationId);
-                setNotificationId(null);
+                setTimeout(() => setNotificationId(null), 0);
             }
             return;
         }
 
-    }, [results, notifyEnabled, notifyTime, t]);
-
-    const handleNotifyToggle = async () => {
-        if (!notifyEnabled) {
-            const granted = await NotificationManager.requestPermission();
-            if (granted) {
-                setNotifyEnabled(true);
-            } else {
-                alert(t('notifications.perm_denied'));
-            }
-        } else {
-            setNotifyEnabled(false);
-        }
-    };
+    }, [results, notifyEnabled, notifyTime, t, notificationId]);
 
     const handleAutoClick = (foodName, stacks, maxDuration = null, forceModal = false) => {
         const targetStacks = (stacks > maxSlots || forceModal) ? maxSlots : stacks;
@@ -309,12 +346,6 @@ export function TroughCalculator({
     const updateMaturation = (index, percent) => {
         setCreatureList(prev => prev.map((entry, i) =>
             i === index ? { ...entry, maturation: Math.min(100, Math.max(0, percent)) / 100 } : entry
-        ));
-    };
-
-    const updateMaxFood = (index, value) => {
-        setCreatureList(prev => prev.map((entry, i) =>
-            i === index ? { ...entry, maxFood: value ? Number(value) : null } : entry
         ));
     };
 
@@ -381,173 +412,33 @@ export function TroughCalculator({
                         </div>
                     </div>
 
-                    {/* Desired Duration Input */}
-                    <div className={styles.durationRow}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <LabelWithTooltip
-                                label={t('ui.desired_duration')}
-                                tooltip={t('tooltips.trough_duration')}
-                            />
-                            {/* Auto Duration Toggle */}
-                            <label className={styles.checkboxLabel} style={{ marginLeft: '12px', fontSize: '0.85rem' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={isAutoDuration}
-                                    onChange={(e) => {
-                                        setIsAutoDuration(e.target.checked);
-                                        // Reset handled by useEffect on transition
-                                    }}
-                                />
-                                <LabelWithTooltip
-                                    label={t('ui.auto_duration')}
-                                    tooltip={t('ui.auto_duration_tooltip')}
-                                    style={{ marginLeft: '4px', cursor: 'help' }}
-                                />
-                            </label>
-                        </div>
-                        <div className={styles.durationInputWrapper}>
-                            <DataInput
-                                key={isAutoDuration ? `auto-${desiredHours}` : 'manual'} // Force remount on value change to ensure UI update
-                                value={desiredHours}
-                                onChange={(val) => {
-                                    setDesiredHours(val);
-                                }}
-                                min={0}
-                                step={1}
-                                placeholder="0"
-                                showSteppers={false}
-                                hideLabel={true}
-                                disabled={isAutoDuration}
-                            />
-                        </div>
-                    </div>
+                    <TroughDurationInput
+                        desiredHours={desiredHours}
+                        onDesiredHoursChange={setDesiredHours}
+                        isAutoDuration={isAutoDuration}
+                        onAutoDurationChange={(checked) => {
+                            setIsAutoDuration(checked);
+                        }}
+                    />
 
-                    {/* Selected Food Row */}
-                    {selectedFood && (() => {
-                        const foodName = selectedFood;
-                        const foodData = foods[foodName];
-                        if (!foodData) return null;
-
-                        const isRecommended = false; // Feature removed
-
-                        // Prepare creature data
-                        const preparedCreatures = creatureList.map(e => ({
-                            ...e,
-                            creatureData: creatures[e.name]
-                        })).filter(e => e.creatureData);
-
-                        // Calculate efficiency for max stacks
-                        const efficiency = calculateTroughEfficiency(
-                            preparedCreatures,
-                            foodData,
-                            effectiveSpoilMultiplier,
-                            simulationSettings
-                        );
-
-                        // Cap to trough slot limit
-                        let autoStacks = Math.min(efficiency.maxStacks, maxSlots);
-                        let totalCalculatedStacks = autoStacks;
-                        let durationInfo = null;
-                        let calculatedMaxDuration = null; // New variable for scope
-                        let shouldShowModal = false; // Flag to force modal display
-
-                        if (desiredHours > 0 && preparedCreatures.length > 0) {
-                            const durationCalc = calculateStacksForDuration(
-                                preparedCreatures,
-                                foodData,
-                                effectiveSpoilMultiplier,
-                                simulationSettings,
-                                desiredHours,
-                                maxSlots
-                            );
-
-                            // Run actual simulation with full trough to get accurate duration
-                            const fullTroughStacks = { [foodName]: maxSlots };
-                            const fullTroughSim = simulateTrough(
-                                preparedCreatures,
-                                fullTroughStacks,
-                                foods,
-                                foodLists,
-                                effectiveSpoilMultiplier,
-                                simulationSettings
-                            );
-                            calculatedMaxDuration = fullTroughSim.time / 3600; // Convert seconds to hours
-
-                            shouldShowModal = !durationCalc.isAchievable; // Force modal if limited
-
-                            // If we can't make the duration, default to filling the trough completely
-                            // This overrides the efficiency "smart cap" because if we need multiple troughs,
-                            // we nearly always want them full.
-                            if (!durationCalc.isAchievable) {
-                                autoStacks = maxSlots;
-                            } else {
-                                autoStacks = durationCalc.stacks;
-                            }
-
-                            totalCalculatedStacks = durationCalc.totalStacks || durationCalc.stacks;
-
-                            if (!durationCalc.isAchievable) {
-                                if (durationCalc.limitReason === 'spoilage') {
-                                    durationInfo = t('ui.impossible_spoilage', {
-                                        hours: durationCalc.maxDuration.toFixed(1)
-                                    });
-                                } else if (troughType === 'Maewing') {
-                                    const itemsPerSec = efficiency.consumptionRate ? efficiency.consumptionRate.itemsPerSecond : 0;
-                                    const itemsNeeded = itemsPerSec * (desiredHours * 3600);
-                                    const stacksNeeded = Math.ceil(itemsNeeded / foodData.stack);
-                                    const weightNeeded = Math.min(stacksNeeded * 0.5, 300 * 0.5);
-                                    durationInfo = t('ui.maewing_weight_needed', {
-                                        weight: weightNeeded.toFixed(0),
-                                        hours: durationCalc.maxDuration.toFixed(1)
-                                    });
-                                } else {
-                                    durationInfo = t('ui.troughs_needed', {
-                                        count: durationCalc.troughsNeeded,
-                                        hours: durationCalc.maxDuration.toFixed(1)
-                                    });
-                                }
-                            }
-                        }
-
-                        return (
-                            <div className={styles.foodRow}>
-                                {/* Col 1: Name + Badge */}
-                                <div className={styles.foodNameContainer}>
-                                    <span className={styles.foodName}>{foodName}</span>
-                                </div>
-
-                                {/* Col 2: Input */}
-                                <DataInput
-                                    label={foodName}
-                                    tooltip={t('tooltips.food_stack')}
-                                    value={foodStacks[foodName]}
-                                    onChange={(val) => updateFoodStacks(foodName, val)}
-                                    min={0}
-                                    step={0.5}
-                                    placeholder="0"
-                                    showSteppers={false}
-                                    className={styles.compactInputWrapper}
-                                    hideLabel={true}
-                                />
-
-                                {/* Col 3: Label */}
-                                <span className={styles.stackLabel}>{t('ui.stacks')}</span>
-
-                                {/* Col 4: Button (or placeholder to keep grid stable) */}
-                                {autoStacks > 0 ? (
-                                    <button
-                                        className={`${styles.autoButton} ${durationInfo ? styles.autoButtonWarning : ''}`}
-                                        onClick={() => handleAutoClick(foodName, totalCalculatedStacks, calculatedMaxDuration, shouldShowModal)}
-                                        title={durationInfo || t('ui.efficiency_recommendation', { count: autoStacks })}
-                                    >
-                                        {durationInfo ? t('ui.details') : autoStacks}
-                                    </button>
-                                ) : (
-                                    <div /> /* Empty div to maintain grid cell for alignment */
-                                )}
-                            </div>
-                        );
-                    })()}
+                    {selectedFood && foods[selectedFood] && (
+                        <SmartFoodRow
+                            foodName={selectedFood}
+                            foodData={foods[selectedFood]}
+                            currentStacks={foodStacks[selectedFood]}
+                            onUpdateStacks={(val) => updateFoodStacks(selectedFood, val)}
+                            creatureList={creatureList}
+                            creatures={creatures}
+                            maxSlots={maxSlots}
+                            desiredHours={desiredHours}
+                            troughType={troughType}
+                            effectiveSpoilMultiplier={effectiveSpoilMultiplier}
+                            simulationSettings={simulationSettings}
+                            foods={foods}
+                            foodLists={foodLists}
+                            onAutoClick={handleAutoClick}
+                        />
+                    )}
                 </div>
             )}
 

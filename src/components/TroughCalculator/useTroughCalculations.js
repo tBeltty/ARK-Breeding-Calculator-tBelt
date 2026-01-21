@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { simulateTrough, TROUGH_TYPES } from '@/domain/trough';
-import { calculateTroughEfficiency } from '@/domain/efficiency';
 
 /**
  * Custom hook for trough calculation logic.

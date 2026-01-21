@@ -65,7 +65,7 @@ export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
                                 onMouseDown={() => handleSelect(name)}
                             >
                                 {name}
-                                <span className={styles.type}>{creatures[name].type}</span>
+                                <span className={styles.type}>{t('creature_types.' + creatures[name].type)}</span>
                             </li>
                         ))}
                     </ul>
