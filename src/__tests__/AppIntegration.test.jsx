@@ -3,22 +3,9 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 import React from 'react';
 
-// Mock child components to isolate App logic verification
-vi.mock('../components/Session/ActiveSessionDetail', () => ({
-    ActiveSessionDetail: () => <div data-testid="active-session-detail">Active Session Detail</div>
-}));
-
-vi.mock('../components/Layout/MainLayout', () => ({
-    MainLayout: ({ children, sidebar }) => (
-        <div data-testid="main-layout">
-            <div data-testid="sidebar">{sidebar}</div>
-            <div data-testid="content">{children}</div>
-        </div>
-    )
-}));
-
-// Mock expensive/complex hooks or providers if needed
-// For now, let's try to render the real App with mocked UI leaves
+// using real components for true integration testing
+import { ActiveSessionDetail } from '../components/Session/ActiveSessionDetail';
+import { MainLayout } from '../components/Layout/MainLayout';
 
 describe('App Integration', () => {
     beforeEach(() => {
@@ -28,14 +15,17 @@ describe('App Integration', () => {
 
     it('renders without crashing', () => {
         render(<App />);
-        expect(screen.getByTestId('main-layout')).toBeDefined();
+        // Check for main title in Header
+        expect(screen.getByText('ARK Breeding Calculator')).toBeDefined();
     });
 
     it('renders sidebar and content', () => {
         render(<App />);
-        expect(screen.getByTestId('sidebar')).toBeDefined();
-        // Check if ActiveSessionDetail is rendered (might need session state to be present)
-        // By default hook initializes a session, so it should appear
-        expect(screen.getByTestId('active-session-detail')).toBeDefined();
+        // Sidebar title
+        expect(screen.getByText('Creatures')).toBeDefined();
+
+        // ActiveSessionDetail content (default panel might be expanded or collapsed, but 'Maturation Details' is a header)
+        // We can search for the "Creature Settings" panel title which is always rendered
+        expect(screen.getByText(/Creature Settings/i)).toBeDefined();
     });
 });
