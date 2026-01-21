@@ -4,9 +4,6 @@ A modernized, high-performance remake of the classic ARK Breeding Calculator, bu
 
 Original concept by Crumplecorn, re-engineered for 2026. **Version 2.5** (Released Jan 2026).
 
-![Compliance: 100%](https://img.shields.io/badge/Compliance-100%25-brightgreen) ![Tests: Passing](https://img.shields.io/badge/Tests-69%2F69-brightgreen)
-
-
 
 ## 🚀 Why this Remake?
 
@@ -18,8 +15,14 @@ The original tools were built on aging technologies (AngularJS 1.x) that are har
 
 ## ✨ Key Features
 
+### 🦕 Creature Management
+- **Multi-Dino Tracking**: Track multiple creatures simultaneously in a unified sidebar.
+- **Quick Switching**: Instantly switch context between different babies to check their specific buffers.
+- **Persistence**: Your creature list is automatically saved, so you never lose track of your progress.
+- **State Aliasing**: Smart state management ensures your maturation data is always in sync.
+
 ### 🧬 Advanced Breeding Stats
-- **Precise Calculations**: Determine maturation times, food consumption, and stat points.
+- **Real-Time Maturation**: Reacts immediately to maturation updates (Timer or Manual Input).
 - **Hand Feed Thresholds**: Knows exactly when you can stop hand-feeding babies.
 - **Buffer Calculation**: innovative "Current Buffer" metric shows how long a baby can survive offline.
 
