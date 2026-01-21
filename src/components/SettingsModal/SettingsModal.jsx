@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Modal } from '../Modal';
 import styles from './SettingsModal.module.css';
 import { version } from '../../../package.json';
+import { BackupService } from '../../infrastructure/BackupService';
+import { useToast } from '../Toast';
 
 export function SettingsModal({
     isOpen,
@@ -22,6 +24,43 @@ export function SettingsModal({
         notifyEnabled,
         onToggleNotify
     } = globalSettings;
+
+    const fileInputRef = React.useRef(null);
+    // Since useToast is a hook, we need access to addToast. 
+    // Wait, useToast is typically used in a component wrapped by ToastProvider.
+    // Let's assume SettingsModal is inside the provider.
+    const { addToast } = useToast();
+
+    const handleExport = () => {
+        try {
+            BackupService.exportData();
+            addToast(t('messages.backup_created', 'Backup created successfully'), 'success');
+        } catch (e) {
+            addToast(t('messages.backup_failed', 'Export failed'), 'error');
+        }
+    };
+
+    const handleImport = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!confirm(t('messages.confirm_import', 'This will overwrite your current data. Continue?'))) {
+            e.target.value = '';
+            return;
+        }
+
+        try {
+            await BackupService.importData(file);
+            addToast(t('messages.import_success', 'Data restored successfully'), 'success');
+            // Reload to apply changes
+            setTimeout(() => window.location.reload(), 1000);
+        } catch (err) {
+            console.error(err);
+            addToast(t('messages.import_failed', 'Import failed: Invalid file'), 'error');
+        } finally {
+            e.target.value = '';
+        }
+    };
 
     return (
         <Modal
@@ -104,9 +143,42 @@ export function SettingsModal({
                     </div>
                 </div>
 
-                <div style={{ textAlign: 'center', marginTop: '8px', opacity: 0.5, fontSize: '0.8rem' }}>
-                    v{version} • {gameVersion} Edition
+                {/* Data Management */}
+                <div className={styles.section}>
+                    <div className={styles.sectionTitle}>{t('ui.data_management', 'Data Management')}</div>
+                    <div className={styles.row}>
+                        <div>
+                            <div className={styles.label}>{t('ui.backup_restore', 'Backup & Restore')}</div>
+                            <div className={styles.notifyDesc}>{t('ui.backup_restore_desc', 'Export your data or restore from a file')}</div>
+                        </div>
+                        <div className={styles.toggleGroup}>
+                            <button
+                                className={styles.toggleBtn}
+                                onClick={handleExport}
+                            >
+                                {t('ui.export', 'Export')}
+                            </button>
+                            <button
+                                className={styles.toggleBtn}
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                {t('ui.import', 'Import')}
+                            </button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                style={{ display: 'none' }}
+                                accept=".json"
+                                onChange={handleImport}
+                            />
+                        </div>
+                    </div>
                 </div>
+
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '8px', opacity: 0.5, fontSize: '0.8rem' }}>
+                v{version} • {gameVersion} Edition
             </div>
         </Modal>
     );
