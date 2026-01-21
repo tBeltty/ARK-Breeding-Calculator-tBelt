@@ -2,7 +2,9 @@
 
 A modernized, high-performance remake of the classic ARK Breeding Calculator, built for **ARK: Survival Ascended (ASA)** and **ARK: Survival Evolved (ASE)**.
 
-Original concept by Crumplecorn, re-engineered for 2026.
+Original concept by Crumplecorn, re-engineered for 2026. **Version 2.5** (Released Jan 2026).
+
+![Compliance: 100%](https://img.shields.io/badge/Compliance-100%25-brightgreen) ![Tests: Passing](https://img.shields.io/badge/Tests-69%2F69-brightgreen)
 
 
 

@@ -72,14 +72,14 @@ export function OnboardingWizard({
         } : null;
 
         // Mark onboarding as complete
-        localStorage.setItem('onboardingCompleted', 'v1');
+        localStorage.setItem('onboardingCompleted', 'v2.5');
 
         // Notify parent
         onComplete(creatureData);
     };
 
     const handleSkip = () => {
-        localStorage.setItem('onboardingCompleted', 'v1');
+        localStorage.setItem('onboardingCompleted', 'v2.5');
         onComplete(null);
     };
 

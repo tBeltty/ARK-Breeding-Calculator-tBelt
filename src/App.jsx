@@ -253,12 +253,12 @@ export default function App() {
 
   // Onboarding state
   const [showOnboarding, setShowOnboarding] = useState(() => {
-    return !localStorage.getItem('onboardingCompleted');
+    return localStorage.getItem('onboardingCompleted') !== 'v2.5';
   });
 
   const handleOnboardingComplete = (creatureData) => {
     setShowOnboarding(false);
-    localStorage.setItem('onboardingCompleted', 'true'); // Ensure we save this!
+    localStorage.setItem('onboardingCompleted', 'v2.5'); // Ensure we save this!
     if (creatureData) {
       // Here we can directly add via UseCase or the wrapper
       handleAddSession({
