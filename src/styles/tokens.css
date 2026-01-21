@@ -50,7 +50,7 @@ body:not([class*="theme-"]) {
    --primary-container: 140 50 100;
    --on-surface: 240 230 250;
    --on-surface-variant: 180 150 200;
-   --on-primary: 30 10 40;
+   --on-primary: 255 255 255;
    --outline: 120 80 150;
    --outline-variant: 80 50 100;
    --glass-blur: 16px;

@@ -1,0 +1,116 @@
+/**
+ * Notification Config Modal Styles
+ * Atmos UI Compliance
+ */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-sm);
+}
+
+.description {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    margin: 0;
+    line-height: 1.5;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm);
+    background: rgb(var(--surface-container-high) / 0.5);
+    border-radius: var(--radius-md);
+    border: 1px solid rgb(var(--outline) / 0.2);
+}
+
+.label {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface));
+    font-weight: 500;
+}
+
+.value {
+    font-size: var(--text-md);
+    color: rgb(var(--primary));
+    font-weight: 600;
+    font-family: var(--font-mono);
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.inputLabel {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.input {
+    width: 100%;
+    padding: var(--space-sm);
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-md);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-lg);
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.input:focus {
+    border-color: rgb(var(--primary));
+    box-shadow: 0 0 0 2px rgb(var(--primary) / 0.2);
+    outline: none;
+}
+
+.actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+}
+
+.confirmBtn,
+.cancelBtn {
+    flex: 1;
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+}
+
+.confirmBtn {
+    background: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+
+.confirmBtn:hover {
+    background: rgb(var(--primary-dark));
+    transform: translateY(-1px);
+}
+
+.cancelBtn {
+    background: transparent;
+    color: rgb(var(--on-surface));
+    border: 1px solid rgb(var(--outline));
+}
+
+.cancelBtn:hover {
+    background: rgb(var(--surface-container-high));
+}

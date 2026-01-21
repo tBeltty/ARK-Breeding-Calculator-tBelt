@@ -5,9 +5,20 @@
 .app {
     min-height: 100vh;
     display: flex;
+    flex-direction: row;
+    padding: 0;
+    width: 100%;
+    position: relative;
+}
+
+.contentWrapper {
+    flex: 1;
+    display: flex;
     justify-content: center;
     align-items: flex-start;
     padding: var(--space-lg);
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .container {
@@ -20,6 +31,8 @@
     border-radius: var(--radius-xl);
     padding: var(--space-lg);
     box-shadow: var(--shadow-lg);
+    /* margin-bottom to allow scrolling past bottom */
+    margin-bottom: var(--space-3xl);
 }
 
 .header {
@@ -233,5 +246,34 @@
     .versionBtn {
         font-size: 9px;
         padding: 2px 4px;
+    }
+}
+
+/* Tablet & Mobile (< 768px) - Bottom Sidebar Layout */
+@media (max-width: 768px) {
+    .app {
+        flex-direction: column;
+        height: 100vh;
+        /* Fixed height for viewport behavior */
+        overflow: hidden;
+    }
+
+    .contentWrapper {
+        order: 1;
+        /* Content on Top */
+        width: 100%;
+        height: auto;
+        flex: 1;
+        /* Take remaining space */
+        padding: var(--space-sm);
+        padding-bottom: 80px;
+        /* Extra padding for scroll to clear collapsed sidebar */
+    }
+
+    .container {
+        margin-bottom: 0;
+        /* Remove spacer */
+        border-radius: var(--radius-lg);
+        /* Slightly smaller radius */
     }
 }

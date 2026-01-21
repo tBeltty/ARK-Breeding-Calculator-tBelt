@@ -14,20 +14,20 @@ import styles from './Toast.module.css';
 export function Toast({ id, message, type = 'info', onClose }) {
     const [isExiting, setIsExiting] = useState(false);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            handleClose();
-        }, 5000);
-        return () => clearTimeout(timer);
-    }, []);
-
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsExiting(true);
         // Wait for animation
         setTimeout(() => {
             onClose(id);
         }, 300);
-    };
+    }, [id, onClose]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            handleClose();
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [handleClose]);
 
     const icons = {
         success: '✓',
@@ -54,14 +54,18 @@ export function useToast() {
 
     const addToast = useCallback((message, type = 'info') => {
         const id = Date.now() + Math.random();
-        setToasts(prev => [...prev, { id, message, type }]);
+        setToasts(prev => {
+            const next = [...prev, { id, message, type }];
+            if (next.length > 5) return next.slice(next.length - 5);
+            return next;
+        });
     }, []);
 
     const removeToast = useCallback((id) => {
         setToasts(prev => prev.filter(t => t.id !== id));
     }, []);
 
-    const ToastContainer = () => (
+    const ToastContainer = useCallback(() => (
         <div className={styles.toastContainer}>
             {toasts.map(toast => (
                 <Toast
@@ -71,7 +75,7 @@ export function useToast() {
                 />
             ))}
         </div>
-    );
+    ), [toasts, removeToast]);
 
     return { addToast, ToastContainer };
 }

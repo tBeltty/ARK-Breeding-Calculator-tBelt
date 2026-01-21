@@ -33,4 +33,26 @@ export default defineConfig([
       ],
     },
   },
+  // Clean Architecture: Domain Isolation
+  {
+    files: ['src/domain/**/*.{js,jsx}'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [
+          {
+            group: ['../infrastructure/*', '**/infrastructure/*'],
+            message: 'Domain layer cannot import from Infrastructure layer.'
+          },
+          {
+            group: ['../components/*', '**/components/*'],
+            message: 'Domain layer cannot import from Presentation layer (Components).'
+          },
+          {
+            group: ['../application/*', '**/application/*'],
+            message: 'Domain layer cannot import from Application layer (Use Cases).'
+          }
+        ]
+      }]
+    }
+  },
 ])

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import styles from './TroughCalculator.module.css';
+import React from 'react';
 
 /**
  * Breakdown content for Normal Trough.

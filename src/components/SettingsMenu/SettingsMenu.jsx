@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import styles from './SettingsMenu.module.css';
 
 export function SettingsMenu({
-    advancedMode,
-    onToggleAdvanced,
-    useStasisMode,
-    onToggleStasisMode,
+    _advancedMode,
+    _onToggleAdvanced,
+    _useStasisMode,
+    _onToggleStasisMode,
     notifyEnabled,
     onToggleNotify,
     notifyTime,

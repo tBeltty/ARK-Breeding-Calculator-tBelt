@@ -20,16 +20,12 @@ const DEFAULT_STATE = {
  * Encapsulates load/save logic.
  */
 export function useTroughPersistence() {
-    const [state, setState] = useState(DEFAULT_STATE);
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // Load from LocalStorage on mount
-    useEffect(() => {
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        if (savedData) {
-            try {
+    const [state, setState] = useState(() => {
+        try {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
                 const parsed = JSON.parse(savedData);
-                setState({
+                return {
                     creatureList: Array.isArray(parsed.creatureList) ? parsed.creatureList : [],
                     foodStacks: parsed.foodStacks || {},
                     troughType: parsed.troughType || 'Normal',
@@ -40,13 +36,14 @@ export function useTroughPersistence() {
                     maewingInputMode: parsed.maewingInputMode || 'basic',
                     maewingFoodPoints: parsed.maewingFoodPoints || 30,
                     isAutoDuration: parsed.isAutoDuration || false
-                });
-            } catch (e) {
-                console.error('Failed to load trough data', e);
+                };
             }
+        } catch (e) {
+            console.error('Failed to load trough data', e);
         }
-        setIsLoaded(true);
-    }, []);
+        return DEFAULT_STATE;
+    });
+    const [isLoaded] = useState(true);
 
     // Save to LocalStorage when state changes
     useEffect(() => {

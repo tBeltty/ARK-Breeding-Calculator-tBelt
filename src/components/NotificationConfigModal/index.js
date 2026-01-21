@@ -1,0 +1,1 @@
+export { NotificationConfigModal } from './NotificationConfigModal';
