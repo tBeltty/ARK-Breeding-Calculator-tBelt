@@ -23,7 +23,7 @@ export class Session {
         // Store other data (calculator settings, etc) to preserve it
         // We exclude the fields we explicitly manage to avoid duplication/desync
         // eslint-disable-next-line no-unused-vars
-        const { id: dataId, creature: dataCreature, name: dataName = null, data: nestedData = {}, ...rest } = data;
+        const { id: dataId, creature: dataCreature, name: dataName = null, data: nestedData = {}, maturation: _legacyMaturation, ...rest } = data;
         this.extraData = rest || {};
     }
 
@@ -36,7 +36,8 @@ export class Session {
             isPlaying: this.isPlaying,
             startTime: this.startTime,
             weight: this.weight,
-            maturationPct: this.maturationPct
+            maturationPct: this.maturationPct,
+            maturation: this.maturationPct // Backward compatibility alias
         };
     }
 
@@ -86,7 +87,7 @@ export class Session {
 
         // Handle extra data updates
         for (const [key, value] of Object.entries(updates)) {
-            if (!['maturationPct', 'weight', 'name', 'isPlaying', 'id', 'creature'].includes(key)) {
+            if (!['maturationPct', 'weight', 'name', 'isPlaying', 'id', 'creature', 'maturation'].includes(key)) {
                 this.extraData[key] = value;
             }
         }

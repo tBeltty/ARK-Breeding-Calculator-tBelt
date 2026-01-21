@@ -35,7 +35,10 @@ import { loadSettings, saveSettings } from './infrastructure/LocalStorageSetting
 import { useMultiDinoState } from './hooks/useMultiDinoState';
 
 // Data
+import { version } from '../package.json';
 import creatures from './data/creatures.json';
+import { getCreatureIcon } from './utils/creatureIcons';
+import { CreateSession } from './application/usecases/CreateSession';
 import foods from './data/foods.json';
 import foodLists from './data/foodLists.json';
 
@@ -68,7 +71,9 @@ export default function App() {
 
   // Global App State
   const [gameVersion, setGameVersion] = useState('ASA');
-  const [activeTheme, setActiveTheme] = useState('arat-prime');
+  const [activeTheme, setActiveTheme] = useState(() => {
+    return localStorage.getItem('activeTheme') || 'arat-prime';
+  });
   const [language, setLanguage] = useState('en');
 
   // UI States
@@ -182,7 +187,10 @@ export default function App() {
   };
 
   const updateGlobalSetting = (key, value) => {
-    if (key === 'notifyTime') setNotifyTime(value);
+    if (key === 'activeTheme') {
+      setActiveTheme(value);
+      localStorage.setItem('activeTheme', value);
+    }
     else setSettings(prev => ({ ...prev, [key]: value }));
   };
 
@@ -260,14 +268,20 @@ export default function App() {
     setShowOnboarding(false);
     localStorage.setItem('onboardingCompleted', 'v2.5'); // Ensure we save this!
     if (creatureData) {
-      // Here we can directly add via UseCase or the wrapper
-      handleAddSession({
-        creature: creatureData.creature,
-        name: creatureData.name,
-        weight: creatureData.weight,
-        maturationPct: creatureData.maturationPct,
-        isPlaying: creatureData.isPlaying
+      // Create fresh session from onboarding data
+      const newSession = CreateSession.execute({
+        initialData: {
+          creature: creatureData.creature,
+          name: creatureData.name,
+          weight: creatureData.weight,
+          maturationPct: creatureData.maturationPct,
+          isPlaying: creatureData.isPlaying
+        },
+        existingCount: 0
       });
+      // Replace entire session list to remove default Argentavis
+      setSessions([newSession]);
+      switchSession(newSession.id);
     }
   };
 
@@ -296,7 +310,7 @@ export default function App() {
         <img src="/logo.png?v=3" alt="ARK Breeding Calculator" className={styles.logo} />
         <div className={styles.headerText}>
           <h1 className={styles.title}>{t('title')}</h1>
-          <p className={styles.subtitle}>v2.2 • {t('ui.version_edition', { version: gameVersion })}</p>
+          <p className={styles.subtitle}>v{version} • {t('ui.version_edition', { version: gameVersion })}</p>
         </div>
       </div>
     </header>
