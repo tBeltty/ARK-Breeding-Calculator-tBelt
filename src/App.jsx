@@ -70,11 +70,9 @@ export default function App() {
   }, [settings]);
 
   // Global App State
-  const [gameVersion, setGameVersion] = useState('ASA');
-  const [activeTheme, setActiveTheme] = useState(() => {
-    return localStorage.getItem('activeTheme') || 'arat-prime';
-  });
-  const [language, setLanguage] = useState('en');
+  const [gameVersion, setGameVersion] = useState(() => localStorage.getItem('gameVersion') || 'ASA');
+  const [activeTheme, setActiveTheme] = useState(() => localStorage.getItem('activeTheme') || 'arat-prime');
+  const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
 
   // UI States
   const [panelStates, setPanelStates] = useState({
@@ -87,7 +85,7 @@ export default function App() {
 
   // Trough/Global Settings
   const [advancedMode] = useState(false);
-  const [notifyEnabled, setNotifyEnabled] = useState(false);
+  const [notifyEnabled, setNotifyEnabled] = useState(() => localStorage.getItem('notifyEnabled') === 'true');
   const [notifyTime, setNotifyTime] = useState(10);
 
   // Apply Theme & Language
@@ -258,6 +256,14 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [setSessions, settings]);
+
+  // Persist Global Settings
+  useEffect(() => {
+    localStorage.setItem('gameVersion', gameVersion);
+    localStorage.setItem('language', language);
+    localStorage.setItem('notifyEnabled', notifyEnabled);
+    localStorage.setItem('activeTheme', activeTheme);
+  }, [gameVersion, language, notifyEnabled, activeTheme]);
 
   // Onboarding state
   const [showOnboarding, setShowOnboarding] = useState(() => {
