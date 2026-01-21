@@ -22,27 +22,26 @@ Get started in seconds with our new **Smart Setup Wizard**.
 - **Smart Defaults**: We pre-configure settings based on your choices for immediate utility.
 
 ### 🦕 Professional Creature Management
-Manage your breeding lines with the precision of a master breeder.
+Our **Signature Feature**. Why settle for tracking one baby when you can manage an army?
 - **Multi-Dino Tracking**: Monitor an entire nursery from a unified, collapsible sidebar.
-- **Context Awareness**: Instantly switch between babies to manage individual feeding schedules.
-- **Auto-Persistence**: Your data is saved automatically locally—never lose progress on a refresh.
-- **Smart Sync**: Advanced state management ensures your maturation timers are always accurate across the UI.
+- **Real-Time Sync**: Every second counts. Maturation timers are synchronized instantly across the entire UI.
+- **Smart Context**: Autosaves your progress locally—refresh without fear.
 
 ### 🧬 Precision Breeding Analytics
 Stop guessing. Start calculating.
-- **Real-Time Maturation**: Watch growth in real-time with synchronized timers.
-- **Survival Buffer**: Our signature **"Current Buffer"** metric tells you exactly how long you can step away safely.
-- **Hand-Feed Mastery**: Know the exact second your baby handles a trough, ending the hand-feeding grind.
+- **Calculations**: Maturation times, food consumption, and stat points based on official rates.
+- **Survival Buffer**: The classic "Current Buffer" metric tells you how long you can step away.
+- **Hand-Feed Thresholds**: Know the exact second your baby handles a trough.
 
 ### 🥩 Intelligent Trough Simulation
 Optimize your resources and sleep soundly.
-- **Multi-Trough Logic**: Simulates complex setups with Tek Troughs, Fridges, and Maewings.
-- **Spoilage Engine**: Accounts for variable spoilage rates across different container types and game states.
-- **Nightmare Prevention**: Calculates precisely if your food stocks will survive the night for your specific army.
+- **Multi-Trough Logic**: Simulates complex setups with Tek Troughs and Fridges.
+- **Maewing Support** (Beta): Experimental support for nursing trough mechanics.
+- **Spoilage Engine**: Accounts for variable spoilage rates across container types.
 
 ### 🎨 Premium "Atmos" Interface
 A tool that looks as good as it performs.
-- **6 Hand-Crafted Themes**: From the golden dunes of *Arat Prime* to the neon glow of *Tek Pulse*.
+- **6 Hand-Crafted Themes**: From the frozen peaks of *Arat Prime* to the corrupted innovation of *Tek Pulse*.
 - **Glassmorphism Design**: Modern, translucent, and highly responsive interface.
 - **Mobile First**: Fully optimized for phones and tablets without compromising power.
 
@@ -61,15 +60,19 @@ A high-level view of the application's structure:
 
 ```text
 src/
-├── application/         # Application business logic (Use Cases)
-├── components/          # React UI components
-├── data/                # Static game data (Creatures, Foods)
-├── domain/              # Core domain logic & entities
-├── infrastructure/      # External services & repositories
-├── locales/             # i18n translation files
-├── styles/              # Global styles & Design Tokens
-├── App.jsx              # Main application entry
-└── main.jsx             # React DOM root
+├── application/         # Use Cases & Ports (Clean Architecture)
+├── components/          # React Components (Atmos UI)
+│   ├── Onboarding/      # Wizard & Setup
+│   ├── Session/         # Active Creature Detail
+│   ├── Sidebar/         # Multi-Dino Management
+│   └── TroughCalculator # Food & Spoilage Logic
+├── data/                # Static Game Data (Creatures, Foods)
+├── domain/              # Core Entities (Session, Breeding Logic)
+├── infrastructure/      # Repositories & External Services
+├── hooks/               # Custom React Hooks
+├── locales/             # i18n Translation Files
+├── styles/              # Global Tokens & ATMOS System
+└── App.jsx              # Application Root
 ```
 
 ## 🗺️ Roadmap
