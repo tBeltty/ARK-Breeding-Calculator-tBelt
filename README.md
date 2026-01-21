@@ -79,6 +79,7 @@ src/
 - **Advanced Calculation Modes**: Experimental support for "Stasis" vs "Render" spoilage rates.
 - **Notification System**: Push notifications and Email alerts when troughs are empty.
 - **Cloud Sync**: Optional cloud backup for your breeding configs.
+- **Discord Bot Integration (v3.0)**: Use slash commands (`/track`, `/stats`) to manage your nursery directly from Discord.
 
 ## 🛠️ Tech Stack
 

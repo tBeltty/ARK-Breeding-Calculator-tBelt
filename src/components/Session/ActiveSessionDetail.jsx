@@ -180,36 +180,7 @@ export function ActiveSessionDetail({
                     </>
                 )}
 
-                <div style={{ marginTop: '16px', borderTop: '1px solid var(--outline-variant)', paddingTop: '16px' }}>
-                    <h4 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'rgb(var(--primary))' }}>{t('ui.notifications', 'Notifications')}</h4>
-                    <DataInput
-                        label={t('notifications.enable_push_tooltip')}
-                        tooltip={t('notifications.enable_push_tooltip')}
-                        value={settings.notifyEnabled}
-                        onChange={settings.onToggleNotify}
-                        type="checkbox"
-                    />
 
-                    {settings.notifyEnabled && (
-                        <div className={styles.inputGroup} style={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <LabelWithTooltip
-                                label={t('ui.notify_before', 'Notify Before')}
-                                tooltip="Time before depletion to send alert"
-                                className={styles.label}
-                            />
-                            <select
-                                value={settings.notifyTime}
-                                onChange={(e) => onUpdateGlobalSettings('notifyTime', Number(e.target.value))}
-                                className={styles.select}
-                                style={{ width: '100px' }}
-                            >
-                                <option value={5}>5m</option>
-                                <option value={10}>10m</option>
-                                <option value={30}>30m</option>
-                            </select>
-                        </div>
-                    )}
-                </div>
             </DataPanel>
 
             {/* Maturation Panel */}

@@ -75,6 +75,7 @@
         "creatures_in_trough": "Creatures in Trough",
         "version_edition": "{{version}} Edition",
         "author_credit": "Original by Crumplecorn",
+        "credit_prefix": "Original by",
         "remake_credit": "Remake by tBelt",
         "stacks": "stacks",
         "food_rate_value": "{{rate}} /min",
@@ -152,7 +153,8 @@
         "body_depleted": "Your {{creature}} is about to run out of food!",
         "minutes_before": "{{minutes}} min before",
         "configure_title": "Configure Notification",
-        "configure_desc": "Set a lead time to be notified before the trough is empty."
+        "configure_desc": "Set a lead time to be notified before the trough is empty.",
+        "disclaimer": "Not affiliated with Studio Wildcard or Snail Games."
     },
     "birth_types": {
         "Incubation": "Incubation",

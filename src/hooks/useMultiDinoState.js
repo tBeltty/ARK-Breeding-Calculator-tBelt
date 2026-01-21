@@ -42,13 +42,10 @@ export function useMultiDinoState(_initialGlobalSettings) {
             setSessions(loadedSessions);
             setActiveSessionId(activeId || loadedSessions[0].id);
         } else {
-            // Fresh start using UseCase
-            const initialSession = CreateSession.execute({
-                initialData: { creature: 'Argentavis', name: 'My Dino 1' },
-                existingCount: 0
-            });
-            setSessions([initialSession]);
-            setActiveSessionId(initialSession.id);
+            // Fresh start - Empty state
+            // Don't create default session automatically
+            setSessions([]);
+            setActiveSessionId(null);
         }
     }, []);
 
@@ -56,7 +53,8 @@ export function useMultiDinoState(_initialGlobalSettings) {
     // Optimization: Debounce this? For now, keep it simple.
     useEffect(() => {
         const repo = repository.current;
-        if (sessions.length > 0) {
+        // Allow saving empty array if initialized (sessions is not null/undefined)
+        if (sessions) {
             // SAFE SAVE: Filter only valid entities or try to hydrate to prevent crashes
             const validSessions = sessions.map(s => {
                 if (s instanceof Session) return s;
@@ -65,12 +63,13 @@ export function useMultiDinoState(_initialGlobalSettings) {
                 } catch { return null; }
             }).filter(Boolean);
 
-            if (validSessions.length > 0) {
-                repo.saveAll(validSessions);
-            }
+            repo.saveAll(validSessions);
         }
         if (activeSessionId) {
             repo.setActiveId(activeSessionId);
+        } else {
+            // Ensure we clear active ID if null/empty
+            repo.setActiveId(null);
         }
     }, [sessions, activeSessionId]);
 
@@ -90,15 +89,9 @@ export function useMultiDinoState(_initialGlobalSettings) {
     const removeSession = useCallback((id) => {
         setSessions(prev => {
             const filtered = prev.filter(s => s.id !== id);
-            if (filtered.length === 0) {
-                // Ensure at least one exists
-                return [CreateSession.execute({
-                    initialData: { creature: 'Argentavis', name: 'My Dino' },
-                    existingCount: 0
-                })];
-            }
             return filtered;
         });
+
 
         if (activeSessionId === id) {
             // Switch to previous or first

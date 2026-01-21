@@ -396,46 +396,87 @@ export default function App() {
       }
     >
       <div style={{ paddingBottom: '80px' }}> {/* Mobile Spacer */}
-        <ActiveSessionDetail
-          session={activeSession}
-          calculations={calculations}
-          settings={{
-            ...settings,
-            gameVersion,
-            advancedMode,
-            notifyEnabled,
-            notifyTime,
-            onToggleNotify: handleNotifyToggle
-          }}
-          onUpdateSession={updateActiveSession}
-          onUpdateGlobalSettings={updateGlobalSetting}
-          creatures={creatures}
-          foods={foods}
-          availableFoods={foodLists[creatures[activeSession?.creature]?.type || 'Carnivore']}
-          panelStates={panelStates}
-          onTogglePanel={togglePanel}
-        />
-        <TroughCalculator
-          creatures={creatures}
-          foods={foods}
-          foodLists={foodLists}
-          settings={{
-            ...settings,
-            gameVersion,
-            advancedMode,
-            notifyEnabled,
-            notifyTime
-          }}
-          currentCreature={activeSession?.creature}
-          currentMaturation={activeSession?.data?.maturation || 0}
-          currentMaxFood={activeSession?.data?.maxFood || 0}
-          gameVersion={gameVersion}
-          advancedMode={advancedMode}
-          useStasisMode={false}
-          notifyEnabled={notifyEnabled}
-          notifyTime={notifyTime}
-          onToast={addToast}
-        />
+        {activeSession ? (
+          <>
+            <ActiveSessionDetail
+              session={activeSession}
+              calculations={calculations}
+              settings={{
+                ...settings,
+                gameVersion,
+                advancedMode,
+                notifyEnabled,
+                notifyTime,
+                onToggleNotify: handleNotifyToggle
+              }}
+              onUpdateSession={updateActiveSession}
+              onUpdateGlobalSettings={updateGlobalSetting}
+              creatures={creatures}
+              foods={foods}
+              availableFoods={foodLists[creatures[activeSession?.creature]?.type || 'Carnivore']}
+              panelStates={panelStates}
+              onTogglePanel={togglePanel}
+            />
+            <TroughCalculator
+              creatures={creatures}
+              foods={foods}
+              foodLists={foodLists}
+              settings={{
+                ...settings,
+                gameVersion,
+                advancedMode,
+                notifyEnabled,
+                notifyTime
+              }}
+              currentCreature={activeSession?.creature}
+              currentMaturation={activeSession?.data?.maturation || 0}
+              currentMaxFood={activeSession?.data?.maxFood || 0}
+              gameVersion={gameVersion}
+              advancedMode={advancedMode}
+              useStasisMode={false}
+              notifyEnabled={notifyEnabled}
+              notifyTime={notifyTime}
+              onToast={addToast}
+            />
+          </>
+        ) : (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '60vh',
+            color: 'var(--on-surface-variant)',
+            textAlign: 'center',
+            padding: '24px'
+          }}>
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🦖</div>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '8px', color: 'var(--on-surface)' }}>
+              {t('ui.no_creatures', 'No Creatures Tracked')}
+            </h2>
+            <p style={{ maxWidth: '400px', lineHeight: '1.5' }}>
+              {t('ui.no_creatures_desc', 'Add a creature from the sidebar to start tracking maturation and food consumption.')}
+            </p>
+            <button
+              onClick={handleOpenAddModal}
+              style={{
+                marginTop: '24px',
+                padding: '12px 24px',
+                background: 'rgb(var(--primary))',
+                color: 'rgb(var(--on-primary))',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <span>+</span> {t('ui.add_first_creature', 'Add Creature')}
+            </button>
+          </div>
+        )}
       </div>
     </MainLayout>
   );

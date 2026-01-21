@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Modal } from '../Modal';
+import { Modal, ConfirmationModal } from '../Modal';
 import styles from './SettingsModal.module.css';
 import { version } from '../../../package.json';
 import { BackupService } from '../../infrastructure/BackupService';
@@ -31,6 +31,9 @@ export function SettingsModal({
     // Let's assume SettingsModal is inside the provider.
     const { addToast } = useToast();
 
+    // Import Confirmation State
+    const [pendingFile, setPendingFile] = React.useState(null);
+
     const handleExport = () => {
         try {
             BackupService.exportData();
@@ -40,25 +43,27 @@ export function SettingsModal({
         }
     };
 
-    const handleImport = async (e) => {
+    const onFileSelect = (e) => {
         const file = e.target.files?.[0];
-        if (!file) return;
-
-        if (!confirm(t('messages.confirm_import', 'This will overwrite your current data. Continue?'))) {
-            e.target.value = '';
-            return;
+        if (file) {
+            setPendingFile(file);
         }
+        // Reset input immediately so same file can be selected again if cancelled
+        e.target.value = '';
+    };
+
+    const executeImport = async () => {
+        if (!pendingFile) return;
 
         try {
-            await BackupService.importData(file);
+            await BackupService.importData(pendingFile);
             addToast(t('messages.import_success', 'Data restored successfully'), 'success');
-            // Reload to apply changes
             setTimeout(() => window.location.reload(), 1000);
         } catch (err) {
             console.error(err);
             addToast(t('messages.import_failed', 'Import failed: Invalid file'), 'error');
         } finally {
-            e.target.value = '';
+            setPendingFile(null);
         }
     };
 
@@ -169,17 +174,28 @@ export function SettingsModal({
                                 ref={fileInputRef}
                                 style={{ display: 'none' }}
                                 accept=".json"
-                                onChange={handleImport}
+                                onChange={onFileSelect}
                             />
                         </div>
                     </div>
                 </div>
 
+                <div style={{ textAlign: 'center', marginTop: '8px', opacity: 0.5, fontSize: '0.8rem' }}>
+                    v{version} • {gameVersion} Edition
+                </div>
             </div>
 
-            <div style={{ textAlign: 'center', marginTop: '8px', opacity: 0.5, fontSize: '0.8rem' }}>
-                v{version} • {gameVersion} Edition
-            </div>
+            {/* Confirmation Dialog */}
+            <ConfirmationModal
+                isOpen={!!pendingFile}
+                onClose={() => setPendingFile(null)}
+                onConfirm={executeImport}
+                title={t('ui.confirm_restore', 'Restore Backup?')}
+                message={t('messages.confirm_import', 'This will overwrite your current data. This action cannot be undone.')}
+                confirmText={t('ui.restore', 'Restore')}
+                cancelText={t('ui.cancel', 'Cancel')}
+                isDangerous={true}
+            />
         </Modal>
     );
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { getNickname } from '../../utils/nicknames';
+import { getCreatureIcon } from '../../utils/creatureIcons';
 import styles from './AppSidebar.module.css';
 import './SidebarTooltip.css';
 
@@ -152,6 +153,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                                     onMouseEnter={(e) => handleMouseEnter(e, session)}
                                     onMouseLeave={handleMouseLeave}
                                     title={!isDesktopCollapsed ? (session.name || session.creature) : ''}
+                                    style={{ '--creature-bg': `url('${getCreatureIcon(session.creature)}')` }}
                                 >
                                     {editingId === session.id ? (
                                         <input
@@ -227,6 +229,30 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
             </div>
 
             <div className={styles.footer}>
+                <div className={`${styles.credits} ${isDesktopCollapsed ? styles.hidden : ''}`}>
+                    <small className={styles.creditText}>
+                        {t('ui.credit_prefix', 'Original by')}{' '}
+                        <a
+                            href="https://github.com/Crumplecorn/ARK-Breeding-Calculator"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.textLink}
+                        >
+                            Crumplecorn
+                        </a>
+                    </small>
+                    <small className={styles.creditText}>{t('ui.remake_credit', 'Remake by tBelt')}</small>
+                    <a
+                        href="https://github.com/tBeltty/ARK-Breeding-Calculator-tBelt"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.repoLink}
+                        title="View Repository"
+                    >
+                        <span className={styles.githubIcon}>GitHub</span>
+                    </a>
+                    <small className={styles.disclaimer}>{t('notifications.disclaimer', 'Not affiliated with Studio Wildcard')}</small>
+                </div>
                 <button
                     className={styles.configBtn}
                     onClick={() => globalSettings.openSettingsModal()}
