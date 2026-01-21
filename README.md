@@ -1,8 +1,8 @@
-# ARK Breeding Calculator (Modernized)
-
+# ARK Breeding Calculator (Unofficial) v2.5.2
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 A modernized, high-performance remake of the classic ARK Breeding Calculator, built for **ARK: Survival Ascended (ASA)** and **ARK: Survival Evolved (ASE)**.
 
-Original concept by Crumplecorn, re-engineered for 2026. **Version 2.5** (Released Jan 2026).
+Original concept by Crumplecorn, re-engineered for 2026. **Version 2.5.2** (Released Jan 2026).
 
 
 ## 🚀 Why this Remake?
