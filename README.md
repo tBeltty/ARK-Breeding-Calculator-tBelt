@@ -13,28 +13,38 @@ The original tools were built on aging technologies (AngularJS 1.x) that are har
 - **Updated Content**: Includes the latest official creatures from recent DLCs (e.g., **Gloon**, **Ossidon**).
 - **Maintainability**: Refactored the codebase to be robust, testable, and extensible.
 
-## ✨ Key Features
+## ✨ Experience the Difference
 
-### 🦕 Creature Management
-- **Multi-Dino Tracking**: Track multiple creatures simultaneously in a unified sidebar.
-- **Quick Switching**: Instantly switch context between different babies to check their specific buffers.
-- **Persistence**: Your creature list is automatically saved, so you never lose track of your progress.
-- **State Aliasing**: Smart state management ensures your maturation data is always in sync.
+### 🚀 Seamless Onboarding
+Get started in seconds with our new **Smart Setup Wizard**.
+- **Personalized Setup**: Select your language, game version (ASE/ASA), and preferred theme instantly.
+- **Interactive Guide**: The app helps you create your first creature session so you're never lost.
+- **Smart Defaults**: We pre-configure settings based on your choices for immediate utility.
 
-### 🧬 Advanced Breeding Stats
-- **Real-Time Maturation**: Reacts immediately to maturation updates (Timer or Manual Input).
-- **Hand Feed Thresholds**: Knows exactly when you can stop hand-feeding babies.
-- **Buffer Calculation**: innovative "Current Buffer" metric shows how long a baby can survive offline.
+### 🦕 Professional Creature Management
+Manage your breeding lines with the precision of a master breeder.
+- **Multi-Dino Tracking**: Monitor an entire nursery from a unified, collapsible sidebar.
+- **Context Awareness**: Instantly switch between babies to manage individual feeding schedules.
+- **Auto-Persistence**: Your data is saved automatically locally—never lose progress on a refresh.
+- **Smart Sync**: Advanced state management ensures your maturation timers are always accurate across the UI.
 
-### 🥩 Trough Calculator
-- **Simulation Engine**: Simulates multiple creatures eating from a shared trough.
-- **Spoilage Logic**: Accounts for food spoilage rates in different containers (Tek Trough, Refrigerator, etc.).
-- **Multi-Creature Management**: Add your entire baby army to see if your troughs will last the night.
+### 🧬 Precision Breeding Analytics
+Stop guessing. Start calculating.
+- **Real-Time Maturation**: Watch growth in real-time with synchronized timers.
+- **Survival Buffer**: Our signature **"Current Buffer"** metric tells you exactly how long you can step away safely.
+- **Hand-Feed Mastery**: Know the exact second your baby handles a trough, ending the hand-feeding grind.
 
-### 🎨 Atmos UI & Customization
-- **6 Premium Themes**: Arat Prime, Crystal Horizon, Aberrant Depths, Frozen Peaks, Tek Pulse, and Primal Dawn.
-- **Glassmorphism**: Modern, sleek aesthetics.
-- **Responsive**: Fully functional on mobile and desktop.
+### 🥩 Intelligent Trough Simulation
+Optimize your resources and sleep soundly.
+- **Multi-Trough Logic**: Simulates complex setups with Tek Troughs, Fridges, and Maewings.
+- **Spoilage Engine**: Accounts for variable spoilage rates across different container types and game states.
+- **Nightmare Prevention**: Calculates precisely if your food stocks will survive the night for your specific army.
+
+### 🎨 Premium "Atmos" Interface
+A tool that looks as good as it performs.
+- **6 Hand-Crafted Themes**: From the golden dunes of *Arat Prime* to the neon glow of *Tek Pulse*.
+- **Glassmorphism Design**: Modern, translucent, and highly responsive interface.
+- **Mobile First**: Fully optimized for phones and tablets without compromising power.
 
 ### 🌍 Internationalization
 - **Multi-language Support**: Fully localized in **English** and **Spanish**.
