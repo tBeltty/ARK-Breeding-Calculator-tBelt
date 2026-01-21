@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '../Modal';
 import styles from './SettingsModal.module.css';
+import { version } from '../../../package.json';
 
 export function SettingsModal({
     isOpen,
@@ -104,7 +105,7 @@ export function SettingsModal({
                 </div>
 
                 <div style={{ textAlign: 'center', marginTop: '8px', opacity: 0.5, fontSize: '0.8rem' }}>
-                    v2.2 • {gameVersion} Edition
+                    v{version} • {gameVersion} Edition
                 </div>
             </div>
         </Modal>
