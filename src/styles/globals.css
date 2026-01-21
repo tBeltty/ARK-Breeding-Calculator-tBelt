@@ -37,7 +37,7 @@ body {
         linear-gradient(180deg,
             rgb(var(--surface) / 0.3) 0%,
             rgb(var(--surface) / 0.3) 100%),
-        var(--bg-image, url('/aratprime.png')) center/cover no-repeat fixed;
+        var(--bg-image, url('/aratprime.webp')) center/cover no-repeat fixed;
 }
 
 /* ═════════════════════════════════════════════════════════════════

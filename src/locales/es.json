@@ -68,6 +68,7 @@
         "creatures_in_trough": "Criaturas en Comedero",
         "version_edition": "Edición {{version}}",
         "author_credit": "Original por Crumplecorn",
+        "credit_prefix": "Original por",
         "remake_credit": "Remake por tBelt",
         "stacks": "stacks",
         "food_rate_value": "{{rate}} /min",
@@ -134,7 +135,8 @@
         "perm_blocked_hint": "Las notificaciones están bloqueadas. Desbloquéalas en la configuración de la barra de direcciones.",
         "title_depleted": "⚠️ ¡Comida Agotada!",
         "body_depleted": "¡Tu {{creature}} está a punto de quedarse sin comida!",
-        "minutes_before": "{{minutes}} min antes"
+        "minutes_before": "{{minutes}} min antes",
+        "disclaimer": "No afiliado con Studio Wildcard o Snail Games."
     },
     "birth_types": {
         "Incubation": "Incubación",

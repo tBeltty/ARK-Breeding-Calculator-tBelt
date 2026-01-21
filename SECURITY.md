@@ -35,7 +35,7 @@ We proactively harden the application against common threats using industry-stan
 
 We value the security community. If you find a bug:
 1.  **Do NOT open a public Issue.**
-2.  Email `security@[domain]` (or contact the maintainer directly).
+2.  Email `security@tbelt.online` (or contact the maintainer directly).
 3.  Provide a reproduction step (e.g., "Set localStorage key X to value Y").
 
 We aim to acknowledge valid reports within a reasonable timeframe.

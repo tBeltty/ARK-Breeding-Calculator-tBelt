@@ -107,7 +107,11 @@ export function AddDinoModal({ isOpen, onClose, onAdd, creatures }) {
                                 type="number"
                                 className={styles.input}
                                 value={maturation}
-                                onChange={(e) => setMaturation(e.target.value)}
+                                onChange={(e) => {
+                                    let val = e.target.value;
+                                    if (parseFloat(val) > 100) val = '100';
+                                    setMaturation(val);
+                                }}
                                 onFocus={handleFocus}
                                 step="0.1"
                                 min="0"

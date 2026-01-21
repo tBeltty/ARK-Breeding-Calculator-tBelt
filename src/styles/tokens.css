@@ -59,12 +59,12 @@ body:not([class*="theme-"]) {
    --highlight-bg: rgb(var(--primary) / 0.2);
    --highlight-border: rgb(var(--primary) / 0.6);
    --bg-color: #0d0618;
-   --bg-image: url('/aratprime.png');
+   --bg-image: url('/aratprime.webp');
 
    /* Full background for initial load */
    background:
       linear-gradient(to bottom, rgb(20 12 30 / 0.3), rgb(20 12 30 / 0.3)),
-      url('/aratprime.png');
+      url('/aratprime.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;
@@ -90,11 +90,11 @@ body.theme-aberrant-depths {
    --highlight-bg: rgb(var(--primary) / 0.15);
    --highlight-border: rgb(var(--primary) / 0.5);
    --bg-color: #0a1418;
-   --bg-image: url('/aberrantdepths.png');
+   --bg-image: url('/aberrantdepths.webp');
 
    background:
       linear-gradient(to bottom, rgb(15 30 35 / 0.3), rgb(15 30 35 / 0.3)),
-      url('/aberrantdepths.png');
+      url('/aberrantdepths.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;
@@ -120,11 +120,11 @@ body.theme-frozen-peaks {
    --highlight-bg: rgb(var(--primary) / 0.1);
    --highlight-border: rgb(var(--primary) / 0.6);
    --bg-color: #f1f5f9;
-   --bg-image: url('/ash.png');
+   --bg-image: url('/ash.webp');
 
    background:
       linear-gradient(to bottom, rgb(245 247 250 / 0.3), rgb(245 247 250 / 0.3)),
-      url('/ash.png');
+      url('/ash.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;
@@ -150,11 +150,11 @@ body.theme-tek-pulse {
    --highlight-bg: rgb(var(--primary) / 0.2);
    --highlight-border: rgb(var(--primary) / 1);
    --bg-color: #020810;
-   --bg-image: url('/tekpulse.png');
+   --bg-image: url('/tekpulse.webp');
 
    background:
       linear-gradient(to bottom, rgb(5 15 25 / 0.3), rgb(5 15 25 / 0.3)),
-      url('/tekpulse.png');
+      url('/tekpulse.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;
@@ -180,11 +180,11 @@ body.theme-primal-dawn {
    --highlight-bg: rgb(var(--primary) / 0.15);
    --highlight-border: rgb(var(--primary) / 0.5);
    --bg-color: #1a1008;
-   --bg-image: url('/primaldawn.png');
+   --bg-image: url('/primaldawn.webp');
 
    background:
       linear-gradient(to bottom, rgb(40 25 15 / 0.3), rgb(40 25 15 / 0.3)),
-      url('/primaldawn.png');
+      url('/primaldawn.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;
@@ -210,11 +210,11 @@ body.theme-crystal-horizon {
    --highlight-bg: rgb(var(--primary) / 0.15);
    --highlight-border: rgb(var(--primary) / 0.5);
    --bg-color: #0f172a;
-   --bg-image: url('/crystal.png');
+   --bg-image: url('/crystal.webp');
 
    background:
       linear-gradient(to bottom, rgb(15 23 42 / 0.3), rgb(15 23 42 / 0.3)),
-      url('/crystal.png');
+      url('/crystal.webp');
    background-size: cover, cover;
    background-position: center, center;
    background-attachment: fixed, fixed;

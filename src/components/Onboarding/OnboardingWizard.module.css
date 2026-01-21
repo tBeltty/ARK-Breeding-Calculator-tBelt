@@ -269,7 +269,7 @@
 .themeCard[data-theme="arat-prime"] .themePreview {
     background:
         linear-gradient(135deg, rgb(40 25 55 / 0.4), rgb(255 100 180 / 0.5)),
-        url('/aratprime.png');
+        url('/aratprime.webp');
     background-size: cover;
     background-position: center;
 }
@@ -277,7 +277,7 @@
 .themeCard[data-theme="crystal-horizon"] .themePreview {
     background:
         linear-gradient(135deg, rgb(51 65 85 / 0.4), rgb(6 182 212 / 0.5)),
-        url('/crystal.png');
+        url('/crystal.webp');
     background-size: cover;
     background-position: center;
 }
@@ -285,7 +285,7 @@
 .themeCard[data-theme="aberrant-depths"] .themePreview {
     background:
         linear-gradient(135deg, rgb(15 40 35 / 0.4), rgb(50 220 150 / 0.5)),
-        url('/aberrantdepths.png');
+        url('/aberrantdepths.webp');
     background-size: cover;
     background-position: center;
 }
@@ -293,7 +293,7 @@
 .themeCard[data-theme="frozen-peaks"] .themePreview {
     background:
         linear-gradient(135deg, rgb(230 235 245 / 0.3), rgb(59 130 246 / 0.4)),
-        url('/ash.png');
+        url('/ash.webp');
     background-size: cover;
     background-position: center;
 }
@@ -301,7 +301,7 @@
 .themeCard[data-theme="tek-pulse"] .themePreview {
     background:
         linear-gradient(135deg, rgb(5 15 30 / 0.4), rgb(0 255 255 / 0.5)),
-        url('/tekpulse.png');
+        url('/tekpulse.webp');
     background-size: cover;
     background-position: center;
     box-shadow: inset 0 0 8px rgb(0 255 255 / 0.4);
@@ -310,7 +310,7 @@
 .themeCard[data-theme="primal-dawn"] .themePreview {
     background:
         linear-gradient(135deg, rgb(60 40 25 / 0.4), rgb(245 158 11 / 0.5)),
-        url('/primaldawn.png');
+        url('/primaldawn.webp');
     background-size: cover;
     background-position: center;
 }

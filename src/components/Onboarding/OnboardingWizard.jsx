@@ -67,7 +67,7 @@ export function OnboardingWizard({
             creature: selectedCreature,
             name: creatureName || getNickname(selectedCreature),
             weight: parseFloat(creatureWeight) || creatures[selectedCreature]?.weight || 100,
-            maturationPct: parseFloat(creatureMaturation) || 0,
+            maturationPct: (parseFloat(creatureMaturation) || 0) / 100,
             isPlaying: startTracking
         } : null;
 
@@ -324,7 +324,11 @@ export function OnboardingWizard({
                                                 min="0"
                                                 max="100"
                                                 value={creatureMaturation}
-                                                onChange={(e) => setCreatureMaturation(e.target.value)}
+                                                onChange={(e) => {
+                                                    let val = e.target.value;
+                                                    if (parseFloat(val) > 100) val = '100';
+                                                    setCreatureMaturation(val);
+                                                }}
                                                 onClick={(e) => e.target.select()}
                                             />
                                         </div>
