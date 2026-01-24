@@ -13,7 +13,7 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction) {
     const embed = createInfoEmbed(
-        'ARK Breeding Assistant Commands',
+        'Arktic Assistant Commands',
         'Track your ARK baby creatures and get notifications!'
     );
 

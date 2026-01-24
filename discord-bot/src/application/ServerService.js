@@ -208,14 +208,14 @@ class ServerService {
                     players: match.players,
                     maxPlayers: match.max_players || 70, // Default to 70 for official
                     map: match.map,
-                    name: match.name, // CACHE NAME
+                    name: match.name || record.server_name, // Prefer API name, fallback to record
                     lastUpdated: Date.now()
                 });
             } else {
                 // Verified offline or not found
                 this.statusCache.set(record.server_id, {
                     status: 'offline',
-                    name: record.server_name,
+                    name: record.server_name, // STAY WITH THE PERSISTED NAME
                     lastUpdated: Date.now()
                 });
             }

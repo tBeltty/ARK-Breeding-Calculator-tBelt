@@ -10,7 +10,7 @@ import { GuildRepository } from '../../database/repositories/GuildRepository.js'
 import { CreatureRepository } from '../../database/repositories/CreatureRepository.js';
 import { createSuccessEmbed, createErrorEmbed, createCreatureEmbed } from '../../../shared/embeds.js';
 import { validateCreatureName, validateNickname } from '../../../shared/validation.js';
-import creatures from '../../../data/creatures.json' with { type: 'json' };
+import { creatures } from '../../../shared/dataLoader.js';
 import {
     calculateMaturationTime,
     calculateBufferTime,
@@ -29,6 +29,13 @@ export const data = new SlashCommandBuilder()
         option
             .setName('creature')
             .setDescription('The type of creature (e.g., Rex, Wyvern)')
+            .setRequired(true)
+            .setAutocomplete(true)
+    )
+    .addStringOption(option =>
+        option
+            .setName('food')
+            .setDescription('Food type for buffer (default: primary for diet)')
             .setRequired(true)
             .setAutocomplete(true)
     )
@@ -68,13 +75,6 @@ export const data = new SlashCommandBuilder()
             .setName('channel')
             .setDescription('Discord channel for alerts (if mode is channel)')
             .setRequired(false)
-    )
-    .addStringOption(option =>
-        option
-            .setName('food')
-            .setDescription('Food type for buffer (default: primary for diet)')
-            .setRequired(true)
-            .setAutocomplete(true)
     );
 
 /**
@@ -186,7 +186,17 @@ export async function execute(interaction) {
 
     // Calculate maturation time
     const creatureData = creatures[creatureType];
-    const settings = { ...DEFAULT_SETTINGS, maturationSpeed: guild.server_rates || 1 };
+
+    // 1. Determine Rate Mode
+    let maturationSpeed = guild.server_rates || 1;
+    if (guild.auto_rates === 1) {
+        const { ratesService } = await import('../../../application/RatesService.js');
+        const officialRates = ratesService.getRates();
+        maturationSpeed = officialRates.maturation || 1;
+        logger.debug(`[Track] Guild ${interaction.guildId} using Official Rates: ${maturationSpeed}x`);
+    }
+
+    const settings = { ...DEFAULT_SETTINGS, maturationSpeed };
     const totalMaturationSeconds = calculateMaturationTime(creatureData, settings);
     const remainingProgress = (100 - progress) / 100;
     const maturationMs = totalMaturationSeconds * remainingProgress * 1000;

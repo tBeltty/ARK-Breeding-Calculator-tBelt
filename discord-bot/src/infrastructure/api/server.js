@@ -6,12 +6,13 @@
  */
 
 import express from 'express';
+import { getDatabase } from '../database/sqlite.js';
 import { logger } from '../../shared/logger.js';
 import { ratesService } from '../../application/RatesService.js';
 import { serverService } from '../../application/ServerService.js';
 
 const app = express();
-const PORT = process.env.API_PORT || 3001;
+const PORT = process.env.API_PORT || 3005;
 
 // Middleware
 app.use(express.json());
@@ -35,6 +36,7 @@ import guildRoutes from './routes/guilds.js';
 app.get('/api/stats', (req, res) => {
     res.json({
         version: '3.0.0',
+        name: 'Arktic Assistant',
         status: 'running',
     });
 });
@@ -63,6 +65,35 @@ app.get('/api/servers/status/:id', (req, res) => {
     const status = serverService.getStatus(id);
     if (!status) return res.status(404).json({ error: 'Server not tracked or found' });
     res.json(status);
+});
+
+app.get('/api/servers/tracked', (req, res) => {
+    try {
+        const db = getDatabase();
+        // Get all servers tracked by the web dashboard
+        const tracked = db.prepare("SELECT * FROM server_tracking WHERE guild_id = 'WEB'").all();
+
+        // Enrich with current status from cache
+        const enriched = tracked.map(row => {
+            const cleanId = String(row.server_id).replace(/\.0$/, '');
+            const cache = serverService.getStatus(cleanId);
+            return {
+                id: cleanId,
+                name: row.server_name,
+                status: cache?.status || row.last_status,
+                type: row.type,
+                map: cache?.map || 'Unknown',
+                players: cache?.players || 0,
+                maxPlayers: cache?.maxPlayers || 70,
+                lastUpdated: row.last_updated
+            };
+        });
+
+        res.json(enriched);
+    } catch (e) {
+        logger.error('Failed to fetch tracked servers:', e.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 app.use('/api/guilds', guildRoutes);

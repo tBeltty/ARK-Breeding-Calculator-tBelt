@@ -1,1 +1,0 @@
-export { TroughCalculator } from './TroughCalculator';

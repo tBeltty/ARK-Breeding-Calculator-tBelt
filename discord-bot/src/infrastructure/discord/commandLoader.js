@@ -15,11 +15,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const commandsPath = path.join(__dirname, 'commands');
 
 /**
- * Load all commands into the client and register with Discord
+ * Load all commands into the client
  */
 export async function loadCommands(client) {
-    const commands = [];
-
     // Check if commands directory exists
     const fs = await import('fs');
     if (!fs.existsSync(commandsPath)) {
@@ -36,28 +34,48 @@ export async function loadCommands(client) {
 
         if ('data' in command && 'execute' in command) {
             client.commands.set(command.data.name, command);
-            commands.push(command.data.toJSON());
             logger.debug(`Loaded command: /${command.data.name}`);
         } else {
             logger.warn(`Command ${file} is missing 'data' or 'execute' export`);
         }
     }
+}
 
-    // Register commands with Discord API
-    if (commands.length > 0) {
-        const rest = new REST().setToken(process.env.DISCORD_TOKEN);
+/**
+ * Register loaded commands with Discord API (Global + Guild-specific)
+ */
+export async function registerCommands(client) {
+    const commands = Array.from(client.commands.values()).map(cmd => cmd.data.toJSON());
 
-        try {
-            logger.info(`Registering ${commands.length} slash commands...`);
+    if (commands.length === 0) return;
 
-            await rest.put(
-                Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
-                { body: commands }
-            );
+    const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
-            logger.success(`Registered ${commands.length} commands globally`);
-        } catch (error) {
-            logger.error('Failed to register commands:', error);
+    try {
+        logger.info(`Registering ${commands.length} slash commands...`);
+
+        // 1. Global registration (can take up to 1 hour to propagate)
+        await rest.put(
+            Routes.applicationCommands(process.env.DISCORD_CLIENT_ID),
+            { body: commands }
+        );
+        logger.success(`Registered ${commands.length} commands globally`);
+
+        // 2. Guild-specific registration (instantly available)
+        if (client.guilds.cache.size > 0) {
+            for (const [guildId, guild] of client.guilds.cache) {
+                await rest.put(
+                    Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, guildId),
+                    { body: commands }
+                );
+                logger.debug(`Registered commands for guild: ${guild.name} (${guildId})`);
+            }
+            logger.success(`Registered commands for ${client.guilds.cache.size} guilds instantly`);
+        } else {
+            logger.warn('No guilds found in cache for instant registration');
         }
+    } catch (error) {
+        logger.error('Failed to register commands:', error);
     }
 }
+

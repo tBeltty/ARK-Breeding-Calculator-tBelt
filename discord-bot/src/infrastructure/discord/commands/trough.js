@@ -119,7 +119,7 @@ export async function execute(interaction) {
             { name: '📊 Server Rates', value: `${settings.maturationSpeed}x`, inline: true },
             { name: '🧮 Total Food Needed', value: `**${totalFoodItems.toLocaleString()}** ${foodName}`, inline: false },
         )
-        .setFooter({ text: 'ARK Breeding Assistant • Spoilage not included' })
+        .setFooter({ text: 'Arktic Assistant • Spoilage not included' })
         .setTimestamp();
 
     // Add daily breakdown (first 5 days)
