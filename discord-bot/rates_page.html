@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="arkv2" class="arkv2">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csp-nonce" content="e15e15e337c1732605acf368c8c477d6">
+    <meta name="csrf-token" content="9ca322381b45c1293155f384b2a27f69895fe00dfcaeab6494db2599a946bc71">
+        <script nonce="e15e15e337c1732605acf368c8c477d6">window.ARK_LOCALE="en";window.ARK_I18N={"common.apply":"Apply","common.cancel":"Cancel","common.close":"Close","common.delete":"Delete","common.retry":"Retry","common.remove":"Remove","common.add":"Add","common.create":"Create","common.edit":"Edit","common.loading":"Loading…","common.copy":"Copy","common.open":"Open","common.copy_link":"Copy link","common.or":"or","common.na":"N/A","common.unavailable":"Unavailable","common.generic_error_try_again":"An error occurred. Please try again.","search.online":"Online","search.offline":"Offline","table.players":"Players","table.ping":"Ping","server.rank_label":"Rank","server.official_server":"Official server","server.owner_verified":"Owner verified","presets.default_name":"Preset","presets.none_local":"No presets saved yet.","presets.none_account":"No account presets saved yet.","presets.copy_share":"Copy share","presets.share":"Share","presets.unshare":"Unshare","presets.failed_update_share":"Failed to update share setting.","presets.failed_delete":"Failed to delete preset.","presets.failed_load_account":"Failed to load account presets.","presets.failed_save":"Failed to save preset.","presets.saved_to_account":"Saved to account.","compare.rank_of":"{rank} of {total}","compare.remove_from_compare_aria":"Remove from compare","compare.load_failed":"Unable to load compare data","compare.no_data":"No data","compare.summary_peak":"peak {value}","compare.summary_avg":"avg {value}","compare.summary_outages":"outages {value}","compare.data_age":"Data age: {seconds}s{stale}","compare.stale_suffix":" (stale)","days.sunday":"Sunday","days.monday":"Monday","days.tuesday":"Tuesday","days.wednesday":"Wednesday","days.thursday":"Thursday","days.friday":"Friday","days.saturday":"Saturday","days_short.sun":"Sun","days_short.mon":"Mon","days_short.tue":"Tue","days_short.wed":"Wed","days_short.thu":"Thu","days_short.fri":"Fri","days_short.sat":"Sat","peak_times.load_failed":"Unable to load peak times data.","peak_times.showing_timezone":"Showing peak times in:","peak_times.server_capacity":"Server capacity:","peak_times.players_unit":"players","peak_times.selected_time":"Selected Time","peak_times.clear_selection_aria":"Clear selection","peak_times.heatmap_title":"Player Activity Heatmap","peak_times.best_times_title":"Best times to join","peak_times.best_times_subtitle":"Optimal times with good activity (50-80% capacity)","peak_times.best_times_card_detail":"~{avg} {unit} ({percent}%)","peak_times.legend_title":"Player activity","peak_times.legend_low":"Low","peak_times.legend_medium":"Medium","peak_times.legend_high":"High","peak_times.summary_title":"Peak activity summary","peak_times.summary_busiest_time":"Busiest time","peak_times.summary_peak_players":"Peak players","peak_times.no_recent_data":"No recent activity data available. The heatmap will populate as players join the server.","peak_times.label_time":"Time","peak_times.label_avg_players":"Average Players","peak_times.label_player_range":"Player Range","peak_times.label_peak_percentage":"Peak Percentage","peak_times.no_data_time_slot":"No data available for this time slot","peak_times.announcement_selected":"Selected {day}, {time}. Average {avg} players online.","downtime_patterns.load_failed":"Unable to load downtime data.","downtime_patterns.showing_timezone":"Showing downtime patterns in:","downtime_patterns.overall_downtime":"Overall downtime:","downtime_patterns.heatmap_title":"Downtime Heatmap","downtime_patterns.no_recent_data":"No downtime data available. The heatmap will populate as monitoring continues.","downtime_patterns.total_downtime_7d":"Total downtime (7 days)","downtime_patterns.duration_hours":"{hours}h","downtime_patterns.duration_minutes":"{minutes}m","downtime_patterns.number_of_outages":"Number of outages","downtime_patterns.outages_count":"{count} times","downtime_patterns.downtime_rate":"Downtime rate","downtime_patterns.legend.always_online":"Always online","downtime_patterns.legend.1_10":"1–10% downtime","downtime_patterns.legend.10_20":"10–20% downtime","downtime_patterns.legend.20_40":"20–40% downtime","downtime_patterns.legend.40_60":"40–60% downtime","downtime_patterns.legend.60_plus":"60%+ downtime","downtime.patterns.total_downtime":"Total downtime (7 days)","downtime.patterns.number_of_outages":"Number of outages","downtime.patterns.downtime_rate":"Downtime rate","session_notifications.watching":"Watching...","session_notifications.notified":"Notified!","session_notifications.notify_when_online":"Notify when online","session_notifications.notify_when_slots_available":"Notify when slots available","session_notifications.slots_available_sent":"Slots available! Notification sent.","session_notifications.not_supported":"Browser notifications not supported.","session_notifications.blocked":"Notifications are blocked. Please enable them in your browser settings.","session_notifications.permission_request_failed":"Unable to request notification permission. Please check your browser settings.","session_notifications.watching_toast":"Watching {server}. You'll be notified when it comes online.","session_notifications.watching_slots_ratio":"Watching {server} for capacity ≤ {percent}%","session_notifications.watching_slots_free":"Watching {server} for ≥ {free} free slots","session_notifications.server_online_title":"ARK Server Online! 🟢","session_notifications.server_online_body":"{server} is now online with {players} players","session_notifications.slots_available_title":"Slots available 🎉","session_notifications.slots_available_body":"{server} has {players}/{max} players ({free} free). Use console: open {address}","server_details.unknown_map":"Unknown map","server_details.chart.aria_label":"Server history chart","social_share.modal_title":"Share server","social_share.link_copied":"Link copied!","social_share.discord_message_copied_toast":"Discord message copied! Paste it in any Discord channel.","social_share.server_fallback":"ARK server","social_share.players_line":"{current}/{max} players","social_share.uptime_7d_line":"{percent}% uptime (7d)","social_share.share_text":"Check out {server} on ARK Status!\n{status} | {players}\n📍 {map}{uptimeLine}","social_share.reddit_title":"{server} - ARK: Survival Ascended Server","social_share.email_subject":"Check out this ARK server - {server}","social_share.email_body":"{text}\n\nView server details: {url}","rank_trend.only_one_day":"Only 1 day of rank data available","rank_trend.aria_label":"7 day rank trend (lower is better)","rank_trend.delta_no_change":"no change","rank_trend.delta_better":"better","rank_trend.delta_worse":"worse","charts.no_data_invalid_format":"No data available or invalid format received from server.","charts.no_chart_data_available":"No chart data available.","charts.error_loading_chart":"Error loading chart data.","charts.metric_uptime":"Uptime","charts.metric_peak_players":"Peak players","charts.metric_median_ping":"Median ping","charts.metric_incidents":"Incidents","charts.incident_outage":"Outage","charts.incident_none":"No outages detected.","favorites.confirm_remove":"Are you sure you want to remove this server from favourites?","favorites.login_required":"Please log in to add servers to your favourites","favorites.limit_reached":"You've reached the maximum limit of {limit} favourite servers","favorites.remove_tip":"Remove from favourites","favorites.add_tip":"Add to favourites","favorites.added":"Added to favourites.","favorites.removed":"Removed from favourites.","watchlists.add_to_watchlist":"Add to watchlist","watchlists.choose_watchlist":"Choose watchlist","watchlists.none_yet":"No watchlists yet.","watchlists.get_started":"Create a watchlist to get started.","watchlists.new_name_placeholder":"New watchlist name","watchlists.default_name":"Watchlist","watchlists.server_id_fallback":"Server #{id}","watchlists.loading":"Loading watchlists…","watchlists.failed_load":"Failed to load watchlists.","watchlists.created":"Watchlist created.","watchlists.server_added":"Server added to watchlist.","watchlists.failed_add":"Failed to add server to watchlist.","watchlists.confirm_delete":"Delete this watchlist? This cannot be undone.","watchlists.empty_items":"No servers in this watchlist yet. Use “Add to watchlist” on a server page to populate it.","watchlists.confirm_remove_server":"Remove this server from the watchlist?","watchlists.unresolved_server":"Unresolved server","watchlists.unavailable_server_note":"Unavailable (server removed or hidden)","watchlists.invalid_token":"Invalid request token. Please refresh and try again.","watchlists.failed_create":"Failed to create watchlist.","watchlists.failed_share":"Failed to update share settings.","watchlists.failed_delete":"Failed to delete watchlist.","watchlists.deleted":"Watchlist deleted.","watchlists.now_public":"Watchlist is now public.","watchlists.now_private":"Watchlist is now private.","watchlists.make_private":"Make private","watchlists.get_share_link":"Get share link","watchlists.badge_public":"Public","watchlists.badge_private":"Private","watchlists.visibility_public":"Anyone with the link can view this list.","watchlists.visibility_private":"Only you can view this list.","watchlists.share_link_copied":"Copied share link.","watchlists.copy_failed":"Unable to copy. Please copy manually.","watchlists.sharing_disable_help":"Turning sharing off disables the link.","watchlists.servers_label":"Servers","watchlists.add_by_id_placeholder":"Add by server ID or server-details URL","watchlists.limit_help":"Limit: 100 servers per watchlist.","watchlists.enter_valid_id_or_url":"Enter a valid server ID or server-details URL.","webhooks.form_add_button":"Add Webhook","webhooks.form_add_title":"Add New Webhook"};</script>
+    <title>Official Server Rates - ARK Status</title>
+    <meta name="description" content="ARK Server List provides real-time server status updates, player counts, and historical performance metrics for ARK: Survival Ascended">
+    <meta name="keywords" content="ARK Ascended Server Status, ASA server status, ARK server down, official servers status, ARK Survival Ascended downtime, server uptime, outage history, Steam, PS5, Xbox">
+    
+        <link rel="canonical" href="https://arkstatus.com/rates">
+    <link rel="alternate" hreflang="en" href="https://arkstatus.com/rates">
+    <link rel="alternate" hreflang="es" href="https://arkstatus.com/rates?lang=es">
+    <link rel="alternate" hreflang="fr" href="https://arkstatus.com/rates?lang=fr">
+    <link rel="alternate" hreflang="de" href="https://arkstatus.com/rates?lang=de">
+    <link rel="alternate" hreflang="x-default" href="https://arkstatus.com/rates">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Official Server Rates - ARK Status">
+    <meta property="og:description" content="ARK Server List provides real-time server status updates, player counts, and historical performance metrics for ARK: Survival Ascended">
+    <meta property="og:url" content="https://arkstatus.com/rates">
+    <meta property="og:image" content="https://arkstatus.com/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Official Server Rates - ARK Status">
+    <meta name="twitter:description" content="ARK Server List provides real-time server status updates, player counts, and historical performance metrics for ARK: Survival Ascended">
+    <meta name="twitter:image" content="https://arkstatus.com/logo.png">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/xapple-touch-icon.png.pagespeed.ic.NERKn3MwCI.png">
+    <meta name="theme-color" content="#0a0e1a">
+    <meta name="msapplication-TileColor" content="#0a0e1a">
+    
+        
+    <!-- Journey/Mediavine Ad Script -->
+    <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.scriptwrapper.com/tags/c4ae19b8-ed73-4a8b-9d60-5db1d0251af8.js" nonce="e15e15e337c1732605acf368c8c477d6"></script>
+    
+    <!-- Grow.me Script -->
+    <script data-grow-initializer="" nonce="e15e15e337c1732605acf368c8c477d6">!(function(){window.growMe||((window.growMe=function(e){window.growMe._.push(e);}),(window.growMe._=[]));var e=document.createElement("script");(e.type="text/javascript"),(e.src="https://faves.grow.me/main.js"),(e.defer=!0),e.setAttribute("data-grow-faves-site-id","U2l0ZTpjNGFlMTliOC1lZDczLTRhOGItOWQ2MC01ZGIxZDAyNTFhZjg=");var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t);})();</script>
+    
+    <!-- Preconnect to font sources -->
+    
+    
+    
+    <!-- ARK-inspired fonts -->
+    <style type="text/css">@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:300;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:800;src:url(/cf-fonts/v/inter/5.0.16/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:400;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:500;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:600;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:700;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:800;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Orbitron;font-style:normal;font-weight:900;src:url(/cf-fonts/v/orbitron/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/greek/wght/normal.woff2);unicode-range:U+0370-03FF;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/latin-ext/wght/normal.woff2);unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:JetBrains Mono;font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.0.18/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}</style>
+    
+    <link href="/dist/output.css,qv=1769014420.pagespeed.ce.8u5yRBnPjs.css" rel="stylesheet">
+    <script type="module" nonce="e15e15e337c1732605acf368c8c477d6" src="/dist/main.js,qv=1769014414.pagespeed.ce.WIaE4vAoTB.js"></script>
+</head>
+<body class="min-h-screen bg-base-100 text-base-content">
+<div class="ark-shell ark-shell-grid" x-data="{ sidebarOpen: false }" @keydown.escape.window="sidebarOpen = false">
+    
+<div class="ark-sidebar-backdrop" x-show="sidebarOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="sidebarOpen = false" x-cloak></div>
+
+<aside id="ark-sidebar" class="ark-sidebar" :class="{ 'ark-sidebar-open': sidebarOpen }" @keydown.escape.window="sidebarOpen = false" x-trap.inert.noscroll="sidebarOpen">
+    <div class="ark-sidebar-header">
+        <a href="/" class="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-base-300/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+            <img src="/assets/xlogo.png.pagespeed.ic.sm5Ul6FO8z.png" class="h-8 w-auto" alt="ARK Status">
+            <span class="sr-only">ARK Status</span>
+        </a>
+
+	        <button type="button" class="btn btn-ghost btn-sm lg:hidden" @click="sidebarOpen = false" aria-label="Close navigation">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav class="ark-sidebar-nav" aria-label="Primary">
+        <div class="ark-nav-section-title">Browse</div>
+        <ul class="space-y-1">
+                                                <li>
+                        <a href="/" @click="sidebarOpen = false" class="ark-nav-link group ">
+                            <span class="ark-nav-icon-badge bg-sky-500/12 ring-1 ring-sky-500/15">
+                                <svg class="ark-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 8H3l9-8z" fill="#38BDF8"/><path d="M5 12h14v8a2 2 0 01-2 2H7a2 2 0 01-2-2v-8z" fill="#60A5FA"/><path d="M10.5 15.25a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75V22h-3v-6.75z" fill="#A78BFA"/></svg>                            </span>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                                                                <li>
+                        <details class="group" open>
+                            <summary class="ark-nav-link group list-none cursor-pointer ark-nav-link-active">
+                                <span class="ark-nav-icon-badge bg-violet-500/12 ring-1 ring-violet-500/15">
+                                    <svg class="ark-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#A78BFA"/><circle cx="12" cy="12" r="6.2" fill="#F472B6" opacity="0.9"/><path d="M14.9 9.1l-1.8 6.3a1 1 0 01-.7.7l-6.3 1.8 1.8-6.3a1 1 0 01.7-.7l6.3-1.8z" fill="#FB7185"/><circle cx="12" cy="12" r="1.4" fill="#F8FAFC"/></svg>                                </span>
+                                <span class="flex-1">Explore</span>
+                                <svg class="h-4 w-4 opacity-70 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </summary>
+
+                            <div class="mt-1 ml-3 border-l border-primary/30 pl-3">
+                                                                    <ul class="space-y-1">
+                                                                                    <li>
+                                                <a href="/leaderboards" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-violet-500 to-pink-500 text-white ring-1 ring-violet-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>                                                    </span>
+                                                    <span>Leaderboards</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/rates" @click="sidebarOpen = false" aria-current="page" class="ark-nav-link group text-[13px] ark-nav-link-active">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-violet-500 to-pink-500 text-white ring-1 ring-violet-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>                                                    </span>
+                                                    <span>Rates</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/asa-news" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-violet-500 to-pink-500 text-white ring-1 ring-violet-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v8a2 2 0 01-2 2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4v6h6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 13h10M7 17h6M7 9h2"/></svg>                                                    </span>
+                                                    <span>ASA News</span>
+                                                </a>
+                                            </li>
+                                                                            </ul>
+                                
+                                                            </div>
+                        </details>
+                    </li>
+                                                                <li>
+                        <details class="group">
+                            <summary class="ark-nav-link group list-none cursor-pointer ">
+                                <span class="ark-nav-icon-badge bg-emerald-500/12 ring-1 ring-emerald-500/15">
+                                    <svg class="ark-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20a1 1 0 01-1-1V6.5a1 1 0 011-1h1.25a1 1 0 011 1V19h12.75a1 1 0 010 2H5z" fill="#94A3B8" opacity="0.85"/><rect x="8.5" y="12" width="2.8" height="8" rx="1" fill="#34D399"/><rect x="12" y="9" width="2.8" height="11" rx="1" fill="#22D3EE"/><rect x="15.5" y="6.5" width="2.8" height="13.5" rx="1" fill="#60A5FA"/></svg>                                </span>
+                                <span class="flex-1">Stats</span>
+                                <svg class="h-4 w-4 opacity-70 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </summary>
+
+                            <div class="mt-1 ml-3 border-l border-base-300/60 pl-3">
+                                                                    <ul class="space-y-1">
+                                                                                    <li>
+                                                <a href="/statistics" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>                                                    </span>
+                                                    <span>Official Server Statistics</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/player-statistics" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>                                                    </span>
+                                                    <span>Player Statistics</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/population-trends" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 18v-6m5 6V8m5 10V4m5 14v-9"/></svg>                                                    </span>
+                                                    <span>Population Trends</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/api-statistics" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>                                                    </span>
+                                                    <span>API Statistics</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/map-uptime-leaderboard" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>                                                    </span>
+                                                    <span>Map Uptime</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/regional-leaderboard" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8M8 3.6c-1.2 2.4-1.2 14.4 0 16.8M16 3.6c1.2 2.4 1.2 14.4 0 16.8"/></svg>                                                    </span>
+                                                    <span>Regional Leaderboard</span>
+                                                </a>
+                                            </li>
+                                                                                    <li>
+                                                <a href="/game-mode-leaderboard" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-emerald-500 to-cyan-500 text-white ring-1 ring-emerald-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>                                                    </span>
+                                                    <span>Game Mode Leaderboard</span>
+                                                </a>
+                                            </li>
+                                                                            </ul>
+                                
+                                                            </div>
+                        </details>
+                    </li>
+                                                                <li>
+                        <details class="group">
+                            <summary class="ark-nav-link group list-none cursor-pointer ">
+                                <span class="ark-nav-icon-badge bg-amber-500/12 ring-1 ring-amber-500/15">
+                                    <svg class="ark-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 5.5A2.5 2.5 0 019 3h10a2 2 0 012 2v14a2 2 0 01-2 2H9a3.5 3.5 0 00-3.5-3.5V5.5z" fill="#FBBF24"/><path d="M5 6.25A2.75 2.75 0 017.75 3.5h1.5v14.75H8.5A3.5 3.5 0 005 21V6.25z" fill="#FDE68A"/><path d="M17 6.5h2.2v6.7l-1.1-.7-1.1.7V6.5z" fill="#FB7185"/></svg>                                </span>
+                                <span class="flex-1">Guides</span>
+                                <svg class="h-4 w-4 opacity-70 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </summary>
+
+                            <div class="mt-1 ml-3 border-l border-base-300/60 pl-3">
+                                
+                                                                                                            <div class="ark-nav-section-title !pt-3 !pb-1">Guides</div>
+                                        <ul class="space-y-1">
+                                                                                            <li>
+                                                    <a href="/beginners-guide" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>                                                    </span>
+                                                    <span>Beginner&#039;s Guide</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/resource-locations" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-11.314l1.414 1.414m11.314 11.314l1.414 1.414"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/></svg>                                                    </span>
+                                                    <span>Resource Locations</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/taming-guide" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 16v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8"/></svg>                                                    </span>
+                                                    <span>Taming Guide</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/boss-strategies" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7l2-7z"/></svg>                                                    </span>
+                                                    <span>Boss Strategies</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/settings-performance" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 3a.75.75 0 00-.75.75v2.068a6.97 6.97 0 00-1.63.942L5.9 5.99a.75.75 0 00-1.06 1.06l1.77 1.47A6.97 6.97 0 005.82 10.15H3.75a.75.75 0 000 1.5h2.068c.17.58.42 1.125.742 1.63l-1.47 1.77a.75.75 0 001.06 1.06l1.47-1.77c.505.322 1.05.572 1.63.742V20.25a.75.75 0 001.5 0v-2.068a6.97 6.97 0 001.63-.742l1.47 1.77a.75.75 0 001.06-1.06l-1.77-1.47c.322-.505.572-1.05.742-1.63H20.25a.75.75 0 000-1.5h-2.068a6.97 6.97 0 00-.742-1.63l1.77-1.47a.75.75 0 00-1.06-1.06l-1.47 1.77a6.97 6.97 0 00-1.63-.742V3.75A.75.75 0 0013.5 3h-3.75z"/></svg>                                                    </span>
+                                                    <span>Settings &amp; Performance</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/breeding-mutations" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3l-1 1-1-1-1 1-1-1-1 1v18l1-1 1 1 1-1 1 1 1-1 1 1V3z"/></svg>                                                    </span>
+                                                    <span>Breeding &amp; Mutations</span>
+                                                </a>
+                                            </li>
+                                                                                    </ul>
+                                                                            <div class="ark-nav-section-title !pt-3 !pb-1">Resources</div>
+                                        <ul class="space-y-1">
+                                                                                            <li>
+                                                    <a href="/api-documentation" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>                                                    </span>
+                                                    <span>API Documentation</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/about" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>                                                    </span>
+                                                    <span>About ARK Status</span>
+                                                </a>
+                                            </li>
+                                                                                            <li>
+                                                    <a href="/faq" @click="sidebarOpen = false" class="ark-nav-link group text-[13px] ">
+                                                    <span class="ark-nav-icon-badge ark-nav-icon-badge-sub bg-gradient-to-br from-amber-500 to-orange-500 text-white ring-1 ring-amber-500/20">
+                                                        <svg class="ark-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>                                                    </span>
+                                                    <span>FAQ</span>
+                                                </a>
+                                            </li>
+                                                                                    </ul>
+                                                                                                </div>
+                        </details>
+                    </li>
+                                    </ul>
+
+        <div class="ark-nav-section-title">External</div>
+        <ul class="space-y-1">
+            <li>
+                <a class="ark-nav-link" href="https://discord.gg/Gu4MP3DjDp" target="_blank" rel="noopener">
+                    <span class="ark-nav-icon-badge bg-indigo-500/12 ring-1 ring-indigo-500/15">
+                        <svg class="ark-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.4 6.8c2-1.2 7.2-1.2 9.2 0 1.1 1.8 1.9 4.3 2.1 7.2-.9 1-2.3 1.7-3.8 2.1l-.5-1.1c.4-.2.8-.4 1.2-.7-.2-.1-.4-.3-.6-.4-2 1-4.2 1-6.2 0-.2.2-.4.3-.6.4.4.3.8.5 1.2.7l-.5 1.1c-1.5-.4-2.9-1.1-3.8-2.1.2-2.9 1-5.4 2.1-7.2z" fill="#818CF8"/><path d="M9.1 12.3a1.1 1.1 0 102.2 0 1.1 1.1 0 00-2.2 0zm3.6 0a1.1 1.1 0 102.2 0 1.1 1.1 0 00-2.2 0z" fill="#F8FAFC"/><path d="M9.2 8.7c.8-.4 1.7-.6 2.8-.6s2 .2 2.8.6l.7-1.1c-1-.6-2.2-1-3.5-1s-2.5.4-3.5 1l.7 1.1z" fill="#A78BFA"/></svg>                    </span>
+                    <span class="flex-1">Discord</span>
+                    <svg class="h-4 w-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m0-7L10 14"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14"/>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="ark-sidebar-footer">
+                    <div class="px-3 pb-3">
+                <a href="/login" @click="sidebarOpen = false" class="btn btn-primary btn-sm w-full">Login with Discord</a>
+            </div>
+            </div>
+</aside>
+    <div class="ark-page">
+        
+<header class="ark-topbar">
+	    <div class="ark-topbar-inner">
+	        <button type="button" class="btn btn-ghost btn-sm lg:hidden" @click.stop="sidebarOpen = true" :aria-expanded="sidebarOpen" aria-controls="ark-sidebar" aria-label="Open navigation">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+
+	        <a href="/" class="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-base-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 lg:hidden">
+	            <img src="/assets/xlogo.png.pagespeed.ic.sm5Ul6FO8z.png" class="h-8 w-auto" alt="ARK Status">
+	        </a>
+
+        <div class="flex-1"></div>
+
+        
+                                <span class="tooltip tooltip-bottom" data-tip="Updated: 2026-01-24 04:27 UTC">
+                <a href="/statistics" class="hidden md:flex items-center gap-2 rounded-full border border-base-300/60 bg-base-200/40 px-3 py-1 text-xs font-medium text-base-content/80 hover:bg-base-200/70 hover:text-base-content transition ">
+                    <span class="inline-flex items-center gap-1">
+                        <svg class="h-4 w-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18v14H3V5z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 9h10M7 13h6"/>
+                        </svg>
+                        69,883                    </span>
+                    <span class="opacity-50">•</span>
+                    <span class="inline-flex items-center gap-1">
+                        <svg class="h-4 w-4 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23 21v-2a4 4 0 00-3-3.87"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                        38,005                    </span>
+                </a>
+            </span>
+        
+        
+                <div class="dropdown dropdown-end">
+            <button type="button" tabindex="0" class="btn btn-ghost btn-sm flex items-center gap-2" aria-label="Language">
+                <img src="/assets/flags/4x3/us.svg" onerror="this.onerror=null;this.src='/build/assets/flags/4x3/us.svg'" class="w-5 h-3.5 rounded-sm border border-base-300/70" alt="" aria-hidden="true"/>
+                <span>EN</span>
+            </button>
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-44">
+                <li>
+                    <a href="/rates?lang=en" class="flex items-center gap-2">
+                        <img src="/assets/flags/4x3/us.svg" onerror="this.onerror=null;this.src='/build/assets/flags/4x3/us.svg'" class="w-5 h-3.5 rounded-sm border border-base-300/70" alt="" aria-hidden="true"/>
+                        <span>English</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/rates?lang=es" class="flex items-center gap-2">
+                        <img src="/assets/flags/4x3/es.svg" onerror="this.onerror=null;this.src='/build/assets/flags/4x3/es.svg'" class="w-5 h-3.5 rounded-sm border border-base-300/70" alt="" aria-hidden="true"/>
+                        <span>Español</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/rates?lang=fr" class="flex items-center gap-2">
+                        <img src="/assets/flags/4x3/fr.svg" onerror="this.onerror=null;this.src='/build/assets/flags/4x3/fr.svg'" class="w-5 h-3.5 rounded-sm border border-base-300/70" alt="" aria-hidden="true"/>
+                        <span>Français</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/rates?lang=de" class="flex items-center gap-2">
+                        <img src="/assets/flags/4x3/de.svg" onerror="this.onerror=null;this.src='/build/assets/flags/4x3/de.svg'" class="w-5 h-3.5 rounded-sm border border-base-300/70" alt="" aria-hidden="true"/>
+                        <span>Deutsch</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <a href="https://discord.gg/Gu4MP3DjDp" target="_blank" rel="noopener" class="btn btn-ghost btn-sm hidden sm:inline-flex">
+             Discord             <svg class="h-4 w-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7v7m0-7L10 14"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14"/>
+            </svg>
+        </a>
+
+                    <a href="/login" class="btn btn-primary btn-sm">
+                 Login            </a>
+            </div>
+</header>
+        <div id="cookie-banner" x-data="{ showBanner: !localStorage.getItem('cookieConsent') }" x-show="showBanner" x-cloak class="fixed bottom-0 left-0 right-0 bg-neutral p-4 shadow-lg z-50">
+    <div class="ark-container ark-container--wide flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-neutral-content">
+            This website uses cookies to enhance your experience. By continuing to use this site, you agree to our use of cookies.
+            <a href="/privacy" class="link link-accent">Privacy Policy</a>
+        </div>
+        <div class="flex gap-2">
+            <button @click="localStorage.setItem('cookieConsent', 'accepted'); showBanner = false" class="btn btn-primary">Accept</button>
+            <button @click="localStorage.setItem('cookieConsent', 'rejected'); showBanner = false" class="btn btn-ghost">Reject</button>
+        </div>
+    </div>
+</div>
+
+
+<main class="ark-container ark-container--wide py-4 rates-container">
+    <div id="rates-dynamic-content">
+    <div class="card bg-ark-dark shadow-lg mb-6">
+        <div class="card-body">
+            <h1 class="text-3xl font-bold mb-3">Official Server Rates</h1>
+            <p class="text-ark-text/80 mb-6">These are the current multiplier rates for official ARK: Survival Ascended servers.</p>
+            
+                        
+            <!-- Server Type Tabs -->
+            <div class="tabs tabs-boxed bg-ark-slate p-1 mb-6">
+                                <a class="tab tab-active" href="?type=standard">
+                    Standard                </a>
+                                <a class="tab " href="?type=arkpocalypse">
+                    Arkpocalypse                </a>
+                                <a class="tab " href="?type=smalltribes">
+                    Small Tribes                </a>
+                                <a class="tab " href="?type=conquest">
+                    Conquest                </a>
+                            </div>
+            
+            <div id="rates-loading" class="htmx-indicator">
+                <div class="flex justify-center items-center py-4">
+                    <div class="loading loading-spinner loading-lg text-primary"></div>
+                </div>
+            </div>
+            
+                        
+            <!-- Status Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="stats bg-ark-slate shadow border border-ark-border">
+                    <div class="stat">
+                        <div class="stat-figure text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title text-ark-text/80 font-medium">Server Type</div>
+                        <div class="stat-value text-primary text-2xl">Standard</div>
+                        <div class="stat-desc text-ark-text/70">Official ARK Servers</div>
+                    </div>
+                </div>
+                
+                                <div class="stats bg-ark-slate shadow border border-ark-border">
+                    <div class="stat">
+                        <div class="stat-figure text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title text-ark-text/80 font-medium">Rates Last Changed</div>
+                        <div class="stat-value text-primary text-2xl">Jan 23, 2026</div>
+                        <div class="stat-desc text-ark-text/70">8 hours ago</div>
+                    </div>
+                </div>
+                                
+                                <div class="stats bg-ark-slate shadow border border-ark-border">
+                    <div class="stat">
+                        <div class="stat-figure text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                        </div>
+                        <div class="stat-title text-ark-text/80 font-medium">Data Refreshed</div>
+                        <div class="stat-value text-primary text-xl">2 minutes ago</div>
+                        <div class="stat-desc text-ark-text/70">Auto-updates every 5 minutes</div>
+                    </div>
+                </div>
+                            </div>
+            
+                        
+            <h3 class="text-xl font-medium mb-3 text-primary">
+                Standard Rate Multipliers
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                                                                                    <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Taming Speed</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="How quickly creatures are tamed. Higher values mean faster taming.">How quickly creatures are tamed. Higher values mean faster taming.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Harvest Amount</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="The amount of resources gathered when harvesting. Higher values yield more resources.">The amount of resources gathered when harvesting. Higher values yield more resources.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">XP Gain</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="How quickly you gain experience. Higher values mean faster leveling.">How quickly you gain experience. Higher values mean faster leveling.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Mating Interval</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    0.5x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="The time between creature matings. Lower values allow more frequent breeding.">The time between creature matings. Lower values allow more frequent breeding.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Baby Mature Speed</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="How quickly baby creatures mature. Higher values mean faster growth.">How quickly baby creatures mature. Higher values mean faster growth.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Egg Hatch Speed</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="How quickly eggs hatch. Higher values mean faster hatching.">How quickly eggs hatch. Higher values mean faster hatching.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Baby Cuddle Interval</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    0.6x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="The time between cuddles for baby creatures. Lower values mean more frequent cuddles.">The time between cuddles for baby creatures. Lower values mean more frequent cuddles.</p>
+                            </div>
+                        </div>
+                                                                                                        <div class="card bg-success/5 border-success/20 border border-ark-border hover:shadow-md transition-all duration-200">
+                            <div class="card-body p-3">
+                                <h4 class="font-medium text-primary text-sm mb-0.5">Baby Imprint Amount</h4>
+                                <div class="rate-value text-success text-xl font-bold">
+                                    2.0x
+                                </div>
+                                <p class="text-ark-text/80 text-xs mt-0.5" title="The amount of imprinting gained per cuddle. Higher values mean more imprinting per interaction.">The amount of imprinting gained per cuddle. Higher values mean more imprinting per interaction.</p>
+                            </div>
+                        </div>
+                                                                                    </div>
+            
+                    </div>
+    </div>
+    
+    </div>
+    
+    <!-- Static content that doesn't need refreshing -->
+    <div class="card bg-ark-dark shadow-lg mb-6">
+        <div class="card-body">
+            <h2 class="text-2xl font-semibold mb-5 text-primary">Understanding Server Types</h2>
+            
+            <div id="server-types">
+                <p class="text-ark-text/80 mb-4">ARK: Survival Ascended offers several official server types, each with different gameplay experiences:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="card bg-ark-slate border border-ark-border">
+                        <div class="card-body p-4">
+                            <h3 class="font-medium text-primary mb-2">Standard Servers</h3>
+                            <p class="text-ark-text/80 mb-2">The default official server experience with balanced rates.</p>
+                            <ul class="space-y-1 text-ark-text/80 text-sm list-disc list-inside">
+                                <li>Standard progression speed</li>
+                                <li>Regular tribe size limits</li>
+                                <li>Permanent servers that don't wipe</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-ark-slate border border-ark-border">
+                        <div class="card-body p-4">
+                            <h3 class="font-medium text-primary mb-2">Small Tribes</h3>
+                            <p class="text-ark-text/80 mb-2">Designed for smaller groups with boosted rates.</p>
+                            <ul class="space-y-1 text-ark-text/80 text-sm list-disc list-inside">
+                                <li>Limited to 6 players per tribe</li>
+                                <li>Higher gathering, taming, and breeding rates</li>
+                                <li>Designed to level the playing field for smaller groups</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-ark-slate border border-ark-border">
+                        <div class="card-body p-4">
+                            <h3 class="font-medium text-primary mb-2">Arkpocalypse</h3>
+                            <p class="text-ark-text/80 mb-2">Fast-paced servers that wipe periodically.</p>
+                            <ul class="space-y-1 text-ark-text/80 text-sm list-disc list-inside">
+                                <li>Significantly boosted rates</li>
+                                <li>Servers wipe every 30-90 days</li>
+                                <li>Faster progression and more intense PvP</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-ark-slate border border-ark-border">
+                        <div class="card-body p-4">
+                            <h3 class="font-medium text-primary mb-2">Conquest</h3>
+                            <p class="text-ark-text/80 mb-2">Hardcore PvP servers for experienced players.</p>
+                            <ul class="space-y-1 text-ark-text/80 text-sm list-disc list-inside">
+                                <li>Designed for large tribes and alliances</li>
+                                <li>Modified rates to balance large-scale gameplay</li>
+                                <li>More challenging PvP environment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card bg-ark-slate border border-ark-border p-4 rounded-lg">
+                <h3 class="text-lg font-medium mb-2 text-primary">About Official Rates</h3>
+                <p class="text-ark-text/80 text-sm">
+                    Official server rates are controlled by Wildcard Studios and may change during special events. 
+                    The rates shown on this page are fetched directly from the official ARK: Survival Ascended configuration file.
+                    During special events like Evolution Events or holiday events, these rates may be temporarily increased.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Tab functionality is now handled by the rates.js module -->
+
+<script nonce="e15e15e337c1732605acf368c8c477d6" type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Official ARK: Survival Ascended Server Rates",
+    "description": "Current official server rates for ARK: Survival Ascended including taming, harvesting, XP, and breeding multipliers.",
+    "publisher": {
+        "@type": "Organization",
+        "name": "ARK Status",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://arkstatus.com/assets/logo.png"
+        }
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Taming Speed",
+                "description": "Affects how quickly creatures are tamed. Higher values mean faster taming."
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Harvest Amount",
+                "description": "The amount of resources gathered when harvesting. Higher values yield more resources."
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "XP Gain",
+                "description": "How quickly you gain experience. Higher values mean faster leveling."
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Breeding Rates",
+                "description": "Various multipliers affecting breeding, hatching, and maturing of creatures."
+            }
+        ]
+    },
+    "dateModified": "2026-01-24T04:27:39+00:00"
+}
+</script>
+
+
+    <!-- Footer ad placeholder -->
+    <div class="ark-container ark-container--wide mt-8 mb-4">
+            </div>
+    </main>
+
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="ark-container ark-container--wide py-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
+                <!-- Server Tools -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">Server Tools</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition">Server List</a></li>
+                        <li><a href="/rates" class="text-gray-400 hover:text-white transition">Server Rates</a></li>
+                        <li><a href="/leaderboards" class="text-gray-400 hover:text-white transition">Leaderboards</a></li>
+                        <li><a href="/top100" class="text-gray-400 hover:text-white transition">Top 100 Servers</a></li>
+                        <li><a href="/bottom100" class="text-gray-400 hover:text-white transition">Bottom 100 Servers</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Statistics -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">Statistics</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/statistics" class="text-gray-400 hover:text-white transition">Server Statistics</a></li>
+                        <li><a href="/player-statistics" class="text-gray-400 hover:text-white transition">Player Statistics</a></li>
+                        <li><a href="/population-trends" class="text-gray-400 hover:text-white transition">Population Trends</a></li>
+                        <li><a href="/api-statistics" class="text-gray-400 hover:text-white transition">API Statistics</a></li>
+                        <li><a href="/map-leaderboards" class="text-gray-400 hover:text-white transition">Map Rankings</a></li>
+                        <li><a href="/map-uptime-leaderboard" class="text-gray-400 hover:text-white transition">Map Uptime</a></li>
+                        <li><a href="/regional-leaderboard" class="text-gray-400 hover:text-white transition">Regional Stats</a></li>
+                        <li><a href="/game-mode-leaderboard" class="text-gray-400 hover:text-white transition">Game Mode Stats</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Guides -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">ARK Guides</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/beginners-guide" class="text-gray-400 hover:text-white transition">Beginner's Guide</a></li>
+                        <li><a href="/resource-locations" class="text-gray-400 hover:text-white transition">Resource Locations</a></li>
+                        <li><a href="/taming-guide" class="text-gray-400 hover:text-white transition">Taming Guide</a></li>
+                        <li><a href="/boss-strategies" class="text-gray-400 hover:text-white transition">Boss Strategies</a></li>
+                        <li><a href="/settings-performance" class="text-gray-400 hover:text-white transition">Settings & Performance</a></li>
+                        <li><a href="/breeding-mutations" class="text-gray-400 hover:text-white transition">Breeding & Mutations</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">Resources</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/asa-news" class="text-gray-400 hover:text-white transition">ASA News &amp; Patch Notes</a></li>
+                        <li><a href="/content-policy" class="text-gray-400 hover:text-white transition">Content Policy</a></li>
+                        <li><a href="/api-documentation" class="text-gray-400 hover:text-white transition">API Documentation</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white transition">About ARK Status</a></li>
+                        <li><a href="/faq" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+                        <li><a href="/privacy" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Connect -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">Connect</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://discord.gg/Gu4MP3DjDp" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition flex items-center gap-1">
+                            Discord Community                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a></li>
+                                                     <li><a href="/login" class="text-gray-400 hover:text-white transition">Login with Discord</a></li>
+                                            </ul>
+                </div>
+            </div>
+            
+            <!-- Copyright and disclaimer -->
+            <div class="border-t border-gray-800 pt-6 text-center text-sm">
+                <p class="text-gray-400">&copy; 2026 ARK Status. All rights reserved. All trademarks are property of their respective owners.</p>
+                <p class="mt-2 text-xs text-gray-500">ARK Status is an independent service and is not affiliated in any way with Wildcard Studios, Snail Games, or any related organisations.</p>
+                <p class="mt-2 text-xs text-gray-500">
+                    IP geolocation by
+                    <a href="https://db-ip.com" target="_blank" rel="noopener" class="link link-primary hover:underline">DB-IP</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+        </div>
+    </div>
+
+    </body>
+</html>
