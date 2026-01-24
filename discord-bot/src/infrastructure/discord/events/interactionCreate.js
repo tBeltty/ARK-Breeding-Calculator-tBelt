@@ -13,15 +13,22 @@ import { createErrorEmbed } from '../../../shared/embeds.js';
 export const name = Events.InteractionCreate;
 
 export async function execute(interaction) {
+    logger.debug(`[Interaction] Received type: ${interaction.type} | Name: ${interaction.commandName || 'N/A'} from ${interaction.user.tag}`);
+
     // Handle autocomplete
     if (interaction.isAutocomplete()) {
         const command = interaction.client.commands.get(interaction.commandName);
+        logger.debug(`[Autocomplete] Request for /${interaction.commandName} from ${interaction.user.tag}`);
+
         if (command && command.autocomplete) {
             try {
                 await command.autocomplete(interaction);
+                logger.debug(`[Autocomplete] Success for /${interaction.commandName}`);
             } catch (error) {
-                logger.error(`Autocomplete error for /${interaction.commandName}:`, error);
+                logger.error(`[Autocomplete] Error for /${interaction.commandName}:`, error);
             }
+        } else {
+            logger.warn(`[Autocomplete] Command /${interaction.commandName} has no autocomplete handler`);
         }
         return;
     }

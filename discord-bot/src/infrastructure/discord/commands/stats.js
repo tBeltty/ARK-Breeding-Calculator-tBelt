@@ -7,7 +7,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { CreatureRepository } from '../../database/repositories/CreatureRepository.js';
 import { createErrorEmbed } from '../../../shared/embeds.js';
-import creatures from '../../../data/creatures.json' assert { type: 'json' };
+import { creatures } from '../../../shared/dataLoader.js';
 
 export const data = new SlashCommandBuilder()
     .setName('stats')

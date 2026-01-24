@@ -7,8 +7,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { GuildRepository } from '../../database/repositories/GuildRepository.js';
 import { createErrorEmbed } from '../../../shared/embeds.js';
-import creatures from '../../../data/creatures.json' with { type: 'json' };
-import foods from '../../../data/foods.json' with { type: 'json' };
+import { creatures, foods } from '../../../shared/dataLoader.js';
 import {
     calculateMaturationTime,
     calculateBufferTime,
@@ -33,6 +32,13 @@ export const data = new SlashCommandBuilder()
             .setRequired(true)
             .setAutocomplete(true)
     )
+    .addStringOption(option =>
+        option
+            .setName('food')
+            .setDescription('Food type (default: based on diet)')
+            .setRequired(true)
+            .setAutocomplete(true)
+    )
     .addNumberOption(option =>
         option
             .setName('progress')
@@ -47,13 +53,6 @@ export const data = new SlashCommandBuilder()
             .setDescription('Food items available (default: inventory capacity)')
             .setRequired(false)
             .setMinValue(1)
-    )
-    .addStringOption(option =>
-        option
-            .setName('food')
-            .setDescription('Food type (default: based on diet)')
-            .setRequired(true)
-            .setAutocomplete(true)
     )
     .addNumberOption(option =>
         option
@@ -144,7 +143,7 @@ export async function execute(interaction) {
             { name: '🐣 To Juvenile', value: formatTime(timeToJuvenile), inline: true },
             { name: '⚖️ Carry Weight', value: `${carryWeight.toFixed(1)}`, inline: true },
         )
-        .setFooter({ text: 'ARK Breeding Assistant' })
+        .setFooter({ text: 'Arktic Assistant' })
         .setTimestamp();
 
     if (progress < 0.1 && !bufferCoversJuvenile) {

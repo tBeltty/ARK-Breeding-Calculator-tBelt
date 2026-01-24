@@ -42,7 +42,7 @@ client.commands = new Collection();
 // Bootstrap application
 async function main() {
     try {
-        logger.info('🚀 Starting ARK Breeding Assistant...');
+        logger.info('🚀 Starting Arktic Assistant...');
 
         // 1. Initialize Database
         logger.info('📦 Initializing database...');
@@ -51,6 +51,7 @@ async function main() {
         // 2. Load Commands
         logger.info('⚡ Loading commands...');
         await loadCommands(client);
+
 
         // 3. Load Event Handlers
         logger.info('🎧 Loading event handlers...');
@@ -80,7 +81,7 @@ async function main() {
         serverService.setClient(client);
         serverService.start();
 
-        logger.info('✅ ARK Breeding Assistant is ready!');
+        logger.info('✅ Arktic Assistant is ready!');
     } catch (error) {
         logger.error('Failed to start bot:', error);
         process.exit(1);

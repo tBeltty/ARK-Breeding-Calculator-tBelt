@@ -27,3 +27,10 @@ lint.txt
 
 # Internal Agent Context
 .agent/
+
+# Discord Bot Data
+discord-bot/data/*.sqlite*
+discord-bot/logs/
+discord-bot/tests/
+discord-bot/vitest.config.js
+

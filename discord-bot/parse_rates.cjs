@@ -1,6 +1,8 @@
 
 const fs = require('fs');
-const html = fs.readFileSync('rates_page.html', 'utf8');
+const path = require('path');
+const htmlPath = path.join(__dirname, 'rates_page.html');
+const html = fs.readFileSync(htmlPath, 'utf8');
 
 // Match pattern: <h4 ...>Name</h4> ... <div ...>Value</div>
 // We'll use a broad regex to catch all cards

@@ -1,6 +1,4 @@
-import creatures from '../data/creatures.json' with { type: 'json' };
-import foods from '../data/foods.json' with { type: 'json' };
-import foodLists from '../data/foodLists.json' with { type: 'json' };
+import { creatures, foods, foodLists } from '../shared/dataLoader.js';
 
 /**
  * ARK Breeding Calculator - Domain Logic

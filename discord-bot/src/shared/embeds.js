@@ -77,7 +77,7 @@ export function createCreatureEmbed(creature, progress) {
             { name: 'Time Remaining', value: timeRemaining, inline: true },
             { name: 'Current Buffer', value: `${progress.bufferMinutes} min`, inline: true },
         )
-        .setFooter({ text: 'ARK Breeding Assistant' })
+        .setFooter({ text: 'Arktic Assistant' })
         .setTimestamp();
 }
 
@@ -89,7 +89,7 @@ export function createCreatureListEmbed(creatures, guildName) {
         .setColor(COLORS.primary)
         .setTitle(`🦕 Active Creatures`)
         .setDescription(`Tracking ${creatures.length} creature(s)`)
-        .setFooter({ text: 'ARK Breeding Assistant' })
+        .setFooter({ text: 'Arktic Assistant' })
         .setTimestamp();
 
     if (creatures.length === 0) {

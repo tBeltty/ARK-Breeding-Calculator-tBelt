@@ -36,7 +36,7 @@ export const logger = {
     },
 
     debug: (message, ...args) => {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true') {
             console.log(`${colors.gray}[${timestamp()}] DEBUG ${message}${colors.reset}`, ...args);
         }
     },

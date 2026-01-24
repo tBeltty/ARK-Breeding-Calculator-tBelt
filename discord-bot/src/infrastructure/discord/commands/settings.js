@@ -35,11 +35,21 @@ export const data = new SlashCommandBuilder()
         subcommand
             .setName('rates')
             .setDescription('Set server maturation rates')
+            .addStringOption(option =>
+                option
+                    .setName('mode')
+                    .setDescription('Rate mode: Official (Auto) or Custom (Manual)')
+                    .setRequired(true)
+                    .addChoices(
+                        { name: 'Official (Auto-Sync)', value: 'official' },
+                        { name: 'Custom (Manual)', value: 'custom' }
+                    )
+            )
             .addNumberOption(option =>
                 option
                     .setName('multiplier')
-                    .setDescription('Rate multiplier (e.g., 1, 2, 5, 10)')
-                    .setRequired(true)
+                    .setDescription('Rate multiplier (only for Custom mode)')
+                    .setRequired(false)
                     .setMinValue(0.1)
                     .setMaxValue(100)
             )
@@ -125,12 +135,33 @@ async function handleGame(interaction, guild) {
 }
 
 async function handleRates(interaction, guild) {
+    const mode = interaction.options.getString('mode');
     const multiplier = interaction.options.getNumber('multiplier');
 
-    GuildRepository.updateSettings(interaction.guildId, { server_rates: multiplier });
+    if (mode === 'custom' && !multiplier) {
+        await interaction.reply({
+            embeds: [createErrorEmbed('Input Error', 'You must provide a `multiplier` when using **Custom** mode.')],
+            ephemeral: true
+        });
+        return;
+    }
+
+    const updates = {
+        auto_rates: mode === 'official' ? 1 : 0
+    };
+
+    if (mode === 'custom') {
+        updates.server_rates = multiplier;
+    }
+
+    GuildRepository.updateSettings(interaction.guildId, updates);
+
+    const message = mode === 'official'
+        ? 'Now automatically syncing with **Official ARK Rates**.'
+        : `Rates set to manual **${multiplier}x** multiplier.`;
 
     await interaction.reply({
-        embeds: [createSuccessEmbed('Server Rates Updated', `Maturation rates set to **${multiplier}x**.`)],
+        embeds: [createSuccessEmbed('Server Rates Updated', message)],
     });
 }
 
