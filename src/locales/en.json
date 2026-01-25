@@ -145,7 +145,8 @@
         "click_to_pause": "Click to pause tracking",
         "tracking_started": "Tracking started",
         "track_btn": "Track",
-        "refill_btn": "Refill"
+        "refill_btn": "Refill",
+        "credits": "Credits"
     },
     "permissions": {
         "granted_retry": "Permission granted. Try again."
@@ -283,5 +284,9 @@
             "Signal lost in the Tek Trenches. Re-establishing link...",
             "HLN-A is currently rebooting her verbal circuits..."
         ]
+    },
+    "credits": {
+        "concept": "Core Concept",
+        "concept_desc": "Food Calculator concept originally by"
     }
 }

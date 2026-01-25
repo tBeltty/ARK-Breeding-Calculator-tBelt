@@ -9,6 +9,7 @@ import styles from './AppSidebar.module.css';
 import './SidebarTooltip.css';
 
 import { authService } from '../../infrastructure/auth/DiscordAuthService';
+import CreditsModal from '../CreditsModal/CreditsModal';
 
 /**
  * Sidebar Component
@@ -23,6 +24,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
     // Inline editing state
     const [editingId, setEditingId] = useState(null);
     const [editName, setEditName] = useState('');
+    const [creditsOpen, setCreditsOpen] = useState(false);
 
     const startEditing = (e, session) => {
         e.stopPropagation();
@@ -259,30 +261,15 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
             </div>
 
             <div className={styles.footer}>
-                <div className={`${styles.credits} ${isDesktopCollapsed ? styles.hidden : ''}`}>
-                    <small className={styles.creditText}>
-                        {t('ui.credit_prefix', 'Original by')}{' '}
-                        <a
-                            href="https://github.com/Crumplecorn/ARK-Breeding-Calculator"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.textLink}
-                        >
-                            Crumplecorn
-                        </a>
-                    </small>
-                    <small className={styles.creditText}>{t('ui.remake_credit', 'Remake by tBelt')}</small>
-                    <a
-                        href="https://github.com/tBeltty/ARK-Breeding-Calculator-tBelt"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.repoLink}
-                        title="View Repository"
-                    >
-                        <span className={styles.githubIcon}>GitHub</span>
-                    </a>
-                    <small className={styles.disclaimer}>{t('notifications.disclaimer', 'Not affiliated with Studio Wildcard')}</small>
-                </div>
+                <button
+                    className={`${styles.configBtn} ${styles.creditsBtn}`}
+                    onClick={() => setCreditsOpen(true)}
+                    title={t('ui.credits')}
+                >
+                    <span className={styles.configBtnIcon}>📜</span>
+                    {!isDesktopCollapsed && <span>{t('ui.credits')}</span>}
+                </button>
+
                 <button
                     className={`${styles.configBtn} ${location.pathname === '/servers' ? styles.active : ''}`}
                     onClick={() => {
@@ -323,6 +310,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                     {!isDesktopCollapsed && <span>{t('ui.settings', 'Settings')}</span>}
                 </button>
             </div>
+            <CreditsModal isOpen={creditsOpen} onClose={() => setCreditsOpen(false)} />
         </aside >
     );
 }
