@@ -23,6 +23,6 @@
 
 
 - **Repository Quirks & Incidents (READ BEFORE ACTING)**:
-    - **Incident 2026-01-24 (Submodules)**: `src_new` is a nested Git repository. CI/CD failed because the runner saw an empty folder.
-        - **Fix**: Added `.gitmodules` and configured `actions/checkout` with `submodules: recursive`.
-        - **Rule**: If adding new nested components, ensure they are properly mapped in `.gitmodules` or the runner will fail.
+    - **Incident 2026-01-24 (Submodules)**: `src_new` was a nested Git repository causing CI issues.
+        - **Resolution**: Refactored to standard Monorepo structure (Flattened Source). `src_new` is DELETED. Source is now in `/src`.
+        - **Rule**: Standard `src/` folder only. No nested submodules for core code.

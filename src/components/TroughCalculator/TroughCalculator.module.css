@@ -1,0 +1,672 @@
+/**
+ * TroughCalculator Component Styles
+ */
+
+.section {
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid rgb(var(--outline-variant) / 0.3);
+}
+
+.section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+
+/* Improved Trough Type Header */
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    /* Push dropdown to right */
+    align-items: center;
+    margin-bottom: var(--space-md);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    gap: var(--space-md);
+    padding-right: 12px;
+    /* Align with creatureItem padding */
+}
+
+/* Ensure consistent width for dropdowns to align them right nicely */
+.select {
+    padding: var(--space-xs) var(--space-sm);
+    height: 32px;
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-sm);
+    cursor: pointer;
+    width: 200px;
+    /* Fixed width for alignment */
+    text-align: left;
+}
+
+
+/**
+ * FOOD ROW GRID LAYOUT
+ * Strict 4-column grid: [Name + Badge] [Input] [Label] [Detail Button]
+ */
+.foodRow {
+    display: grid;
+    /* 
+       Col 1: Name (takes available space) 
+       Col 2: Input (fixed width)
+       Col 3: "stacks" label (auto width)
+       Col 4: Button (fixed width)
+    */
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+
+    /* Visual styles merged from flex definition */
+    background: rgb(var(--surface-container-high) / 0.2);
+    border: 1px solid rgb(var(--outline-variant) / 0.2);
+    margin-top: 8px;
+    position: relative;
+    /* Establish stacking context */
+
+    transition: background var(--transition-fast), z-index 0s;
+}
+
+.foodRow:hover,
+.foodRow:focus-within {
+    background: rgb(var(--surface-container-high) / 0.4);
+    z-index: 20;
+    /* Lift above other rows */
+}
+
+.foodRowRecommended {
+    background: rgb(var(--primary) / 0.1);
+    border: 1px solid rgb(var(--primary) / 0.3);
+}
+
+.foodNameContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.recommendBadge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgb(var(--on-primary));
+    background: rgb(var(--primary));
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    margin-left: 4px;
+    /* Ensure separation from name */
+}
+
+.foodName {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface));
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Input (Col 2) controls */
+/* Input (Col 2) controls */
+.compactInputWrapper {
+    margin: 0;
+    padding: 0;
+    border: none;
+    min-width: unset;
+}
+
+.compactInputWrapper :global(.DataPanel_inputWrapper__1) {
+    width: 100%;
+}
+
+/* Legacy clear */
+
+/* Label (Col 3) */
+.stackLabel {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+    white-space: nowrap;
+}
+
+/* Stack Input specific width override */
+/* Stack Input specific width override */
+.compactInputWrapper input {
+    width: 60px;
+    text-align: right;
+}
+
+/* Button (Col 4) */
+.autoButton {
+    background: linear-gradient(135deg, rgb(var(--primary)), rgb(var(--secondary)));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    min-width: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.autoButton:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.autoButton:active {
+    transform: translateY(0);
+}
+
+.autoButtonWarning {
+    background: linear-gradient(135deg, rgb(var(--warning, 255 167 38)), rgb(var(--error)));
+}
+
+/* DURATION ROW FIXES */
+/* DURATION ROW FIXES */
+.durationRow {
+    margin: 12px calc(var(--space-md) * -1);
+    /* Pull to edges */
+    padding: 8px var(--space-md);
+    /* Restore internal padding */
+    padding-right: 24px;
+    /* Extra right padding for alignment */
+    background: rgb(var(--surface-light) / 0.05);
+    /* No border radius on sides to look like a full strip, or keep it? User image has radius. */
+    /* If keeping radius with negative margin, it looks like a card. */
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.durationInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+    /* Align input + label to the right, near the label */
+    width: 100%;
+}
+
+.durationInputWrapper :global(.DataPanel_inputWrapper__1) {
+    display: flex;
+    align-items: center;
+}
+
+.hoursLabel {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    margin-left: 4px;
+}
+
+
+.hint {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    font-style: italic;
+    margin: 0;
+}
+
+.addButton {
+    padding: var(--space-xs) var(--space-sm);
+    background: rgb(var(--primary) / 0.2);
+    color: rgb(var(--primary));
+    border: 1px solid rgb(var(--primary) / 0.3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.addButton:hover {
+    background: rgb(var(--primary) / 0.3);
+}
+
+/* Creature List Container */
+/* Creature List Grid Layout */
+.gridHeader {
+    display: grid;
+    grid-template-columns: 5fr 3fr 3fr 40px;
+    gap: var(--space-xs);
+    padding: 0 12px;
+    margin-bottom: var(--space-xs);
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: rgb(var(--on-surface-variant));
+    letter-spacing: 0.05em;
+}
+
+.gridColCenter {
+    text-align: center;
+}
+
+.creatureList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Subtler container */
+}
+
+.creatureItem {
+    display: grid;
+    grid-template-columns: 5fr 3fr 3fr 40px;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 6px 12px;
+    border-bottom: 1px solid rgb(var(--outline-variant) / 0.1);
+    background: rgb(var(--surface-container-high) / 0.4);
+    /* Increased visibility */
+    margin-bottom: 4px;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+}
+
+.creatureItem:hover {
+    background: rgb(var(--surface-container-high) / 0.6);
+}
+
+.creatureName {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: rgb(var(--on-surface));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Override input wrappers for grid */
+.gridInputWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.gridInputWrapper input {
+    width: 100%;
+    text-align: center;
+    font-size: var(--text-xs);
+    padding: var(--space-xs);
+    height: 26px;
+}
+
+.creatureInfo {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+    font-family: var(--font-mono);
+}
+
+/* Clean up old overrides */
+
+.quantityInput {
+    width: 50px;
+    padding: 4px;
+    /* Reduced padding */
+    height: 28px;
+    /* Match other inputs */
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    text-align: center;
+}
+
+.removeButtonCell {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.removeButton {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: rgb(var(--on-surface-variant));
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+    padding: 0;
+}
+
+.removeButton:hover {
+    color: rgb(var(--error));
+    background: rgb(var(--error) / 0.1);
+}
+
+.select {
+    padding: 4px 8px;
+    /* Reduced padding */
+    height: 32px;
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-sm);
+    cursor: pointer;
+    min-width: 160px;
+}
+
+/* Merged into main .foodRow definition above */
+
+/* Removed empty rulesets */
+
+.foodNameContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    overflow: hidden;
+    flex: 1;
+}
+
+.recommendBadge {
+    display: none;
+}
+
+.foodName {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface));
+    font-weight: 500;
+}
+
+.stackInput {
+    width: 60px;
+    padding: var(--space-xs);
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    border-radius: var(--radius-sm);
+    color: rgb(var(--on-surface));
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    text-align: right;
+}
+
+.stackLabel {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+}
+
+/* Smart Features */
+.notifyControl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding-left: 4px;
+}
+
+.checkboxLabel {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    /* Adjusted font size */
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.checkboxLabel input {
+    accent-color: rgb(var(--primary));
+    width: 16px;
+    height: 16px;
+}
+
+.checkboxLabel:active {
+    transform: scale(0.98);
+}
+
+.miniSelect {
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline));
+    color: rgb(var(--on-surface));
+    border-radius: var(--radius-sm);
+    padding: 2px 4px;
+    font-size: 0.8rem;
+}
+
+.foodRowGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.autoButton {
+    background: rgb(var(--primary));
+    /* Simplified background */
+    color: rgb(var(--on-primary));
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, background-color 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.autoButton:hover {
+    background: rgb(var(--primary-hover, var(--primary)));
+    /* Fallback */
+    filter: brightness(1.1);
+}
+
+.autoButton:active {
+    transform: translateY(1px);
+}
+
+.autoButtonWarning {
+    background: rgb(var(--tertiary));
+    color: rgb(var(--on-tertiary));
+}
+
+.durationInput {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.durationInput>div {
+    padding: 0;
+    margin: 0;
+    border-bottom: none;
+}
+
+.durationInput input {
+    width: 40px;
+}
+
+.hoursLabel {
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    font-weight: 500;
+}
+
+.maewingInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-left: var(--space-sm);
+}
+
+.maewingStatInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.inputHeaderRow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.modeToggle {
+    background: none;
+    border: none;
+    color: rgb(var(--primary));
+    font-size: var(--text-xs);
+    cursor: pointer;
+    padding: 0 4px;
+    opacity: 0.8;
+}
+
+.modeToggle:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+
+
+.maewingStatInput>div {
+    padding: 0;
+    margin: 0;
+    border-bottom: none;
+}
+
+.maxFoodInputWrapper {
+    width: 90px;
+    margin-right: 8px;
+}
+
+.disclaimerWarning {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgb(var(--warning) / 0.1);
+    border: 1px solid rgb(var(--warning) / 0.3);
+    border-radius: var(--radius-sm);
+    color: rgb(var(--warning));
+    font-size: var(--text-xs);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+/* Removed duplicate .durationRow */
+
+/* This targets the wrapper inside DataRow to align it right */
+.durationInputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex: 1;
+}
+
+.maewingStatInput input {
+    width: 80px;
+}
+
+.statLabel {
+    font-size: var(--text-xs);
+    color: rgb(var(--on-surface-variant));
+    min-width: 24px;
+}
+
+/* Duplicate block removed */
+
+.compactInputWrapper :global(.DataPanel_inputWrapper__1) {
+    width: 100%;
+}
+
+.compactInput {
+    width: 70px;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   RESPONSIVE: Mobile
+   ═════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    .select {
+        width: 100%;
+        max-width: 160px;
+    }
+
+    .sectionHeader {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+        padding-right: var(--space-xs);
+    }
+
+    .foodRow {
+        grid-template-columns: 1fr auto auto;
+        gap: var(--space-xs);
+        padding: var(--space-xs);
+    }
+
+    .foodName {
+        font-size: var(--text-xs);
+    }
+
+    .stackInput {
+        width: 50px;
+    }
+
+    .dataRow {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+    }
+
+    .creatureItem {
+        /* Optimize grid for mobile: Name gets space, inputs are compact */
+        grid-template-columns: 1fr auto auto auto;
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .maewingStatInput input {
+        width: 60px;
+    }
+
+    .compactInput {
+        width: 50px;
+    }
+}
+
+@media (max-width: 360px) {
+    .sectionHeader {
+        font-size: var(--text-xs);
+    }
+
+    .select {
+        max-width: 120px;
+        font-size: var(--text-xs);
+    }
+
+    .foodRow {
+        grid-template-columns: 1fr auto;
+    }
+
+    .stackLabel {
+        display: none;
+    }
+}
