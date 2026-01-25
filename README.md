@@ -1,8 +1,8 @@
-# ARK Breeding Calculator (Unofficial) v2.5.2
+# ARK Breeding Calculator (Unofficial) v3.0.0
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 A modernized, high-performance remake of the classic ARK Breeding Calculator, built for **ARK: Survival Ascended (ASA)** and **ARK: Survival Evolved (ASE)**.
 
-Original concept by Crumplecorn, re-engineered for 2026. **Version 2.5.2** (Released Jan 2026).
+Original concept by Crumplecorn, re-engineered for 2026. **Version 3.0.0** (Released Jan 2026).
 
 
 ## 🚀 Why this Remake?
@@ -33,11 +33,20 @@ Stop guessing. Start calculating.
 - **Survival Buffer**: The classic "Current Buffer" metric tells you how long you can step away.
 - **Hand-Feed Thresholds**: Know the exact second your baby handles a trough.
 
-### 🥩 Intelligent Trough Simulation
+### 🛰️ Real-Time Server Monitoring (v3.0)
+Sync your breeder with your official server.
+- **Live Status**: Check if your server is Online, Offline, or Syncing.
+- **Auto-Rates**: Automatically detects official event rates (e.g. 2x Evolution) and applies them to your timers.
+- **Downtime Compensation**: Automatically pauses tracking when the server goes offline to maintain accuracy.
+- **Smart Alerts**: Get notified when the server comes back online.
+
+### 🥩 Intelligent Trough & Food Tracker
 Optimize your resources and sleep soundly.
+- **Inventory Depletion Tracker**: Know exactly when your dino runs out of food with a live countdown.
+- **Refill Logic**: One-click refill button resets the timer based on current capacity.
 - **Multi-Trough Logic**: Simulates complex setups with Tek Troughs and Fridges.
 - **Maewing Support** (Beta): Experimental support for nursing trough mechanics.
-- **Spoilage Engine**: Accounts for variable spoilage rates across container types.
+- **Spoilage Engine**: Accounts for variable spoilage rates and stack logic.
 
 ### 🎨 Premium "Atmos" Interface
 A tool that looks as good as it performs.
@@ -77,9 +86,8 @@ src/
 
 ## 🗺️ Roadmap
 - **Advanced Calculation Modes**: Experimental support for "Stasis" vs "Render" spoilage rates.
-- **Notification System**: Push notifications and Email alerts when troughs are empty.
 - **Cloud Sync**: Optional cloud backup for your breeding configs.
-- **Discord Bot Integration (v3.0)**: Use slash commands (`/track`, `/stats`) to manage your nursery directly from Discord.
+- **Discord Bot Integration (Enhanced)**: More slash commands for tribe management.
 
 ## 🛠️ Tech Stack
 

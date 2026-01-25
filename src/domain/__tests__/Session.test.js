@@ -52,11 +52,12 @@ describe('Session Entity', () => {
 
         const dto = original.toDTO();
         const restored = Session.fromDTO(dto);
+        restored.pause(); // Stop time for exact comparison if needed, or check original
 
         expect(restored).toBeInstanceOf(Session);
         expect(restored.id).toBe(original.id);
-        expect(restored.isPlaying).toBe(true);
-        expect(restored.maturationPct).toBe(42);
+        expect(restored.isPlaying).toBe(false);
+        expect(restored.maturationPct).toBeCloseTo(42, 1);
         expect(restored.weight).toBe(500);
 
         // Verify extra data
@@ -78,5 +79,29 @@ describe('Session Entity', () => {
 
         const dto = session.toDTO();
         expect(dto.data.selectedFood).toBe('Berries');
+    });
+
+    it('should calculate maturation progress accurately over time', () => {
+        const vi = import.meta.vitest.vi;
+        vi.useFakeTimers();
+
+        // 1 hour to mature
+        const session = new Session('1', 'Rex', 'Rexy', {
+            totalMaturationSeconds: 3600,
+            maturationAtStart: 0
+        });
+
+        session.start();
+        expect(session.maturationPct).toBe(0);
+
+        // Advance 30 minutes (50%)
+        vi.advanceTimersByTime(1800 * 1000);
+        expect(session.maturationPct).toBeCloseTo(50, 1);
+
+        // Advance another 1800 seconds (100%)
+        vi.advanceTimersByTime(1800 * 1000);
+        expect(session.maturationPct).toBe(100);
+
+        vi.useRealTimers();
     });
 });

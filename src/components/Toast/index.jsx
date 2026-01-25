@@ -49,23 +49,8 @@ export function Toast({ id, message, type = 'info', onClose }) {
     );
 }
 
-export function useToast() {
-    const [toasts, setToasts] = useState([]);
-
-    const addToast = useCallback((message, type = 'info') => {
-        const id = Date.now() + Math.random();
-        setToasts(prev => {
-            const next = [...prev, { id, message, type }];
-            if (next.length > 5) return next.slice(next.length - 5);
-            return next;
-        });
-    }, []);
-
-    const removeToast = useCallback((id) => {
-        setToasts(prev => prev.filter(t => t.id !== id));
-    }, []);
-
-    const ToastContainer = useCallback(() => (
+export function ToastContainer({ toasts, removeToast }) {
+    return (
         <div className={styles.toastContainer}>
             {toasts.map(toast => (
                 <Toast
@@ -75,7 +60,5 @@ export function useToast() {
                 />
             ))}
         </div>
-    ), [toasts, removeToast]);
-
-    return { addToast, ToastContainer };
+    );
 }

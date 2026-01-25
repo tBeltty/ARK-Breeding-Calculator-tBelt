@@ -22,8 +22,10 @@ export class CreateSession {
         // Data extraction
         const sessionData = isString ? {} : {
             weight: initialData.weight || 0,
-            maturationPct: initialData.maturationPct || initialData.maturation || 0,
+            maturationAtStart: initialData.maturationPct || initialData.maturation || 0,
+            totalMaturationSeconds: initialData.totalMaturationSeconds || 3600,
             isPlaying: initialData.isPlaying || false,
+            autoSortInterval: 0, // Default: Off
             // Preserve other potential fields from initialData if passed via object
             ...initialData
         };

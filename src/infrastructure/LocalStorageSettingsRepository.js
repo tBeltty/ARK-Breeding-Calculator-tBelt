@@ -53,7 +53,8 @@ function validateSettings(data) {
         consumptionSpeed: safeNumber(data.consumptionSpeed, DEFAULT_SETTINGS.consumptionSpeed, 0.001, 1000),
         // Booleans
         gen2HatchEffect: typeof data.gen2HatchEffect === 'boolean' ? data.gen2HatchEffect : DEFAULT_SETTINGS.gen2HatchEffect,
-        gen2GrowthEffect: typeof data.gen2GrowthEffect === 'boolean' ? data.gen2GrowthEffect : DEFAULT_SETTINGS.gen2GrowthEffect
+        gen2GrowthEffect: typeof data.gen2GrowthEffect === 'boolean' ? data.gen2GrowthEffect : DEFAULT_SETTINGS.gen2GrowthEffect,
+        autoRatesEnabled: typeof data.autoRatesEnabled === 'boolean' ? data.autoRatesEnabled : true
     };
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { getNickname } from '../../utils/nicknames';
@@ -7,12 +8,17 @@ import { getCreatureIcon } from '../../utils/creatureIcons';
 import styles from './AppSidebar.module.css';
 import './SidebarTooltip.css';
 
+import { authService } from '../../services/authService';
+
 /**
  * Sidebar Component
  * Displays list of active creatures and allows switching/adding.
  */
 export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal, onRemove, onRename, onToggleTimer, creatures, globalSettings }) {
+
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     // Inline editing state
     const [editingId, setEditingId] = useState(null);
@@ -104,11 +110,31 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                 >
                     +
                 </button>
-                <div className={styles.mobileHandleIndicator} />
+
+                {/* Mobile: Show active trackers summary if collapsed */}
+                <div className={styles.mobileSummary}>
+                    {!isMobileExpanded && sessions.length > 0 ? (
+                        <div className={styles.mobileAvatarList}>
+                            {sessions.slice(0, 4).map(s => (
+                                <img
+                                    key={s.id}
+                                    src={getCreatureIcon(s.creature)}
+                                    className={styles.mobileAvatar}
+                                    alt=""
+                                />
+                            ))}
+                            {sessions.length > 4 && <span className={styles.mobileMoreCount}>+{sessions.length - 4}</span>}
+                        </div>
+                    ) : (
+                        <div className={styles.mobileHandleIndicator} />
+                    )}
+                </div>
+
                 <button
                     className={styles.handleBtn}
                     onClick={(e) => {
                         e.stopPropagation();
+                        // Navigate to settings or open modal? Original code used globalSettings.openSettingsModal
                         if (globalSettings.openSettingsModal) globalSettings.openSettingsModal();
                     }}
                     title={t('ui.settings', 'Settings')}
@@ -149,7 +175,10 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                                 <li
                                     key={session.id}
                                     className={`${styles.item} ${session.id === activeSessionId ? styles.active : ''}`}
-                                    onClick={() => onSwitch(session.id)}
+                                    onClick={() => {
+                                        onSwitch(session.id);
+                                        navigate('/');
+                                    }}
                                     onMouseEnter={(e) => handleMouseEnter(e, session)}
                                     onMouseLeave={handleMouseLeave}
                                     title={!isDesktopCollapsed ? (session.name || session.creature) : ''}
@@ -162,6 +191,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                                             onChange={(e) => setEditName(e.target.value)}
                                             onBlur={() => saveEditing(session.id)}
                                             onKeyDown={(e) => handleKeyDown(e, session.id)}
+                                            onFocus={(e) => e.target.select()}
                                             autoFocus
                                             onClick={(e) => e.stopPropagation()}
                                             className={styles.editInput}
@@ -183,7 +213,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                                             {/* Percentage & Play/Pause */}
                                             <div className={`${styles.percentageWrapper} ${isDesktopCollapsed ? styles.compact : ''}`}>
                                                 <span className={styles.percentage}>
-                                                    {(session.data.maturation * 100).toFixed(1)}%
+                                                    {!isNaN(session.data.maturation) ? (session.data.maturation * 100).toFixed(1) : '0.0'}%
                                                 </span>
                                                 {!isDesktopCollapsed && (
                                                     <button
@@ -254,8 +284,39 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                     <small className={styles.disclaimer}>{t('notifications.disclaimer', 'Not affiliated with Studio Wildcard')}</small>
                 </div>
                 <button
+                    className={`${styles.configBtn} ${location.pathname === '/servers' ? styles.active : ''}`}
+                    onClick={() => {
+                        navigate('/servers');
+                        setIsMobileExpanded(false);
+                    }}
+                    title="Server Monitoring"
+                    style={{ marginBottom: '8px', background: 'var(--primary-container)', color: 'var(--on-primary-container)' }}
+                >
+                    <span className={styles.configBtnIcon}>🛰️</span>
+                    {!isDesktopCollapsed && <span>{t('panels.server_tracking', 'Servers')}</span>}
+                </button>
+                <button
                     className={styles.configBtn}
-                    onClick={() => globalSettings.openSettingsModal()}
+                    onClick={() => {
+                        if (authService.isAuthenticated()) {
+                            navigate('/dashboard');
+                            setIsMobileExpanded(false);
+                        } else {
+                            authService.login();
+                        }
+                    }}
+                    title="Bot Dashboard"
+                    style={{ marginBottom: '8px', background: 'var(--primary-container)', color: 'var(--on-primary-container)' }}
+                >
+                    <span className={styles.configBtnIcon}>🤖</span>
+                    {!isDesktopCollapsed && <span>Bot Dashboard</span>}
+                </button>
+                <button
+                    className={styles.configBtn}
+                    onClick={() => {
+                        globalSettings.openSettingsModal();
+                        setIsMobileExpanded(false);
+                    }}
                     title={t('ui.settings')}
                 >
                     <span className={styles.configBtnIcon}>⚙️</span>

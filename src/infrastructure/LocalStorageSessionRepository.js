@@ -1,8 +1,8 @@
 import { SessionRepository } from '../application/ports/SessionRepository';
 import { Session } from '../domain/Session';
 
-const STORAGE_KEY_SESSIONS = 'ark_breeding_sessions';
-const STORAGE_KEY_ACTIVE = 'ark_breeding_active_id';
+const STORAGE_KEY_SESSIONS = 'arktic_sessions_v1';
+const STORAGE_KEY_ACTIVE = 'arktic_active_id_v1';
 
 export class LocalStorageSessionRepository extends SessionRepository {
     getAll() {
@@ -46,16 +46,28 @@ export class LocalStorageSessionRepository extends SessionRepository {
         // Fallback for raw objects if not fully migrated
         try {
             if (dto.data) {
+                // Ensure legacy 'maturation' field is mapped to maturationAtStart for new constructor
+                if (dto.data.maturation !== undefined && dto.data.maturationAtStart === undefined) {
+                    dto.data.maturationAtStart = dto.data.maturation * 100; // Convert 0-1 to 0-100
+                }
+                if (dto.data.maturationPct !== undefined && dto.data.maturationAtStart === undefined) {
+                    dto.data.maturationAtStart = dto.data.maturationPct;
+                }
                 return Session.fromDTO(dto);
             }
-            // Minimal migration wrapper
+            // Minimal migration wrapper for very old data
             return new Session(
                 dto.id || Date.now().toString(),
                 dto.creature || 'Unknown',
                 dto.name,
-                { ...dto.data, weight: dto.data?.weight || 0, maturationPct: dto.data?.maturation || 0 }
+                {
+                    ...dto.data,
+                    weight: dto.data?.weight || 0,
+                    maturationAtStart: (dto.data?.maturationPct || dto.data?.maturation || 0) * 100
+                }
             );
-        } catch {
+        } catch (e) {
+            console.error('Hydration failed', e);
             // Last resort fallback
             return new Session(Date.now().toString(), 'ErrorDino', 'Error');
         }

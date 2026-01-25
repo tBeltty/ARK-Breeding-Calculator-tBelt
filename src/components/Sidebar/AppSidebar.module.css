@@ -560,6 +560,10 @@
     align-items: center;
 }
 
+.sidebar.collapsed .credits {
+    display: none;
+}
+
 /* Mobile: Bottom Dock Sidebar */
 @media (max-width: 768px) {
     /* ... existing mobile styles ... */
@@ -587,9 +591,9 @@
     }
 
     .sidebar.expanded {
-        height: 40vh;
-        /* Expanded height restricted to 40% */
-        min-height: 250px;
+        height: 75vh;
+        /* Increased from 40vh */
+        min-height: 350px;
     }
 
     .desktopToggle {
@@ -654,15 +658,87 @@
         opacity: 0.6;
     }
 
-    /* Hide standard header/footer when collapsed if they interfere */
+    .mobileSummary {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
+        overflow: hidden;
+    }
+
+    .mobileAvatarList {
+        display: flex;
+        align-items: center;
+        gap: -8px;
+        /* Overlap effect */
+    }
+
+    .mobileAvatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid rgb(var(--surface-container));
+        background: rgb(var(--surface-container-high));
+        object-fit: contain;
+        margin-left: -10px;
+        /* Overlap */
+    }
+
+    .mobileAvatar:first-child {
+        margin-left: 0;
+    }
+
+    .mobileMoreCount {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: rgb(var(--on-surface));
+        margin-left: 4px;
+    }
+
+    /* Hide standard header when collapsed */
     .header {
         margin-top: 60px;
-        /* Push content down below handle area */
         padding: var(--space-sm) var(--space-md);
         border-bottom: none;
         opacity: 0;
-        /* Fade out when collapsed? No, simply hidden by overflow */
         transition: opacity 0.3s ease;
+        pointer-events: none;
+        /* Prevent clicks when collapsed */
+    }
+
+    .sidebar.expanded .header {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .sidebar.expanded .footer {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+        display: flex;
+        flex-direction: row;
+        /* Horizontal layout for buttons */
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .sidebar.expanded .configBtn {
+        flex: 1;
+        /* Distribute space */
+        min-width: 40px;
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    /* Hide text on small screens if too cramped, or keep it */
+    .sidebar.expanded .configBtn span:not(.configBtnIcon) {
+        display: none;
+        /* Icon only for cleaner look? Or keep text if space allows? Let's hide text to save vertical space if rows wrap, or horizontal space if row */
+    }
+
+    /* Show icons only for buttons in footer on mobile to save space */
+    .sidebar.expanded .configBtn span.configBtnIcon {
+        font-size: 1.4rem;
+        margin: 0;
     }
 
     /* Hide footer when collapsed on mobile to avoid clutter */
@@ -670,17 +746,15 @@
         display: none;
     }
 
-    .sidebar.expanded .footer {
-        padding-bottom: env(safe-area-inset-bottom, 20px);
-        /* Safe area for iPhone home bar */
+    .headerActions {
+        display: none;
     }
 
-    .sidebar.expanded .header {
-        opacity: 1;
+    .credits {
+        display: none;
     }
 
     .list {
         padding-bottom: 80px;
-        /* Extra padding for bottom safe area */
     }
 }

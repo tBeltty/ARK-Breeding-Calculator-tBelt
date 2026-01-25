@@ -12,7 +12,7 @@ describe('UpdateSession Use Case', () => {
 
         expect(updated).not.toBe(session); // Immutability check
         expect(updated.weight).toBe(200);
-        expect(updated.maturationPct).toBe(50);
+        expect(updated.maturationPct).toBeCloseTo(50, 1);
         expect(updated.isPlaying).toBe(true);
     });
 

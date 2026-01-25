@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest';
+import { beforeEach, describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 import React from 'react';
@@ -7,6 +7,8 @@ import React from 'react';
 import { ActiveSessionDetail } from '../components/Session/ActiveSessionDetail';
 import { MainLayout } from '../components/Layout/MainLayout';
 
+import { MemoryRouter } from 'react-router-dom';
+
 describe('App Integration', () => {
     beforeEach(() => {
         // Bypass onboarding
@@ -14,13 +16,21 @@ describe('App Integration', () => {
     });
 
     it('renders without crashing', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         // Check for main title in Header
         expect(screen.getByText('ARK Breeding Calculator')).toBeDefined();
     });
 
     it('renders sidebar and content', () => {
-        render(<App />);
+        render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
         // Sidebar title
         expect(screen.getByText('Creatures')).toBeDefined();
 

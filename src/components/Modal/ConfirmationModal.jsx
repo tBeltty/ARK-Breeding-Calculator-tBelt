@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from './Modal';
-import styles from './Modal.module.css'; // Reusing Modal styles, maybe extending?
 
 // We'll use inline styles or existing classes for the footer buttons to keep it simple and consistent
 export function ConfirmationModal({

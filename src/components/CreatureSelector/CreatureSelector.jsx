@@ -51,7 +51,10 @@ export function CreatureSelector({ creatures, selectedCreature, onSelect }) {
                     placeholder={selectedCreature || t('ui.search_creatures')}
                     value={searchTerm}
                     onChange={handleInputChange}
-                    onFocus={handleInputFocus}
+                    onFocus={(e) => {
+                        handleInputFocus();
+                        e.target.select();
+                    }}
                     onBlur={() => setTimeout(() => setIsOpen(false), 200)}
                     title={t('tooltips.creature')}
                     maxLength={30}

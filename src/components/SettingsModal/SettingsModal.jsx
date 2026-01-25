@@ -5,7 +5,7 @@ import { Modal, ConfirmationModal } from '../Modal';
 import styles from './SettingsModal.module.css';
 import { version } from '../../../package.json';
 import { BackupService } from '../../infrastructure/BackupService';
-import { useToast } from '../Toast';
+import { useToast } from '../../hooks/useToast';
 
 export function SettingsModal({
     isOpen,
@@ -38,7 +38,8 @@ export function SettingsModal({
         try {
             BackupService.exportData();
             addToast(t('messages.backup_created', 'Backup created successfully'), 'success');
-        } catch (e) {
+        } catch (error) {
+            console.error(error);
             addToast(t('messages.backup_failed', 'Export failed'), 'error');
         }
     };

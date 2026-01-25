@@ -122,6 +122,13 @@ export function TroughCalculator({
         } catch { return false; }
         return false;
     });
+    const [troughAutoSortInterval, setTroughAutoSortInterval] = useState(() => {
+        try {
+            const savedData = localStorage.getItem('ark_trough_data');
+            if (savedData) return JSON.parse(savedData).autoSortInterval || 0;
+        } catch { return 0; }
+        return 0;
+    });
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedFood, setSelectedFood] = useState(null); // Selected food state
@@ -145,10 +152,11 @@ export function TroughCalculator({
             nursingEffectiveness,
             maewingInputMode,
             maewingFoodPoints,
-            isAutoDuration
+            isAutoDuration,
+            autoSortInterval: troughAutoSortInterval
         };
         localStorage.setItem('ark_trough_data', JSON.stringify(dataToSave));
-    }, [creatureList, foodStacks, troughType, desiredHours, maewingWeight, maewingFood, nursingEffectiveness, maewingInputMode, maewingFoodPoints, isAutoDuration, isLoaded]);
+    }, [creatureList, foodStacks, troughType, desiredHours, maewingWeight, maewingFood, nursingEffectiveness, maewingInputMode, maewingFoodPoints, isAutoDuration, troughAutoSortInterval, isLoaded]);
 
     // Auto-Duration Logic
     // Track previous state to detect transitions
@@ -259,9 +267,9 @@ export function TroughCalculator({
         const res = simulateTrough(creatureList.map(entry => ({
             ...entry,
             creatureData: creatures[entry.name]
-        })), foodStacks, foods, foodLists, effectiveSpoilMultiplier, simulationSettings);
+        })), foodStacks, foods, foodLists, effectiveSpoilMultiplier, simulationSettings, troughAutoSortInterval * 3600);
         return res;
-    }, [creatureList, foodStacks, foods, foodLists, effectiveSpoilMultiplier, simulationSettings, creatures]);
+    }, [creatureList, foodStacks, foods, foodLists, effectiveSpoilMultiplier, simulationSettings, creatures, troughAutoSortInterval]);
 
     // Check for efficiency hints
     // Efficiency calculation moved to SmartFoodRow
@@ -420,6 +428,34 @@ export function TroughCalculator({
                             setIsAutoDuration(checked);
                         }}
                     />
+
+                    <div className={styles.inputGroup} style={{ marginBottom: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <span style={{ fontSize: '0.9rem', color: 'rgb(var(--on-surface-variant))' }}>
+                                    {t('fields.auto_sort')}
+                                </span>
+                                <span className={styles.tooltipIcon} title={t('tooltips.auto_sort')} style={{ marginLeft: '6px', fontSize: '12px', opacity: 0.7, cursor: 'help' }}>
+                                    ⓘ
+                                </span>
+                            </div>
+                            <select
+                                value={troughAutoSortInterval}
+                                onChange={(e) => setTroughAutoSortInterval(Number(e.target.value))}
+                                className={styles.select}
+                                style={{
+                                    width: '100px',
+                                    padding: '4px 8px',
+                                    height: '32px'
+                                }}
+                            >
+                                <option value={0}>{t('ui.off') || 'Off'}</option>
+                                <option value={1}>1h</option>
+                                <option value={12}>12h</option>
+                                <option value={24}>24h</option>
+                            </select>
+                        </div>
+                    </div>
 
                     {selectedFood && foods[selectedFood] && (
                         <SmartFoodRow

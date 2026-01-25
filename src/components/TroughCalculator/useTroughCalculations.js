@@ -22,7 +22,8 @@ export function useTroughCalculations(
     creatures,
     troughType,
     simulationSettings,
-    spoilMultiplier
+    spoilMultiplier,
+    consolidationInterval = 0
 ) {
     // Calculate available foods based on creatures in the trough
     const availableFoods = useMemo(() => {
@@ -55,9 +56,10 @@ export function useTroughCalculations(
             foods,
             foodLists,
             spoilMultiplier,
-            simulationSettings
+            simulationSettings,
+            consolidationInterval
         );
-    }, [creatureList, foodStacks, foods, foodLists, spoilMultiplier, simulationSettings, creatures]);
+    }, [creatureList, foodStacks, foods, foodLists, spoilMultiplier, simulationSettings, creatures, consolidationInterval]);
 
     return {
         availableFoods,

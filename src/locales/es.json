@@ -1,5 +1,5 @@
 {
-    "title": "Calculadora de Crianza ARK",
+    "title": "Arktic Assistant",
     "panels": {
         "creature": "Ajustes de Criatura",
         "maturation": "Detalles de Maduración",
@@ -7,6 +7,7 @@
         "food": "Requerimientos de Comida",
         "settings": "Ajustes del Mundo",
         "trough": "Calculadora de Comederos",
+        "server_tracking": "Monitoreo de Servidores",
         "rename": "Renombrar",
         "add_dino_title": "Agregar Nueva Criatura"
     },
@@ -34,10 +35,13 @@
         "food_spoiled": "Comida Podrida",
         "efficiency": "Eficiencia",
         "max_food": "Comida Máxima",
-        "food_to_adult": "Comida hasta Adulto"
+        "food_to_adult": "Comida hasta Adulto",
+        "food_to_juvenile": "Comida hasta Juvenil",
+        "auto_sort": "Reorganizar Stacks"
     },
     "ui": {
         "done": "¡Listo! ✓",
+        "off": "Desactivado",
         "creatures": "Criaturas",
         "more": "Falta {{pct}}% ({{time}})",
         "game_version": "Versión del Juego",
@@ -63,6 +67,9 @@
         "trough_type": "Tipo de Comedero",
         "name": "Nombre",
         "start_tracking": "Comenzar Rastreo",
+        "tracking_started": "Rastreo iniciado",
+        "track_btn": "Rastrear",
+        "refill_btn": "Rellenar",
         "food_stacks": "Stacks de Comida",
         "results": "Resultados",
         "creatures_in_trough": "Criaturas en Comedero",
@@ -136,6 +143,7 @@
         "title_depleted": "⚠️ ¡Comida Agotada!",
         "body_depleted": "¡Tu {{creature}} está a punto de quedarse sin comida!",
         "minutes_before": "{{minutes}} min antes",
+        "server_back_online": "¡El servidor {{name}} está online! {{msg}}",
         "disclaimer": "No afiliado con Studio Wildcard o Snail Games."
     },
     "birth_types": {
@@ -185,6 +193,8 @@
         "elapsed_time": "Tiempo transcurrido desde el inicio del crecimiento",
         "time_to_juvenile": "Tiempo restante hasta que el bebé sea Juvenil (10%)",
         "time_to_adult": "Tiempo restante hasta que la criatura crezca por completo",
+        "to_juv_food": "Total de comida necesaria para llegar a Juvenil (10%)",
+        "to_adult_food": "Total de comida necesaria para llegar a Adulto (100%)",
         "hand_feed": "Alimentar manualmente hasta este % - luego el inventario lleno dura hasta Juvenil",
         "current_buffer": "Cuánto sobrevive el bebé con su capacidad actual de inventario",
         "food_capacity": "Cantidad total de {{food}} que cabe según el peso actual",
@@ -209,21 +219,28 @@
         "game_version": "Cambiar entre lógica de ASA (Ark Survival Ascended) y ASE (Ark Survival Evolved)",
         "theme": "Cambiar entre diferentes temas visuales",
         "max_food": "La cantidad máxima de comida que la criatura puede tener (Tamaño del Estómago)",
+        "auto_sort": "Consolidar stacks cada X horas. Cada stack en ARK pudre 1 unidad por ciclo; tener menos stacks llenos reduce drásticamente la velocidad de pérdida total.",
         "start_tracking_desc": "Incrementa automáticamente el % de maduración basado en la tasa de crecimiento de la especie"
     },
     "onboarding": {
-        "welcome_title": "Bienvenido a la Calculadora de Crianza ARK",
-        "welcome_subtitle": "Configuremos tu experiencia en solo unos pasos.",
+        "welcome_title": "Bienvenido a Arktic Assistant",
+        "welcome_subtitle": "Tu herramienta definitiva para crianza y monitoreo de servidores.",
         "language_title": "Elige Tu Idioma",
         "game_version_title": "Selecciona Tu Juego",
         "game_version_desc": "Diferentes versiones tienen diferentes mecánicas de crianza.",
         "ase_desc": "Ark Survival Evolved",
         "asa_desc": "Ark Survival Ascended",
         "theme_title": "Elige Tu Atmósfera",
+        "notification_disabled": "Notificaciones desactivadas para este dispositivo.",
+        "rates_updated_auto": "Cargados rates oficiales, actualmente {{rate}}",
+        "refill_success": "¡Inventario Rellenado! Temporizador reiniciado.",
+        "save_success": "Ajustes guardados correctamente",
         "notifications_title": "Mantente Informado",
         "notifications_desc": "Recibe alertas cuando tus criaturas necesiten atención.",
         "notifications_on": "Activar Notificaciones",
         "notifications_off": "Quizás Después",
+        "server_title": "Conecta Tu Servidor",
+        "server_desc": "Sincronízate con el estado de tu servidor y eventos oficiales en tiempo real.",
         "creature_title": "Añade Tu Primera Criatura",
         "creature_desc": "Empieza a rastrear un bebé para ver la calculadora en acción.",
         "name_placeholder": "Dale un nombre...",
@@ -234,6 +251,13 @@
         "complete": "¡Comenzar!"
     },
     "errors": {
-        "tracking_limit_reached": "Límite de rastreo alcanzado ({{limit}}). Pausa algunas criaturas primero."
+        "tracking_limit_reached": "Límite de rastreo alcanzado ({{limit}}). Pausa algunas criaturas primero.",
+        "rate_limits": [
+            "Nuestros mensajeros están atendiendo un asunto con Helena. Por favor espera...",
+            "Interferencia del Supervisor detectada. Reintentando transmisión en...",
+            "El obelisco se está cargando. Espera un momento...",
+            "Señal perdida en las Trincheras Tek. Restableciendo enlace...",
+            "HLN-A está reiniciando sus circuitos verbales..."
+        ]
     }
 }

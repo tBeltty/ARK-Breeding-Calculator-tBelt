@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BackupService } from '../BackupService';
 import { LocalStorageSettingsRepository } from '../LocalStorageSettingsRepository';
 
@@ -11,8 +11,10 @@ vi.mock('../LocalStorageSettingsRepository', () => ({
 }));
 
 // Mock URL.createObjectURL
-global.URL.createObjectURL = vi.fn(() => 'blob:mock-url');
-global.URL.revokeObjectURL = vi.fn();
+vi.stubGlobal('URL', {
+    createObjectURL: vi.fn(() => 'blob:mock-url'),
+    revokeObjectURL: vi.fn()
+});
 
 describe('BackupService', () => {
     beforeEach(() => {

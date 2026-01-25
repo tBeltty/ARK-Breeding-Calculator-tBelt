@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { CreateSession } from '../application/usecases/CreateSession';
 import { UpdateSession } from '../application/usecases/UpdateSession';
 import { LocalStorageSessionRepository } from '../infrastructure/LocalStorageSessionRepository';
+import { DebouncedSessionRepository } from '../infrastructure/DebouncedSessionRepository';
 import { Session } from '../domain/Session'; // Import Session to verify instances
 
 // ID Generator used to be here, now inside UseCase (partially duplicated, acceptable for now)
@@ -10,8 +11,13 @@ export function useMultiDinoState(_initialGlobalSettings) {
     const [sessions, setSessions] = useState([]);
     const [activeSessionId, setActiveSessionId] = useState(null);
 
-    // Repository as a ref to avoid re-creation, though it has no state
-    const repository = useRef(new LocalStorageSessionRepository());
+    // Ghost Session State (Transient, not saved to repo)
+    const [ghostSession, setGhostSession] = useState(null);
+
+    // Repository as a ref to avoid re-creation
+    // Wrap LocalStorage in Debounced to prevent spamming writes on every tick
+    const repository = useRef(new DebouncedSessionRepository(new LocalStorageSessionRepository(), 500));
+    const [isInitialized, setIsInitialized] = useState(false);
 
     // Initial Load & Migration
     useEffect(() => {
@@ -32,7 +38,7 @@ export function useMultiDinoState(_initialGlobalSettings) {
                         s.id || Date.now().toString(),
                         s.creature || 'Unknown',
                         s.name,
-                        { ...s.data, weight: s.data?.weight || 0, maturationPct: s.data?.maturation || 0 }
+                        { ...s.data, weight: s.data?.weight || 0, maturationAtStart: (s.data?.maturationPct || s.data?.maturation || 0) > 1 ? (s.data?.maturationPct || s.data?.maturation || 0) / 100 : (s.data?.maturationPct || s.data?.maturation || 0) }
                     );
                 } catch {
                     return CreateSession.execute({ initialData: 'Corrupted Session Rescue' });
@@ -41,21 +47,25 @@ export function useMultiDinoState(_initialGlobalSettings) {
 
             setSessions(loadedSessions);
             setActiveSessionId(activeId || loadedSessions[0].id);
+            console.log(`[Persistence] Initial load: ${loadedSessions.length} sessions. Active: ${activeId}`);
         } else {
-            // Fresh start - Empty state
-            // Don't create default session automatically
+            console.log('[Persistence] Initial load: No sessions found.');
             setSessions([]);
             setActiveSessionId(null);
         }
+        setIsInitialized(true);
     }, []);
 
     // Persistence Effect
-    // Optimization: Debounce this? For now, keep it simple.
     useEffect(() => {
+        if (!isInitialized) {
+            console.log('[Persistence] Save blocked: Not initialized.');
+            return;
+        }
+
         const repo = repository.current;
-        // Allow saving empty array if initialized (sessions is not null/undefined)
         if (sessions) {
-            // SAFE SAVE: Filter only valid entities or try to hydrate to prevent crashes
+            // console.log(`[Persistence] Saving ${sessions.length} sessions...`);
             const validSessions = sessions.map(s => {
                 if (s instanceof Session) return s;
                 try {
@@ -65,13 +75,21 @@ export function useMultiDinoState(_initialGlobalSettings) {
 
             repo.saveAll(validSessions);
         }
-        if (activeSessionId) {
+
+        // Only persist active ID if it's NOT a ghost session
+        if (activeSessionId && activeSessionId !== 'ghost') {
             repo.setActiveId(activeSessionId);
         } else {
-            // Ensure we clear active ID if null/empty
-            repo.setActiveId(null);
+            // Keep previous ID in repo? Or null? 
+            // If ghost, we arguably shouldn't touch the saved active ID 
+            // so reloading the page brings back the last REAL session.
+            // But checking 'ghost' implies we need to handle that check on load.
+            // For now, let's just not update it.
+            if (activeSessionId !== 'ghost') {
+                repo.setActiveId(null);
+            }
         }
-    }, [sessions, activeSessionId]);
+    }, [sessions, activeSessionId, isInitialized]);
 
     // Actions
     const addSession = useCallback((initialData = {}) => {
@@ -86,30 +104,45 @@ export function useMultiDinoState(_initialGlobalSettings) {
         return newSession.id;
     }, [sessions.length]);
 
-    const removeSession = useCallback((id) => {
-        setSessions(prev => {
-            const filtered = prev.filter(s => s.id !== id);
-            return filtered;
+    // Create a Ghost Session (Transient)
+    const createGhostSession = useCallback((initialData = {}) => {
+        const ghost = CreateSession.execute({
+            initialData,
+            existingCount: 0 // Doesn't matter for ghost
         });
+        // Override ID to ensure we know it's ghost logic internally if needed, 
+        // OR just keep it separate and use activeSessionId='ghost'
+        // We will keep the session object as is, but store it in ghostSession state.
+        setGhostSession(ghost);
+        setActiveSessionId('ghost');
+        return ghost;
+    }, []);
 
+    // Promote Ghost to Real
+    const promoteGhostSession = useCallback(() => {
+        if (!ghostSession) return null;
 
-        if (activeSessionId === id) {
-            // Switch to previous or first
-            setSessions(prev => {
-                return prev.filter(s => s.id !== id);
-            });
-            // We'll trust the effect below to fix activeId if it becomes invalid? 
-            // Better to handle it explicitly.
-            setActiveSessionId(prevId => {
-                if (prevId === id) {
-                    // We can't see the 'new' sessions here easily.
-                    // Simplified: Just clear it and let a comprehensive effect pick the first one?
-                    return null;
-                }
-                return prevId;
-            });
+        // It's already a valid session object, just move it to the list.
+        // Maybe generate a new ID to be safe against collisions if we recycled logic?
+        // CreateSession generates unique timestamp IDs, so it should be fine.
+
+        setSessions(prev => [...prev, ghostSession]);
+        setActiveSessionId(ghostSession.id);
+        setGhostSession(null);
+        return ghostSession.id;
+    }, [ghostSession]);
+
+    const removeSession = useCallback((idToRemove) => {
+        // Calculate new sessions list based on current state
+        const filtered = sessions.filter(s => s.id !== idToRemove);
+        setSessions(filtered);
+
+        // Update active ID if we removed the currently active one
+        if (activeSessionId === idToRemove) {
+            const nextId = filtered.length > 0 ? filtered[0].id : null;
+            setActiveSessionId(nextId);
         }
-    }, [activeSessionId]);
+    }, [sessions, activeSessionId]);
 
     // Fix active ID if null
     // Ensure active session ID is valid, but avoid setting it during render if possible
@@ -121,6 +154,15 @@ export function useMultiDinoState(_initialGlobalSettings) {
     }, [activeSessionId, sessions, setActiveSessionId]);
 
     const updateSession = useCallback((id, updates) => {
+        // Handle Ghost Update
+        if (id === 'ghost' || (activeSessionId === 'ghost' && (!id || id === ghostSession?.id))) {
+            setGhostSession(prev => {
+                if (!prev) return null;
+                return UpdateSession.execute(prev, updates);
+            });
+            return;
+        }
+
         setSessions(prev => prev.map(s => {
             if (s.id !== id) return s;
 
@@ -136,15 +178,17 @@ export function useMultiDinoState(_initialGlobalSettings) {
 
             return UpdateSession.execute(entity, updates);
         }));
-    }, []);
+    }, [activeSessionId, ghostSession?.id]);
 
     const updateActiveSession = useCallback((updates) => {
-        if (!activeSessionId) return;
-        // Delegate to generic
-        updateSession(activeSessionId, updates);
+        if (activeSessionId === 'ghost') {
+            updateSession('ghost', updates);
+        } else if (activeSessionId) {
+            updateSession(activeSessionId, updates);
+        }
     }, [activeSessionId, updateSession]);
 
-    const activeSession = sessions.find(s => s.id === activeSessionId) || sessions[0];
+    const activeSession = activeSessionId === 'ghost' ? ghostSession : (sessions.find(s => s.id === activeSessionId) || sessions[0]);
 
     return {
         sessions,
@@ -155,6 +199,9 @@ export function useMultiDinoState(_initialGlobalSettings) {
         switchSession: setActiveSessionId,
         updateSession,
         updateActiveSession,
-        setSessions
+        setSessions,
+        createGhostSession,
+        promoteGhostSession,
+        isGhostMode: activeSessionId === 'ghost'
     };
 }

@@ -1,12 +1,13 @@
 {
-    "title": "ARK Breeding Calculator",
+    "title": "Arktic Assistant",
     "panels": {
         "creature": "Creature Settings",
         "maturation": "Maturation Details",
         "baby": "Baby Phase",
         "food": "Food Requirements",
         "settings": "World Settings",
-        "trough": "Trough Calculator"
+        "trough": "Trough Calculator",
+        "server_tracking": "Server Monitoring"
     },
     "fields": {
         "dino_name": "Dino Name",
@@ -37,10 +38,12 @@
         "efficiency": "Efficiency",
         "max_food": "Max Food",
         "food_to_adult": "Food to Adult",
-        "food_to_juvenile": "Food to Juvenile"
+        "food_to_juvenile": "Food to Juvenile",
+        "auto_sort": "Auto-Sort Stacks"
     },
     "ui": {
         "done": "Done! ✓",
+        "off": "Off",
         "creatures": "Creatures",
         "ready": "Ready!",
         "more": "{{pct}}% more ({{time}})",
@@ -62,7 +65,7 @@
             "frozen-peaks": "Frozen Peaks",
             "crystal-horizon": "Crystal Horizon"
         },
-        "loading": "Loading...",
+        "loading": "Loading Arktic Assistant...",
         "languages_title": "Select Language",
         "search_creatures": "Search creatures...",
         "more_hint": "+{{count}} more...",
@@ -139,7 +142,10 @@
         "remove": "Remove",
         "start_tracking": "Start Tracking",
         "click_to_track": "Click to start tracking",
-        "click_to_pause": "Click to pause tracking"
+        "click_to_pause": "Click to pause tracking",
+        "tracking_started": "Tracking started",
+        "track_btn": "Track",
+        "refill_btn": "Refill"
     },
     "permissions": {
         "granted_retry": "Permission granted. Try again."
@@ -154,6 +160,7 @@
         "minutes_before": "{{minutes}} min before",
         "configure_title": "Configure Notification",
         "configure_desc": "Set a lead time to be notified before the trough is empty.",
+        "server_back_online": "Server {{name}} is back online! {{msg}}",
         "disclaimer": "Not affiliated with Studio Wildcard or Snail Games."
     },
     "birth_types": {
@@ -197,9 +204,11 @@
     },
     "messages": {
         "notification_enabled": "Notifications Enabled",
-        "notification_disabled": "Notifications Disabled",
-        "too_soon_for_notification": "Too soon to schedule notification for that lead time!",
-        "save_success": "Settings saved successfully"
+        "notification_disabled": "Notifications disabled for this device.",
+        "too_soon_for_notification": "Buffer would deplete before notification time. Adjust lead time.",
+        "save_success": "Settings saved successfully",
+        "refill_success": "Inventory Refilled! Timer reset.",
+        "rates_updated_auto": "Official rates loaded, currently {{rate}}"
     },
     "tooltips": {
         "creature": "Select the creature species to calculate for",
@@ -209,6 +218,8 @@
         "elapsed_time": "Time passed since birth/incubation started",
         "time_to_juvenile": "Time remaining until the baby reaches 10% maturation (Juvenile)",
         "time_to_adult": "Time remaining until the creature is fully grown",
+        "to_juv_food": "Total food items needed to reach Juvenile (10%)",
+        "to_adult_food": "Total food items needed to reach Adult (100%)",
         "hand_feed_extended": "Can survive with full inventory at {{pct}}% maturation",
         "hand_feed": "Feed manually until this maturation percentage - then a full inventory lasts until Juvenile",
         "current_buffer": "How long the baby can survive with its current inventory capacity",
@@ -235,12 +246,13 @@
         "game_version": "Toggle between ASA (Ark Survival Ascended) and ASE (Ark Survival Evolved) logic",
         "theme": "Switch between different visual themes",
         "max_food": "The maximum amount of food points the creature can hold (Stomach Size)",
+        "auto_sort": "Consolidate stacks every X hours. Each stack in ARK rots 1 per cycle; having fewer, fuller stacks drastically reduces rot speed.",
         "configure_desc": "Set how many minutes before empty you want to be notified.",
         "start_tracking_desc": "Automatically increment maturation % based on species growth rate."
     },
     "onboarding": {
-        "welcome_title": "Welcome to ARK Breeding Calculator",
-        "welcome_subtitle": "Let's set up your experience in just a few steps.",
+        "welcome_title": "Welcome to Arktic Assistant",
+        "welcome_subtitle": "Your definitive tool for ARK breeding and server tracking.",
         "language_title": "Choose Your Language",
         "game_version_title": "Select Your Game",
         "game_version_desc": "Different versions have different breeding mechanics.",
@@ -251,6 +263,8 @@
         "notifications_desc": "Get alerts when your creatures need attention.",
         "notifications_on": "Enable Notifications",
         "notifications_off": "Maybe Later",
+        "server_title": "Connect Your Server",
+        "server_desc": "Stay in sync with your ARK server status and official events.",
         "creature_title": "Add Your First Creature",
         "creature_desc": "Start tracking a baby to see the calculator in action.",
         "name_placeholder": "Give it a name...",
@@ -261,6 +275,13 @@
         "complete": "Get Started"
     },
     "errors": {
-        "tracking_limit_reached": "Tracking limit reached ({{limit}}). Pause some creatures first."
+        "tracking_limit_reached": "Tracking limit reached ({{limit}}). Pause some creatures first.",
+        "rate_limits": [
+            "Our messengers are attending to a matter with Helena. Please wait...",
+            "Interference from the Overseer detected. Retrying transmission in...",
+            "The obelisk is currently charging. Stand by...",
+            "Signal lost in the Tek Trenches. Re-establishing link...",
+            "HLN-A is currently rebooting her verbal circuits..."
+        ]
     }
 }
