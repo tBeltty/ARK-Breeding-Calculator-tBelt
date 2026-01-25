@@ -30,9 +30,10 @@ export const TROUGH_TYPES = {
  * @param {Object} foodLists - Food type mappings
  * @param {number} troughMultiplier - Spoil time multiplier based on trough type
  * @param {Object} settings - Server settings
+ * @param {number} consolidationInterval - Seconds between stack auto-sort (0 for never)
  * @returns {Object} Simulation results
  */
-export function simulateTrough(creatureList, foodStacks, foods, foodLists, troughMultiplier, settings) {
+export function simulateTrough(creatureList, foodStacks, foods, foodLists, troughMultiplier, settings, consolidationInterval = 0) {
     if (!creatureList || creatureList.length === 0) {
         return {
             time: 0,
@@ -103,8 +104,56 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
     const MAX_TIME = 60 * 60 * 24 * 3;
     let time = 0;
 
+    const buildTroughStacks = (totalItemsByType) => {
+        const newStacks = [];
+        for (const fName of foodOrder) {
+            const total = totalItemsByType[fName] || 0;
+            if (total <= 0) continue;
+
+            const food = foods[fName];
+            const fullStacks = Math.floor(total / food.stack);
+            const partialItems = total % food.stack;
+
+            for (let i = 0; i < fullStacks; i++) {
+                newStacks.push({
+                    type: fName,
+                    stackSize: food.stack,
+                    stackSpoil: food.spoil * troughMultiplier,
+                    foodSpoil: food.spoil * troughMultiplier,
+                    food: food.food,
+                    waste: food.waste || 0
+                });
+            }
+            if (partialItems > 0) {
+                newStacks.push({
+                    type: fName,
+                    stackSize: partialItems,
+                    stackSpoil: food.spoil * troughMultiplier,
+                    foodSpoil: food.spoil * troughMultiplier,
+                    food: food.food,
+                    waste: food.waste || 0
+                });
+            }
+        }
+        return newStacks;
+    };
+
+    let currentStacks = stacks; // Use the already built initial stacks
+
     while (totalStackCount > 0 && time < MAX_TIME) {
         time++;
+
+        // Periodic Consolidation (Auto-Sort)
+        if (consolidationInterval > 0 && time > 0 && time % consolidationInterval === 0) {
+            const totalItemsByType = {};
+            currentStacks.forEach(s => {
+                if (s.stackSize > 0) {
+                    totalItemsByType[s.type] = (totalItemsByType[s.type] || 0) + s.stackSize;
+                }
+            });
+            currentStacks = buildTroughStacks(totalItemsByType);
+            totalStackCount = currentStacks.length;
+        }
 
         // Process each creature
         for (const creature of troughCreatures) {
@@ -130,7 +179,7 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
             if (creature.hunger < 20) continue;
 
             // Try to eat from available stacks
-            for (const stack of stacks) {
+            for (const stack of currentStacks) {
                 if (stack.stackSize <= 0) continue;
                 if (!creature.foods.includes(stack.type)) continue;
 
@@ -159,7 +208,7 @@ export function simulateTrough(creatureList, foodStacks, foods, foodLists, troug
         }
 
         // Process spoilage
-        for (const stack of stacks) {
+        for (const stack of currentStacks) {
             if (stack.stackSize <= 0) continue;
 
             stack.stackSpoil--;

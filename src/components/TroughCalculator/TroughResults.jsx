@@ -40,7 +40,7 @@ export function TroughResults({ results, troughType, onToast }) {
                                     const val = e.target.value;
                                     setLeadTime(val === '' ? '' : Number(val));
                                 }}
-                                onClick={(e) => e.target.select()}
+                                onFocus={(e) => e.target.select()}
                                 placeholder="5"
                                 style={{
                                     width: '40px',

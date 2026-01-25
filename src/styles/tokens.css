@@ -30,7 +30,13 @@
    --text-lg: 1.125rem;
    --text-xl: 1.25rem;
    --text-2xl: 1.5rem;
+   --text-2xl: 1.5rem;
    --text-3xl: 2rem;
+
+   /* Semantic Text Colors */
+   --text-primary: rgb(var(--on-surface));
+   --text-secondary: rgb(var(--on-surface-variant));
+   --text-tertiary: rgb(var(--outline));
 
    /* Transitions */
    --transition-fast: 150ms ease;
@@ -44,13 +50,18 @@
 body.theme-arat-prime,
 body:not([class*="theme-"]) {
    --surface: 20 12 30;
+   --surface-container-low: 30 18 45;
    --surface-container: 40 25 55;
    --surface-container-high: 60 40 80;
+   --surface-container-highest: 80 55 105;
    --primary: 255 100 180;
    --primary-container: 140 50 100;
+   --secondary: 120 80 200;
+   --secondary-container: 60 40 100;
    --on-surface: 240 230 250;
-   --on-surface-variant: 180 150 200;
+   --on-surface-variant: 200 180 220;
    --on-primary: 255 255 255;
+   --on-secondary: 255 255 255;
    --outline: 120 80 150;
    --outline-variant: 80 50 100;
    --glass-blur: 16px;
@@ -75,13 +86,18 @@ body:not([class*="theme-"]) {
    ═══════════════════════════════════════════════════════════ */
 body.theme-aberrant-depths {
    --surface: 15 30 35;
+   --surface-container-low: 20 42 48;
    --surface-container: 25 55 60;
    --surface-container-high: 35 75 80;
+   --surface-container-highest: 45 95 100;
    --primary: 80 200 200;
    --primary-container: 40 100 100;
+   --secondary: 150 100 250;
+   --secondary-container: 70 40 120;
    --on-surface: 220 245 245;
-   --on-surface-variant: 160 190 195;
+   --on-surface-variant: 180 210 215;
    --on-primary: 10 30 35;
+   --on-secondary: 255 255 255;
    --outline: 60 120 125;
    --outline-variant: 40 80 85;
    --glass-blur: 16px;
@@ -105,13 +121,18 @@ body.theme-aberrant-depths {
    ═══════════════════════════════════════════════════════════ */
 body.theme-frozen-peaks {
    --surface: 245 247 250;
+   --surface-container-low: 235 240 245;
    --surface-container: 225 230 235;
    --surface-container-high: 210 215 220;
+   --surface-container-highest: 195 200 205;
    --primary: 37 99 235;
    --primary-container: 219 234 254;
+   --secondary: 100 116 139;
+   --secondary-container: 241 245 249;
    --on-surface: 15 23 42;
-   --on-surface-variant: 71 85 105;
+   --on-surface-variant: 51 65 85;
    --on-primary: 255 255 255;
+   --on-secondary: 255 255 255;
    --outline: 148 163 184;
    --outline-variant: 203 213 225;
    --glass-blur: 8px;
@@ -135,13 +156,18 @@ body.theme-frozen-peaks {
    ═══════════════════════════════════════════════════════════ */
 body.theme-tek-pulse {
    --surface: 5 15 25;
+   --surface-container-low: 0 25 40;
    --surface-container: 0 40 60;
    --surface-container-high: 0 60 90;
+   --surface-container-highest: 0 80 110;
    --primary: 0 242 255;
    --primary-container: 0 80 120;
+   --secondary: 180 100 255;
+   --secondary-container: 80 40 120;
    --on-surface: 200 250 255;
-   --on-surface-variant: 100 200 220;
+   --on-surface-variant: 130 210 230;
    --on-primary: 0 30 40;
+   --on-secondary: 255 255 255;
    --outline: 0 160 200;
    --outline-variant: 0 100 130;
    --glass-blur: 20px;
@@ -165,13 +191,18 @@ body.theme-tek-pulse {
    ═══════════════════════════════════════════════════════════ */
 body.theme-primal-dawn {
    --surface: 40 25 15;
+   --surface-container-low: 50 32 20;
    --surface-container: 60 40 25;
    --surface-container-high: 90 60 40;
+   --surface-container-highest: 110 80 55;
    --primary: 245 158 11;
    --primary-container: 120 80 0;
+   --secondary: 249 115 22;
+   --secondary-container: 120 40 0;
    --on-surface: 254 243 199;
-   --on-surface-variant: 217 119 6;
-   --on-primary: 40 20 0;
+   --on-surface-variant: 230 140 20;
+   --on-primary: 255 255 255;
+   --on-secondary: 255 255 255;
    --outline: 180 100 20;
    --outline-variant: 140 70 10;
    --glass-blur: 12px;
@@ -195,13 +226,18 @@ body.theme-primal-dawn {
    ═══════════════════════════════════════════════════════════ */
 body.theme-crystal-horizon {
    --surface: 15 23 42;
+   --surface-container-low: 22 32 50;
    --surface-container: 30 41 59;
    --surface-container-high: 51 65 85;
+   --surface-container-highest: 71 85 105;
    --primary: 6 182 212;
    --primary-container: 8 145 178;
+   --secondary: 71 85 105;
+   --secondary-container: 30 41 59;
    --on-surface: 244 248 251;
-   --on-surface-variant: 148 163 184;
+   --on-surface-variant: 168 183 204;
    --on-primary: 255 255 255;
+   --on-secondary: 255 255 255;
    --outline: 51 65 85;
    --outline-variant: 71 85 105;
    --glass-blur: 12px;

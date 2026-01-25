@@ -17,16 +17,19 @@ import {
     foodPointsToItems,
     calculateHandFeedThreshold,
     calculateDailyFood,
+    calculateBufferTime,
     DEFAULT_SETTINGS
-} from '../../domain/breeding';
+} from '../../domain/breeding.js';
 
 /**
  * @typedef {Object} BreedingStatsInput
  * @property {Object} creature - Creature data from creatures.json
  * @property {Object} food - Food data from foods.json
  * @property {number} weight - Creature weight stat
+ * @property {number} maxFood - Creature max food stat (points)
  * @property {number} maturationProgress - Current maturation (0 to 1)
  * @property {Object} settings - Server settings
+ * @property {number} consolidationInterval - Seconds between stack auto-sort
  */
 
 /**
@@ -52,7 +55,7 @@ import {
  * @param {BreedingStatsInput} input - Input parameters
  * @returns {BreedingStatsResult} All calculated breeding statistics
  */
-export function calculateBreedingStats({ creature, food, weight, maturationProgress, settings = DEFAULT_SETTINGS }) {
+export function calculateBreedingStats({ creature, food, weight, maxFood, maturationProgress, settings = DEFAULT_SETTINGS, consolidationInterval = 0 }) {
     // Validate inputs
     if (!creature) {
         throw new Error('Creature data is required');
@@ -85,13 +88,25 @@ export function calculateBreedingStats({ creature, food, weight, maturationProgr
     const toJuvFood = calculateFoodForPeriod(maturationTimeComplete, babyTime, creature, settings);
     const toAdultFood = calculateFoodForPeriod(maturationTimeComplete, maturationTime, creature, settings);
 
-    // Calculate inventory-based stats
+    // Calculate inventory-based stats (Weighted Capacity)
     const currentWeight = safeWeight * safeMaturation;
-    const foodCapacity = Math.floor(currentWeight / food.weight);
+    let itemsByWeight = Math.floor(currentWeight / food.weight);
+
+    // Stomach Capacity (Max Food Stat)
+    // If user provided a maxFood stat, the dino cannot hold more than that in its stomach (in pts)
+    const maxFoodItems = (maxFood > 0) ? Math.floor(maxFood / food.food) : Infinity;
+
+    // Slot Limit (Dinos usually have 300 slots)
+    const slotLimit = 300 * (settings.stackMultiplier || 1);
+    const itemsBySlots = slotLimit * (food.stack || 40);
+
+    // Final Capacity is the minimum of weight, stomach, and slots
+    const foodCapacity = Math.min(itemsByWeight, maxFoodItems, itemsBySlots);
+
     const currentFoodRate = maxFoodRate - foodRateDecay * maturationTimeComplete;
-    // Prevent division by zero / Infinity
-    const safeFoodRate = Math.max(currentFoodRate, 0.000001);
-    const currentBuffer = foodCapacity > 0 ? (foodCapacity * food.food) / safeFoodRate : 0;
+
+    // Calculate buffer using simulation (accounts for parallel spoilage and auto-sort)
+    const currentBuffer = calculateBufferTime(foodCapacity, food, creature, safeMaturation, settings, consolidationInterval);
 
     // Calculate hand feed threshold
     const handFeed = calculateHandFeedThreshold(creature, food, safeWeight, settings);

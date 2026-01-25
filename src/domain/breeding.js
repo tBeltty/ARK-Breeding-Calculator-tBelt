@@ -15,6 +15,7 @@ export const DEFAULT_SETTINGS = {
     gen2GrowthEffect: false,
     consumablesSpoilTime: 1,
     stackMultiplier: 1,
+    autoRatesEnabled: true,
 };
 
 /**
@@ -67,8 +68,8 @@ export function calculateFoodRates(creature, settings = DEFAULT_SETTINGS) {
     const maturationTime = calculateMaturationTime(creature, settings);
     const maxFoodRate = creature.basefoodrate * creature.babyfoodrate *
         creature.extrababyfoodrate * settings.consumptionSpeed;
-    const minFoodRate = settings.baseMinfoodRate * creature.babyfoodrate *
-        creature.extrababyfoodrate * settings.consumptionSpeed;
+    // Adult rate is simply basefoodrate * consumptionSpeed
+    const minFoodRate = creature.basefoodrate * settings.consumptionSpeed;
     const foodRateDecay = (maxFoodRate - minFoodRate) / maturationTime;
 
     return { maxFoodRate, minFoodRate, foodRateDecay, maturationTime };
@@ -108,23 +109,84 @@ export function foodPointsToItems(foodPoints, food, foodMultiplier = 1) {
 }
 
 /**
- * Calculate how long a creature can survive on given food amount.
- * @param {number} foodItems - Number of food items
- * @param {Object} food - Food data
+ * Calculate how long a creature can survive on given food amount, accounting for spoilage.
+ * Uses a simulation approach to handle stack-based spoilage and changing consumption rates.
+ * 
+ * @param {number} initialFoodItems - Starting number of food items
+ * @param {Object} food - Food data (including spoilage and stack size)
  * @param {Object} creature - Creature data  
  * @param {number} maturationProgress - Current maturation (0 to 1)
  * @param {Object} settings - Server settings
+ * @param {number} consolidationInterval - Seconds between stack consolidation (0 for never)
  * @returns {number} Survival time in seconds
  */
-export function calculateBufferTime(foodItems, food, creature, maturationProgress, settings = DEFAULT_SETTINGS) {
+export function calculateBufferTime(initialFoodItems, food, creature, maturationProgress, settings = DEFAULT_SETTINGS, consolidationInterval = 0) {
     const { maxFoodRate, foodRateDecay, maturationTime } = calculateFoodRates(creature, settings);
-    const currentTime = maturationTime * maturationProgress;
-    const currentFoodRate = maxFoodRate - foodRateDecay * currentTime;
+    const startTime = maturationTime * maturationProgress;
 
-    const foodPoints = foodItems * food.food;
+    let currentFoodItems = initialFoodItems;
+    let elapsedSeconds = 0;
+    const stepSeconds = 60; // 1-minute steps for simulation
 
-    // Simple approximation using current rate (actual simulation would be more accurate)
-    return foodPoints / currentFoodRate;
+    // Spoilage multiplier for dino inventory (4x)
+    const inventoryMultiplier = 4;
+    const effectiveSpoilTime = (food.spoil || 600) * inventoryMultiplier * settings.consumablesSpoilTime;
+    const stackSize = (food.stack || 40) * settings.stackMultiplier;
+
+    // If no food or invalid spoil time, return 0
+    if (currentFoodItems <= 0 || effectiveSpoilTime <= 0) return 0;
+
+    const { minFoodRate } = calculateFoodRates(creature, settings);
+
+    // To accurately simulate ARK, we must account for parallel spoilage.
+    // Each stack has its own spoil timer.
+    let currentStacks = [];
+    for (let i = 0; i < currentFoodItems; i += stackSize) {
+        currentStacks.push(Math.min(stackSize, currentFoodItems - i));
+    }
+
+    while (currentStacks.some(s => s > 0)) {
+        // Periodic Consolidation (Auto-Sort)
+        if (consolidationInterval > 0 && elapsedSeconds > 0 && elapsedSeconds % consolidationInterval === 0) {
+            const totalRemaining = currentStacks.reduce((sum, s) => sum + Math.max(0, s), 0);
+            currentStacks = [];
+            for (let i = 0; i < totalRemaining; i += stackSize) {
+                currentStacks.push(Math.min(stackSize, totalRemaining - i));
+            }
+        }
+
+        const currentTime = startTime + elapsedSeconds;
+        const currentFoodRate = Math.max(minFoodRate, maxFoodRate - foodRateDecay * currentTime);
+
+        // 1. Spoilage: each non-empty stack loses 1 item every 'effectiveSpoilTime'
+        const spoilagePerStackInStep = stepSeconds / effectiveSpoilTime;
+
+        // 2. Consumption: points to items
+        let itemsToConsume = (currentFoodRate * stepSeconds) / food.food;
+
+        for (let i = 0; i < currentStacks.length; i++) {
+            if (currentStacks[i] <= 0) continue;
+
+            // Spoilage affects all stacks
+            currentStacks[i] -= spoilagePerStackInStep;
+
+            // Consumption affects the first available stack
+            if (itemsToConsume > 0) {
+                const consumed = Math.min(Math.max(0, currentStacks[i]), itemsToConsume);
+                currentStacks[i] -= consumed;
+                itemsToConsume -= consumed;
+            }
+
+            if (currentStacks[i] < 0) currentStacks[i] = 0;
+        }
+
+        elapsedSeconds += stepSeconds;
+
+        // Safety break
+        if (elapsedSeconds > 8640000) break; // 100 days
+    }
+
+    return elapsedSeconds;
 }
 
 /**
@@ -228,7 +290,6 @@ export function calculateDailyFood(creature, food, settings = DEFAULT_SETTINGS) 
 export function calculateHandFeedThreshold(creature, food, creatureWeight, settings = DEFAULT_SETTINGS) {
     const maturationTime = calculateMaturationTime(creature, settings);
     const babyTime = calculateBabyTime(creature, settings);
-    const { maxFoodRate, foodRateDecay } = calculateFoodRates(creature, settings);
 
     // Binary search for the threshold
     let low = 0;
@@ -250,9 +311,8 @@ export function calculateHandFeedThreshold(creature, food, creatureWeight, setti
         const currentWeight = creatureWeight * mid;
         const foodCapacity = Math.floor(currentWeight / food.weight);
 
-        // Calculate buffer at this point
-        const currentFoodRate = maxFoodRate - foodRateDecay * currentTime;
-        const bufferTime = foodCapacity > 0 ? (foodCapacity * food.food) / currentFoodRate : 0;
+        // Calculate buffer at this point using simulation (accounts for spoilage)
+        const bufferTime = calculateBufferTime(foodCapacity, food, creature, mid, settings);
 
         // Check if buffer >= time to juvenile
         if (bufferTime >= timeToJuvenile) {

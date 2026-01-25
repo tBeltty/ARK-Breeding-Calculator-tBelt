@@ -32,7 +32,13 @@
     padding: var(--space-lg);
     box-shadow: var(--shadow-lg);
     /* margin-bottom to allow scrolling past bottom */
+    /* margin-bottom to allow scrolling past bottom */
     margin-bottom: var(--space-3xl);
+    transition: max-width 0.3s ease;
+}
+
+.containerWide {
+    max-width: 1400px;
 }
 
 .header {
@@ -275,5 +281,35 @@
         /* Remove spacer */
         border-radius: var(--radius-lg);
         /* Slightly smaller radius */
+    }
+}
+
+.floatingCredits {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 1000;
+    text-align: right;
+    transition: opacity 0.3s ease;
+}
+
+.floatingCreditText {
+    font-size: 9px;
+    color: rgb(var(--on-surface));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+@media (min-width: 769px) {
+    .floatingCredits {
+        display: none;
+        /* User asked specifically for mobile view */
     }
 }

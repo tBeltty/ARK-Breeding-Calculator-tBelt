@@ -43,7 +43,7 @@ export function NotificationConfigModal({
                         className={styles.input}
                         value={leadTime}
                         onChange={(e) => onLeadTimeChange(Number(e.target.value))}
-                        onClick={(e) => e.target.select()}
+                        onFocus={(e) => e.target.select()}
                         min="1"
                         max="60"
                         autoFocus

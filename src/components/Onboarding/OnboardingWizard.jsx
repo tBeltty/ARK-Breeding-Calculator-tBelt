@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getNickname } from '../../utils/nicknames';
 import { getCreatureIcon } from '../../utils/creatureIcons';
 import styles from './OnboardingWizard.module.css';
 
-const STEPS = ['welcome', 'language', 'gameVersion', 'theme', 'notifications', 'creature'];
+const STEPS = ['welcome', 'language', 'gameVersion', 'server', 'theme', 'notifications', 'creature'];
 
 export function OnboardingWizard({
     creatures,
@@ -21,6 +21,13 @@ export function OnboardingWizard({
     const [theme, setTheme] = useState(globalSettings.activeTheme || 'arat-prime');
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
+    // Server selection state
+    const [selectedServer, setSelectedServer] = useState(null);
+    const [serverSearch, setServerSearch] = useState('');
+    const [serverResults, setServerResults] = useState([]);
+    const [isUnofficial, setIsUnofficial] = useState(false);
+    const [unofficialIp, setUnofficialIp] = useState('');
+
     // Creature creation state
     const [selectedCreature, setSelectedCreature] = useState('');
     const [creatureName, setCreatureName] = useState('');
@@ -28,6 +35,27 @@ export function OnboardingWizard({
     const [creatureMaturation, setCreatureMaturation] = useState('0');
     const [startTracking, setStartTracking] = useState(true);
     const [creatureSearch, setCreatureSearch] = useState('');
+
+    // Handle Official Server Search
+    useEffect(() => {
+        if (!serverSearch || isUnofficial) {
+            // Handled in onChange or no-op
+        }
+
+        const delayDebounceFn = setTimeout(async () => {
+            try {
+                const response = await fetch(`/api/servers/search?q=${encodeURIComponent(serverSearch)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setServerResults(data); // Returns matching servers
+                }
+            } catch (e) {
+                console.error('Server search failed:', e);
+            }
+        }, 500);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [serverSearch, isUnofficial]);
 
     // Apply language changes in real-time for preview
     useEffect(() => {
@@ -39,19 +67,19 @@ export function OnboardingWizard({
         document.body.className = `theme-${theme}`;
     }, [theme]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (currentStep < STEPS.length - 1) {
             setCurrentStep(currentStep + 1);
         }
-    };
+    }, [currentStep]);
 
-    const handleBack = () => {
+    const handleBack = useCallback(() => {
         if (currentStep > 0) {
             setCurrentStep(currentStep - 1);
         }
-    };
+    }, [currentStep]);
 
-    const handleComplete = async () => {
+    const handleComplete = useCallback(async () => {
         // Apply all settings
         globalSettings.setLanguage(language);
         globalSettings.setGameVersion(gameVersion);
@@ -68,7 +96,8 @@ export function OnboardingWizard({
             name: creatureName || getNickname(selectedCreature),
             weight: parseFloat(creatureWeight) || creatures[selectedCreature]?.weight || 100,
             maturationPct: (parseFloat(creatureMaturation) || 0) / 100,
-            isPlaying: startTracking
+            isPlaying: startTracking,
+            trackedServerId: isUnofficial ? unofficialIp : (selectedServer?.id || null)
         } : null;
 
         // Mark onboarding as complete
@@ -76,12 +105,12 @@ export function OnboardingWizard({
 
         // Notify parent
         onComplete(creatureData);
-    };
+    }, [globalSettings, language, gameVersion, theme, notificationsEnabled, selectedCreature, creatureName, creatureWeight, creatureMaturation, startTracking, onComplete, creatures, isUnofficial, selectedServer, unofficialIp]);
 
-    const handleSkip = () => {
+    const handleSkip = useCallback(() => {
         localStorage.setItem('onboardingCompleted', 'v2.5');
         onComplete(null);
-    };
+    }, [onComplete]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -96,7 +125,7 @@ export function OnboardingWizard({
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentStep]);
+    }, [currentStep, handleBack, handleNext, handleSkip]);
 
     // Filter creatures for search
     const filteredCreatures = Object.keys(creatures).filter(name =>
@@ -186,6 +215,85 @@ export function OnboardingWizard({
                         </div>
                     </div>
                 );
+            case 'server':
+                return (
+                    <div className={styles.stepContent}>
+                        <h2 className={styles.stepTitle}>
+                            {t('onboarding.server_title', 'Connect Your Server')}
+                        </h2>
+                        <p className={styles.stepDescription}>
+                            {t('onboarding.server_desc', 'Track server status and get automatic growth adjustments during downtime.')}
+                        </p>
+
+                        <div className={styles.serverTabs}>
+                            <button
+                                className={`${styles.tab} ${!isUnofficial ? styles.active : ''} ${gameVersion === 'ASE' ? styles.disabled : ''}`}
+                                onClick={() => gameVersion === 'ASA' && setIsUnofficial(false)}
+                                disabled={gameVersion === 'ASE'}
+                            >
+                                Official (ASA)
+                            </button>
+                            <button
+                                className={`${styles.tab} ${isUnofficial ? styles.active : ''}`}
+                                onClick={() => setIsUnofficial(true)}
+                            >
+                                Unofficial / Private
+                            </button>
+                        </div>
+
+                        {!isUnofficial ? (
+                            <div className={styles.searchContainer}>
+                                <input
+                                    type="text"
+                                    className={styles.searchInput}
+                                    placeholder="Search Official Server (Name or ID)..."
+                                    value={serverSearch}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        setServerSearch(val);
+                                        if (!val) setServerResults([]);
+                                    }}
+                                />
+                                {serverResults.length > 0 && (
+                                    <div className={styles.serverList}>
+                                        {serverResults.map(s => (
+                                            <button
+                                                key={s.id}
+                                                className={`${styles.serverItem} ${selectedServer?.id === s.id ? styles.active : ''}`}
+                                                onClick={() => {
+                                                    setSelectedServer(s);
+                                                    setServerSearch('');
+                                                }}
+                                            >
+                                                <span className={styles.serverName}>{s.name}</span>
+                                                <span className={styles.serverMeta}>{s.map} • {s.players}/{s.max_players}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                                {selectedServer && !serverSearch && (
+                                    <div className={styles.selectedBadge}>
+                                        Connected to: <strong>{selectedServer.name}</strong>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className={styles.ipContainer}>
+                                <input
+                                    type="text"
+                                    className={styles.searchInput}
+                                    placeholder="Server IP:Port (e.g., 12.34.56.78:27015)"
+                                    value={unofficialIp}
+                                    onChange={(e) => setUnofficialIp(e.target.value)}
+                                />
+                            </div>
+                        )}
+
+                        <div className={styles.skipHint}>
+                            You can skip this and configure it later in dashboard settings.
+                        </div>
+                    </div>
+                );
 
             case 'theme':
                 return (
@@ -254,6 +362,7 @@ export function OnboardingWizard({
                                 placeholder={t('ui.search_creatures', 'Search creatures...')}
                                 value={creatureSearch}
                                 onChange={(e) => setCreatureSearch(e.target.value)}
+                                onFocus={(e) => e.target.select()}
                             />
 
                             {creatureSearch && (
@@ -300,7 +409,7 @@ export function OnboardingWizard({
                                         placeholder={t('ui.name', 'Nombre')}
                                         value={creatureName}
                                         onChange={(e) => setCreatureName(e.target.value)}
-                                        onClick={(e) => e.target.select()}
+                                        onFocus={(e) => e.target.select()}
                                     />
 
                                     <div className={styles.statsRow}>
@@ -312,7 +421,7 @@ export function OnboardingWizard({
                                                 placeholder={creatures[selectedCreature]?.weight || '100'}
                                                 value={creatureWeight}
                                                 onChange={(e) => setCreatureWeight(e.target.value)}
-                                                onClick={(e) => e.target.select()}
+                                                onFocus={(e) => e.target.select()}
                                             />
                                         </div>
                                         <div className={styles.statInput}>
@@ -329,7 +438,7 @@ export function OnboardingWizard({
                                                     if (parseFloat(val) > 100) val = '100';
                                                     setCreatureMaturation(val);
                                                 }}
-                                                onClick={(e) => e.target.select()}
+                                                onFocus={(e) => e.target.select()}
                                             />
                                         </div>
                                     </div>

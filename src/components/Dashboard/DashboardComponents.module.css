@@ -1,0 +1,181 @@
+.sectionCard {
+    background: rgb(var(--surface-container-low));
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid rgb(var(--outline) / 0.1);
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    color: rgb(var(--primary));
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: rgb(var(--on-surface) / 0.85);
+    margin-bottom: 24px;
+}
+
+.inputGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgb(var(--on-surface));
+}
+
+.inputGroup input,
+.inputGroup select {
+    padding: 10px;
+    border-radius: var(--radius-md);
+    background: rgb(var(--surface-container-high));
+    border: 1px solid rgb(var(--outline) / 0.2);
+    color: rgb(var(--on-surface));
+    font-family: inherit;
+}
+
+.saveBtn {
+    margin-top: 24px;
+    padding: 10px 24px;
+    background: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.saveBtn:hover {
+    background: rgb(var(--primary-container));
+    color: rgb(var(--on-primary-container));
+}
+
+.saveBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tabContainer {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgb(var(--outline) / 0.1);
+    padding-bottom: 8px;
+}
+
+.tabBtn {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    color: rgb(var(--outline));
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+}
+
+.tabBtn:hover {
+    color: rgb(var(--on-surface));
+    background: rgb(var(--surface-container-high));
+}
+
+.activeTab {
+    color: rgb(var(--primary));
+    background: rgb(var(--primary) / 0.1);
+}
+
+.commandTable {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.commandRow {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgb(var(--outline) / 0.1);
+}
+
+.commandHeader {
+    margin-bottom: 10px;
+    color: rgb(var(--secondary));
+}
+
+.channelGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.channelChip {
+    padding: 4px 12px;
+    background: rgb(var(--surface-container-high));
+    border: 1px solid rgb(var(--outline) / 0.2);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: rgb(var(--on-surface));
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.channelChip:hover {
+    background: rgb(var(--surface-container-highest));
+}
+
+.activeChip {
+    background: rgb(var(--primary-container));
+    color: rgb(var(--on-primary-container));
+    border-color: rgb(var(--primary));
+}
+
+.autocompleteList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgb(var(--surface-container-highest));
+    border: 1px solid rgb(var(--outline) / 0.3);
+    border-radius: var(--radius-md);
+    z-index: 100;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.autocompleteItem {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.autocompleteItem:hover {
+    background: rgb(var(--primary-container) / 0.5);
+    color: rgb(var(--on-primary-container));
+}
+
+.executeBtn {
+    background: linear-gradient(135deg, rgb(var(--primary)), rgb(var(--secondary)));
+    box-shadow: 0 4px 12px rgb(var(--primary) / 0.3);
+    width: 100%;
+    margin-top: 24px;
+    color: #ffffff;
+}
+
+.executeBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgb(var(--primary) / 0.5);
+}
