@@ -263,6 +263,7 @@
     },
     "credits": {
         "concept": "Concepto Original",
-        "concept_desc": "Concepto original de la calculadora por"
+        "concept_desc": "Concepto original de la calculadora por",
+        "made_by": "Hecho con ❤️ por"
     }
 }
