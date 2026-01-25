@@ -161,10 +161,10 @@
 
     .guildIcon,
     .guildPlaceholder {
-        width: 48px !important;
-        height: 48px !important;
-        min-width: 48px !important;
-        font-size: var(--text-lg) !important;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        font-size: var(--text-lg);
     }
 }
 
@@ -332,6 +332,7 @@
     border-radius: var(--radius-lg);
     border: 1px dashed rgb(var(--outline-variant));
 }
+
 /* Management View Styles */
 .managementView {
     animation: fadeIn var(--transition-base);
