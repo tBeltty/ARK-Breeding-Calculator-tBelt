@@ -47,9 +47,14 @@ app.get('/api/rates', (req, res) => {
 });
 
 app.get('/api/servers/search', async (req, res) => {
-    const { q } = req.query;
+    const { q, type } = req.query;
     if (!q) return res.status(400).json({ error: 'Query required' });
-    const results = await serverService.findServer(q);
+
+    // Default to 'official' if type is not specified or is 'official'
+    // If type is 'unofficial', pass false for onlyOfficial
+    const onlyOfficial = type !== 'unofficial';
+
+    const results = await serverService.findServer(q, onlyOfficial);
     res.json(results || []);
 });
 

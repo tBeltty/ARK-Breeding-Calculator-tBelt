@@ -346,10 +346,8 @@ class ServerService {
     /**
      * Find a server by ID or Name (Live API)
      */
-    async findServer(query) {
+    async findServer(query, onlyOfficial = true) {
         if (!query) return [];
-
-
 
         // 1. Check Local Tracking first (Instant)
         const db = getDatabase();
@@ -373,9 +371,14 @@ class ServerService {
         // 2. Query External API
         let apiResults = [];
         try {
-            logger.info(`Searching API for: ${query}`);
+            logger.info(`Searching API for: ${query} (Official Only: ${onlyOfficial})`);
+            const params = { search: query, per_page: 20 };
+            if (onlyOfficial) {
+                params.official = true;
+            }
+
             const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                params: { search: query, per_page: 20, official: true },
+                params,
                 headers: { 'X-API-Key': this.apiKey },
                 timeout: 5000
             }));
@@ -384,7 +387,7 @@ class ServerService {
                 apiResults = response.data.data.map(s => ({
                     ...s,
                     maxPlayers: s.max_players || 70,
-                    type: 'official',
+                    type: onlyOfficial ? 'official' : (s.official ? 'official' : 'unofficial'), // Infer type if mixed
                     isTracked: localMatches.some(l => l.id === String(s.id))
                 }));
             }
@@ -402,16 +405,21 @@ class ServerService {
         const combined = [...apiResults];
 
         localMatches.forEach(local => {
-            // If not already in the list from API, add it
+            // Apply official filter to local results too if strict? 
+            // The user implies strictness for ID matching on OFFICIALs.
+            // If onlyOfficial is true, we should probably filter out local unofficials too?
+            // Actually, keep local matches as high priority, but maybe filter if needed.
+            // For now, let's keep them but maybe the UI handles it.
+
+            // Re-adding local match logic logic
             if (!combined.some(c => String(c.id) === String(local.id))) {
-                combined.unshift(local); // High priority for local stuff
+                if (!onlyOfficial || local.type === 'official') {
+                    combined.unshift(local);
+                }
             } else {
-                // If it IS in the list, update the API result with 'isTracked' status
                 const idx = combined.findIndex(c => String(c.id) === String(local.id));
                 if (idx !== -1) {
                     combined[idx].isTracked = true;
-                    // Prefer local name if API name is numeric/default? No, API name is usually better if available.
-                    // But if API ID search fails, we might miss this merge.
                 }
             }
         });
