@@ -70,6 +70,7 @@
         "tracking_started": "Rastreo iniciado",
         "track_btn": "Rastrear",
         "refill_btn": "Rellenar",
+        "credits": "Créditos",
         "food_stacks": "Stacks de Comida",
         "results": "Resultados",
         "creatures_in_trough": "Criaturas en Comedero",
@@ -259,5 +260,9 @@
             "Señal perdida en las Trincheras Tek. Restableciendo enlace...",
             "HLN-A está reiniciando sus circuitos verbales..."
         ]
+    },
+    "credits": {
+        "concept": "Concepto Original",
+        "concept_desc": "Concepto original de la calculadora por"
     }
 }

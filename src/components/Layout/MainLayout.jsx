@@ -140,11 +140,7 @@ export function MainLayout() {
                 <ToastContainer toasts={toasts} removeToast={removeToast} />
             </>
 
-            {/* Floating Credits for mobile vista (top-right corner) */}
-            <div className={styles.floatingCredits}>
-                <span className={styles.floatingCreditText}>{t('ui.credit_prefix', 'Original by')} Crumplecorn</span>
-                <span className={styles.floatingCreditText}>{t('ui.remake_credit', 'Remake by tBelt')}</span>
-            </div>
+
 
             <div className={styles.contentWrapper}>
                 <div className={`${styles.container} ${isDashboard ? styles.containerWide : ''}`}>
