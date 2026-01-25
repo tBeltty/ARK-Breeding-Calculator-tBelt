@@ -1,0 +1,4 @@
+# Exclude large/legacy HTML files from language statistics
+discord-bot/*.html linguist-vendored
+dist/** linguist-vendored
+*.css linguist-vendored
