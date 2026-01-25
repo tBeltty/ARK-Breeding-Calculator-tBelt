@@ -176,13 +176,16 @@ class ServerService {
             if (record.server_name) {
                 try {
                     const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                        params: { search: record.server_name, per_page: 50 },
+                        params: { search: record.server_name, per_page: 20, official: true },
                         headers: { 'X-API-Key': this.apiKey },
                         timeout: 5000
                     }));
                     if (response.data?.success) {
-                        // Strict check by ID in results
-                        match = response.data.data.find(s => String(s.id) === record.server_id);
+                        // Strict check by ID OR Name match
+                        match = response.data.data.find(s =>
+                            String(s.id) === record.server_id ||
+                            s.name === record.server_name
+                        );
                     }
                 } catch (e) { /* ignore and try next */ }
             }
@@ -191,12 +194,15 @@ class ServerService {
             if (!match) {
                 try {
                     const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                        params: { search: record.server_id, per_page: 50 },
+                        params: { search: record.server_id, per_page: 20, official: true },
                         headers: { 'X-API-Key': this.apiKey },
                         timeout: 5000
                     }));
                     if (response.data?.success) {
-                        match = response.data.data.find(s => String(s.id) === record.server_id);
+                        match = response.data.data.find(s =>
+                            String(s.id) === record.server_id ||
+                            s.name.includes(record.server_id) // Allow finding "NA-PVE...6309" by searching "6309"
+                        );
                     }
                 } catch (e) {
                     if (e.isRateLimit) throw e; // Propagate rate limit
