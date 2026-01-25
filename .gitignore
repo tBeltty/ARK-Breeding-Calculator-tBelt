@@ -34,3 +34,4 @@ discord-bot/logs/
 discord-bot/tests/
 discord-bot/vitest.config.js
 
+docs/AUDIT_REPORT_2026_01.md
