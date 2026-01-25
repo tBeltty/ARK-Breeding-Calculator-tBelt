@@ -176,7 +176,7 @@ class ServerService {
             if (record.server_name) {
                 try {
                     const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                        params: { search: record.server_name, per_page: 5 },
+                        params: { search: record.server_name, per_page: 50 },
                         headers: { 'X-API-Key': this.apiKey },
                         timeout: 5000
                     }));
@@ -191,7 +191,7 @@ class ServerService {
             if (!match) {
                 try {
                     const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                        params: { search: record.server_id, per_page: 5 },
+                        params: { search: record.server_id, per_page: 50 },
                         headers: { 'X-API-Key': this.apiKey },
                         timeout: 5000
                     }));
