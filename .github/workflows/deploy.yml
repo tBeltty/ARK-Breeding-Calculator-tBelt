@@ -22,7 +22,13 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Nginx
+      - name: Deploy Frontend to Nginx
         # Rsync the build output (dist/) to the web root
-        # Using -r (recursive) and --delete to remove old files
-        run: rsync -r --delete dist/ ${{ secrets.DEPLOY_PATH }}
+        run: rsync -r --delete dist/ /var/www/ark.tbelt.online/html/
+
+      - name: Deploy Bot
+        run: |
+          rsync -r --delete --exclude 'node_modules' --exclude 'data' --exclude 'tests' ./discord-bot/ /var/www/ark.tbelt.online/bot/
+          cd /var/www/ark.tbelt.online/bot
+          npm install --production
+          pm2 restart ark-bot --update-env
