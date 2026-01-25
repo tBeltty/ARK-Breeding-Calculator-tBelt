@@ -17,6 +17,22 @@ const CreditsModal = ({ isOpen, onClose }) => {
         >
             <div className={styles.container}>
                 <div className={styles.section}>
+                    <p className={styles.madeBy}>
+                        {t('credits.made_by', 'Made with ❤️ by')}{' '}
+                        <a
+                            href="https://github.com/tBeltty"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.authorLink}
+                        >
+                            tBelt
+                        </a>
+                    </p>
+                </div>
+
+                <div className={styles.divider} />
+
+                <div className={`${styles.section} ${styles.bottomCredits}`}>
                     <h3 className={styles.role}>{t('credits.concept', 'Core Concept')}</h3>
                     <p className={styles.description}>
                         {t('credits.concept_desc', 'Food Calculator concept originally by')}
@@ -30,12 +46,6 @@ const CreditsModal = ({ isOpen, onClose }) => {
                         Crumplecorn
                     </a>
                 </div>
-
-                <div className={styles.divider} />
-
-                <p className={styles.footer}>
-                    {t('app.name', 'Arktic Assistant')} &copy; {new Date().getFullYear()}
-                </p>
             </div>
         </Modal>
     );
