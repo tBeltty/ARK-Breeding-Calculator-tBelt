@@ -32,4 +32,4 @@ jobs:
           rsync -r --delete --exclude 'node_modules' --exclude 'data' --exclude 'tests' ./discord-bot/ /var/www/ark.tbelt.online/bot/
           cd /var/www/ark.tbelt.online/bot
           npm install --production
-          pm2 restart ark-bot --update-env
+          pm2 restart ark-bot --update-env || pm2 start src/index.js --name ark-bot
