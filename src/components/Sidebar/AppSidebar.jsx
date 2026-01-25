@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
-import { getNickname } from '../../utils/nicknames';
-import { getCreatureIcon } from '../../utils/creatureIcons';
+import { getNickname } from '../../domain/constants/nicknames';
+import { getCreatureIcon } from '../../presentation/assets/CreatureIcons';
 import styles from './AppSidebar.module.css';
 import './SidebarTooltip.css';
 
-import { authService } from '../../services/authService';
+import { authService } from '../../infrastructure/auth/DiscordAuthService';
 
 /**
  * Sidebar Component

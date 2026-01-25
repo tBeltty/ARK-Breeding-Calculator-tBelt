@@ -6,7 +6,7 @@ import { CreatureSelector } from '../CreatureSelector';
 import { DataInput } from '../DataPanel';
 import styles from './AddDinoModal.module.css';
 
-import { getNickname } from '../../utils/nicknames';
+import { getNickname } from '../../domain/constants/nicknames';
 
 export function AddDinoModal({ isOpen, onClose, onAdd, creatures }) {
     const { t } = useTranslation();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { getNickname } from '../../utils/nicknames';
-import { getCreatureIcon } from '../../utils/creatureIcons';
+import { getNickname } from '../../domain/constants/nicknames';
+import { getCreatureIcon } from '../../presentation/assets/CreatureIcons';
 import styles from './OnboardingWizard.module.css';
 
 const STEPS = ['welcome', 'language', 'gameVersion', 'server', 'theme', 'notifications', 'creature'];
