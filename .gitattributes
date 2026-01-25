@@ -1,4 +1,5 @@
-# Exclude large/legacy HTML files from language statistics
-discord-bot/*.html linguist-vendored
-dist/** linguist-vendored
-*.css linguist-vendored
+# Aggressively exclude HTML from language stats
+discord-bot/**/*.html linguist-vendored=true linguist-detectable=false
+discord-bot/*.html linguist-vendored=true linguist-detectable=false
+*.html linguist-detectable=false
+dist/** linguist-vendored=true
