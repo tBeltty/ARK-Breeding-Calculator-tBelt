@@ -1,7 +1,7 @@
 {
   "name": "ark-breeding-tool",
   "private": true,
-  "version": "2.5.2",
+  "version": "3.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",

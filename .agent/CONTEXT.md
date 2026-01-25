@@ -4,16 +4,19 @@
 - **Error Handling**: Use `sessions` correctly in `useAppLogic`.
 - **Repository Strategy**: GitHub (`tBeltty/ARK-Breeding-Calculator-tBelt`) is the Source of Truth. Ensure `origin` points to this fork. ALWAYS use `main` branch (not `master`). Use `--allow-unrelated-histories` if syncing for the first time.
 - **Deployment Protocol (STRICT)**:
-    - **Verify Build**: ALWAYS wait for `npm run build` to finish and verify Exit Code 0 before rsyncing. Deployment of a broken `dist` folder is a CRITICAL failure.
-    - **Frontend Path**: MUST sync to `/var/www/ark.tbelt.online/html/`.
-    - **Backend Path**: MUST sync to `/var/www/ark.tbelt.online/bot/`.
-    - **Post-Deploy Backend**: After every bot update, SSH into VPS and run `npm install --production` in `/bot` folder, then `pm2 restart ark-bot`.
-    - **Safety**: Never run rsync against `/var/www/ark.tbelt.online/` root directly as it wipes necessary subdirectories.
-- **Purity Rules**: Never use `Date.now()` directly in the render phase of components; use a `now` state updated by a timer. This prevents build-breaking lint errors.
-- **Environment**: Bot requires `axios` and `dotenv`. Ensure `.env` is present on VPS (manual check).
+    - **Verify Build**: ALWAYS run `npm run build` in `src_new` and verify Exit Code 0 before rsyncing.
+    - **Frontend Path**: MUST sync `src_new/dist/` to `/var/www/ark.tbelt.online/html/`.
+    - **Backend Path**: MUST sync `discord-bot/` to `/var/www/ark.tbelt.online/bot/` (exclude `node_modules`, `data`, `tests`).
+    - **Production Sync**: 
+        1. `rsync -avz --exclude 'node_modules' --exclude 'data' --exclude 'tests' ./discord-bot/ mi-vps:/var/www/ark.tbelt.online/bot/`
+        2. SSH into VPS: `cd /var/www/ark.tbelt.online/bot && npm install --production`
+        3. Clear Cache: `pm2 delete ark-bot` (if changing env) or `pm2 restart ark-bot --update-env`.
+    - **Nginx Security**: Ensure `ark.tbelt.online/api/` points to `localhost:3005`.
 
 - **Server Infrastructure (mi-vps)**:
-    - **Port 3001**: Finances Backend (DO NOT USE).
-    - **Port 3005**: ARK Bot API (Must match Nginx `proxy_pass`).
-    - **Nginx**: Requests to `ark.tbelt.online/api/` are proxied to `localhost:3005`.
+    - **Port 3001**: Finances Backend (DO NOT INTERFERE).
+    - **Port 3005**: Arktic Assistant API (Production).
+    - **Environment**: Bot requires `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, and `NODE_ENV=production`.
+    - **Logging**: Use `pm2 logs ark-bot` to verify initialization and command registration.
+
 

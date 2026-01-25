@@ -64,20 +64,52 @@ export function createInfoEmbed(title, description) {
 /**
  * Create a creature tracking embed
  */
+// Creature name to filename mapping (synced with frontend)
+const ICON_NAME_MAPPINGS = {
+    'Araneo': 'Spider',
+    'Castoroides': 'Giant_Beaver',
+    'Compsognathus': 'Compy',
+    'Dilophosaurus': 'Dilophosaur',
+    'Direbear': 'Dire_Bear',
+    'Gasbag': 'Gasbags',
+    'Onychonycteris': 'Onyc',
+    'Pachycephalosaurus': 'Pachy',
+    'Parasaurolophus': 'Parasaur',
+    'Plesiosaurus': 'Plesiosaur',
+    'Pulmonoscorpius': 'Scorpion',
+    'Quetzalcoatlus': 'Quetzal',
+    'Sarcosuchus': 'Sarco',
+    'Spinosaurus': 'Spino',
+    'Therizinosaurus': 'Therizinosaur',
+    'Triceratops': 'Trike',
+    'Woolly Rhino': 'Woolly_Rhinoceros',
+    'Ferox (Large)': 'Ferox',
+};
+
+function getCreatureIconUrl(creatureName) {
+    const iconName = ICON_NAME_MAPPINGS[creatureName] || creatureName.replace(/ /g, '_');
+    return `https://ark.tbelt.online/creatures/${iconName}.png`;
+}
+
+/**
+ * Create a creature tracking embed
+ */
 export function createCreatureEmbed(creature, progress) {
     const progressBar = createProgressBar(progress.percentage);
     const timeRemaining = formatDuration(progress.remainingMs);
+    const iconUrl = getCreatureIconUrl(creature.creature_type);
 
     return new EmbedBuilder()
         .setColor(COLORS.primary)
         .setTitle(`🦖 ${creature.nickname || creature.creature_type}`)
         .setDescription(`**Type:** ${creature.creature_type}`)
+        .setThumbnail(iconUrl)
         .addFields(
             { name: 'Maturation', value: `${progressBar} ${progress.percentage.toFixed(1)}%`, inline: false },
             { name: 'Time Remaining', value: timeRemaining, inline: true },
             { name: 'Current Buffer', value: `${progress.bufferMinutes} min`, inline: true },
         )
-        .setFooter({ text: 'Arktic Assistant' })
+        .setFooter({ text: 'Arktic Assistant', iconURL: iconUrl })
         .setTimestamp();
 }
 

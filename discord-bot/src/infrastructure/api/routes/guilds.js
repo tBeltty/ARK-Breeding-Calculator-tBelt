@@ -47,11 +47,23 @@ const requireAuth = async (req, res, next) => {
 /**
  * Check if a user has permission to manage trackers in a guild
  */
+/**
+ * Check if a user has permission to manage trackers in a guild
+ */
 async function checkTrackerPermission(userId, guildId, client, guildSettings) {
+    // Default to true if no restrictions
     if (!guildSettings.command_restrictions) return true;
+
     try {
-        const allowedRoles = JSON.parse(guildSettings.command_restrictions);
-        if (!Array.isArray(allowedRoles) || allowedRoles.length === 0) return true;
+        const restrictions = JSON.parse(guildSettings.command_restrictions);
+
+        // Handle legacy format (simple array of roles or channels?) 
+        // OR new format: { "track": { roles: [], channels: [] } }
+        // For /track command specifically:
+        const trackRules = restrictions['track'] || restrictions['server-track'];
+
+        // If no specific rules for 'track', allow.
+        if (!trackRules) return true;
 
         const guild = client.guilds.cache.get(guildId);
         if (!guild) return false;
@@ -59,80 +71,102 @@ async function checkTrackerPermission(userId, guildId, client, guildSettings) {
         const member = await guild.members.fetch(userId);
         if (member.permissions.has('ManageGuild')) return true;
 
-        return member.roles.cache.some(role => allowedRoles.includes(role.id));
-    } catch (e) { return false; }
+        // Check Role Permissions
+        if (trackRules.roles && trackRules.roles.length > 0) {
+            const hasRole = member.roles.cache.some(r => trackRules.roles.includes(r.id));
+            if (!hasRole) return false;
+        }
+
+        return true;
+        // Note: Channel permission is checked at the request level (channelId param), 
+        // but here we are authorizing the USER action. 
+    } catch (e) {
+        console.error('Permission check error:', e);
+        return false;
+    }
 }
 
+// ... permissions helper ...
 /**
- * Helper to check if user is admin in a guild
+ * Check if user is admin of the guild
  */
-function isGuildAdmin(userId, guildId, client) {
+async function isGuildAdmin(userId, guildId, client) {
+    if (!client) return false;
     const guild = client.guilds.cache.get(guildId);
     if (!guild) return false;
-    const member = guild.members.cache.get(userId);
-    return member?.permissions.has('ManageGuild') || false;
+
+    try {
+        const member = await guild.members.fetch(userId);
+        return member.permissions.has('ManageGuild') || member.permissions.has('Administrator');
+    } catch (e) {
+        return false;
+    }
 }
 
-// Global API rate limit
-router.use(rateLimitMiddleware(60, 60));
+
+// ... permissions helper ...
 
 /**
  * GET /api/guilds
+ * List all guilds where the user has Admin rights OR the bot is present.
  */
 router.get('/', requireAuth, async (req, res) => {
     try {
+        // 1. Fetch user's guilds from Discord
         const response = await fetch('https://discord.com/api/v10/users/@me/guilds', {
             headers: { Authorization: req.discordToken }
         });
-        if (!response.ok) return res.status(response.status).json({ error: 'Failed' });
+
+        if (!response.ok) {
+            logger.error(`[API] Failed to fetch user guilds: ${response.status} ${response.statusText}`);
+            return res.status(response.status).json({ error: 'Failed to fetch Discord guilds' });
+        }
 
         const userGuilds = await response.json();
         const client = req.app.locals.client;
 
-        // --- Tier Identification Logic ---
-        let userTier = 'free';
-        const supportServerId = process.env.SUPPORT_SERVER_ID;
-        const proRoleId = process.env.PRO_ROLE_ID;
-        const tribeRoleId = process.env.TRIBE_ROLE_ID;
-
-        if (client && supportServerId) {
-            try {
-                const supportGuild = client.guilds.cache.get(supportServerId);
-                if (supportGuild) {
-                    const member = await supportGuild.members.fetch(req.user.id);
-                    if (member) {
-                        if (tribeRoleId && member.roles.cache.has(tribeRoleId)) userTier = 'tribe';
-                        else if (proRoleId && member.roles.cache.has(proRoleId)) userTier = 'pro';
-                    }
-                }
-            } catch (e) { /* ignore */ }
+        if (!Array.isArray(userGuilds)) {
+            logger.error('[API] Discord returned invalid guilds format');
+            return res.json({ guilds: [] });
         }
-        // ---------------------------------
+
+        // logger.info(`[API] User ${req.user.id} returned ${userGuilds.length} raw guilds.`);
 
         const mutualGuilds = userGuilds
             .map(g => {
                 const inServer = client.guilds.cache.has(g.id);
-                if (!inServer) return null; // Only servers where bot is present
+                // Check permissions directly from the Discord payload
+                // 0x20 is MANAGE_GUILD, 0x8 is ADMINISTRATOR
+                let isAdmin = false;
+                try {
+                    const p = BigInt(g.permissions || 0);
+                    isAdmin = (p & 0x20n) === 0x20n || (p & 0x8n) === 0x8n;
+                } catch (e) {
+                    // ignore invalid permissions
+                }
+                const isOwner = g.owner === true;
 
-                const settings = GuildRepository.findById(g.id);
-                const isAdmin = (BigInt(g.permissions) & 0x20n) === 0x20n;
-
-                return {
-                    id: g.id,
-                    name: g.name,
-                    icon: g.icon,
-                    in_server: true,
-                    isAdmin: isAdmin,
-                    tier: settings?.premium_tier || 'free'
-                };
+                // Return if bot is in server OR user has permissions to invite/manage
+                if (inServer || isAdmin || isOwner) {
+                    const settings = inServer ? GuildRepository.findById(g.id) : null;
+                    return {
+                        id: g.id,
+                        name: g.name,
+                        icon: g.icon,
+                        in_server: inServer,
+                        isAdmin: isAdmin || isOwner,
+                        tier: settings?.premium_tier || 'free'
+                    };
+                }
+                return null;
             })
             .filter(Boolean)
-            .sort((a, b) => (b.isAdmin ? 1 : 0) - (a.isAdmin ? 1 : 0));
+            .sort((a, b) => (b.in_server ? 1 : 0) - (a.in_server ? 1 : 0)); // Sort: Bot In > Bot Out
 
-        res.json({ user_tier: userTier, guilds: mutualGuilds });
-    } catch (error) {
-        logger.error('API Error /guilds:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.json({ guilds: mutualGuilds });
+    } catch (e) {
+        logger.error('[API] Error in GET /api/guilds:', e);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -145,7 +179,7 @@ router.get('/:id', requireAuth, async (req, res) => {
     if (!settings) return res.status(404).json({ error: 'Not found' });
 
     const client = req.app.locals.client;
-    const isAdmin = isGuildAdmin(req.user.id, id, client);
+    const isAdmin = await isGuildAdmin(req.user.id, id, client);
 
     // If admin, see all. If member, see only own.
     const creatures = isAdmin
@@ -153,17 +187,26 @@ router.get('/:id', requireAuth, async (req, res) => {
         : CreatureRepository.findActiveByUser(id, req.user.id);
 
     let channels = [];
+    let roles = [];
+
     if (client) {
         const guild = client.guilds.cache.get(id);
         if (guild) {
+            // Fetch Channels
             channels = guild.channels.cache
-                .filter(c => c.type === 0 && c.permissionsFor(client.user)?.has(['SendMessages', 'EmbedLinks']))
-                .map(c => ({ id: c.id, name: c.name, position: c.position }))
+                .filter(c => [0, 5].includes(c.type) && c.permissionsFor(client.user)?.has(['SendMessages', 'ViewChannel']))
+                .map(c => ({ id: c.id, name: c.name, position: c.position, type: c.type }))
                 .sort((a, b) => a.position - b.position);
+
+            // Fetch Roles (excluding @everyone and managed roles if possible, but for now just all non-managed)
+            roles = guild.roles.cache
+                .filter(r => r.name !== '@everyone' && !r.managed)
+                .map(r => ({ id: r.id, name: r.name, color: r.hexColor, position: r.position }))
+                .sort((a, b) => b.position - a.position);
         }
     }
 
-    res.json({ settings, creatures, channels, isAdmin });
+    res.json({ settings, creatures, channels, roles, isAdmin });
 });
 
 /**
@@ -173,12 +216,12 @@ router.patch('/:id/settings', requireAuth, async (req, res) => {
     const { id } = req.params;
     const client = req.app.locals.client;
 
-    if (!isGuildAdmin(req.user.id, id, client)) {
+    if (!await isGuildAdmin(req.user.id, id, client)) {
         return res.status(403).json({ error: 'Only administrators can change server settings.' });
     }
 
     const updates = req.body;
-    const allowed = ['notify_mode', 'server_rates', 'game_version', 'alert_threshold', 'command_restrictions'];
+    const allowed = ['notify_mode', 'notify_channel_id', 'server_rates', 'game_version', 'alert_threshold', 'command_restrictions'];
     const filtered = Object.keys(updates).filter(k => allowed.includes(k)).reduce((o, k) => ({ ...o, [k]: updates[k] }), {});
 
     try {
@@ -246,7 +289,7 @@ router.post('/:id/creatures/:creatureId/stop', requireAuth, async (req, res) => 
         if (!creature) return res.status(404).json({ error: 'Creature not found' });
 
         // Security check: must be admin OR owner
-        const isAdmin = isGuildAdmin(req.user.id, guildId, client);
+        const isAdmin = await isGuildAdmin(req.user.id, guildId, client);
         const isOwner = creature.user_id === req.user.id;
 
         if (!isAdmin && !isOwner) {

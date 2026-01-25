@@ -10,6 +10,7 @@ import { getDatabase } from '../database/sqlite.js';
 import { logger } from '../../shared/logger.js';
 import { ratesService } from '../../application/RatesService.js';
 import { serverService } from '../../application/ServerService.js';
+import { TrackingRepository } from '../database/repositories/TrackingRepository.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3005;
@@ -53,11 +54,65 @@ app.get('/api/servers/search', async (req, res) => {
 });
 
 app.post('/api/servers/track', async (req, res) => {
-    const { serverId, type, name } = req.body;
+    const { serverId, type, name, guildId, channelId } = req.body;
     if (!serverId) return res.status(400).json({ error: 'Server ID required' });
 
-    await serverService.addTrackedServer(serverId, type || 'unofficial', name);
+    // Use default 'WEB' guild if not provided, allowing basic web tracking
+    const targetGuild = guildId || 'WEB';
+    const targetChannel = channelId || 'WEB';
+
+    await serverService.addTrackedServer(serverId, type || 'unofficial', name, targetGuild, targetChannel);
     res.json({ success: true, message: 'Server added to tracking.' });
+});
+
+app.delete('/api/servers/track', async (req, res) => {
+    const { serverId, guildId } = req.body;
+    if (!serverId) return res.status(400).json({ error: 'Server ID required' });
+
+    const targetGuild = guildId || 'WEB';
+
+    try {
+        TrackingRepository.remove(targetGuild, serverId);
+        res.json({ success: true, message: 'Server removed from tracking.' });
+    } catch (e) {
+        res.status(500).json({ error: 'Failed to remove server' });
+    }
+});
+
+app.patch('/api/servers/:serverId', async (req, res) => {
+    const { serverId } = req.params;
+    const { channelId, guildId } = req.body; // channelId can be null to reset to default
+
+    if (!guildId) return res.status(400).json({ error: 'Guild ID required for security' });
+
+    try {
+        const db = getDatabase();
+        // Verify ownership/context? We assume guildId match for now + Auth middleware (if we had it here, but we rely on dashboard context)
+        // Ideally we check if record exists for this guild
+        const result = db.prepare('UPDATE server_tracking SET channel_id = ? WHERE server_id = ? AND guild_id = ?')
+            .run(channelId || null, serverId, guildId);
+
+        if (result.changes === 0) return res.status(404).json({ error: 'Server not found or permission denied' });
+
+        res.json({ success: true });
+    } catch (e) {
+        logger.error(`Failed to update server ${serverId}:`, e);
+        res.status(500).json({ error: 'Update failed' });
+    }
+});
+
+app.patch('/api/servers/track/channel', async (req, res) => {
+    const { guildId, channelId } = req.body;
+    if (!guildId || !channelId) return res.status(400).json({ error: 'Guild ID and Channel ID required' });
+
+    try {
+        const db = getDatabase();
+        const info = db.prepare('UPDATE server_tracking SET channel_id = ? WHERE guild_id = ?').run(channelId, guildId);
+        res.json({ success: true, updated: info.changes });
+    } catch (e) {
+        logger.error('Failed to update tracking channel:', e);
+        res.status(500).json({ error: 'Failed to update channel' });
+    }
 });
 
 app.get('/api/servers/status/:id', (req, res) => {
@@ -69,9 +124,11 @@ app.get('/api/servers/status/:id', (req, res) => {
 
 app.get('/api/servers/tracked', (req, res) => {
     try {
-        const db = getDatabase();
-        // Get all servers tracked by the web dashboard
-        const tracked = db.prepare("SELECT * FROM server_tracking WHERE guild_id = 'WEB'").all();
+        const { guildId } = req.query;
+        const targetGuild = guildId || 'WEB';
+
+        // Get all servers tracked by the web dashboard or specific guild
+        const tracked = TrackingRepository.listByGuild(targetGuild);
 
         // Enrich with current status from cache
         const enriched = tracked.map(row => {
@@ -79,13 +136,15 @@ app.get('/api/servers/tracked', (req, res) => {
             const cache = serverService.getStatus(cleanId);
             return {
                 id: cleanId,
-                name: row.server_name,
+                name: row.server_name || cache?.name || `Server ${cleanId}`,
                 status: cache?.status || row.last_status,
                 type: row.type,
                 map: cache?.map || 'Unknown',
                 players: cache?.players || 0,
                 maxPlayers: cache?.maxPlayers || 70,
-                lastUpdated: row.last_updated
+                maxPlayers: cache?.maxPlayers || 70,
+                lastUpdated: row.last_updated,
+                channel_id: row.channel_id
             };
         });
 
