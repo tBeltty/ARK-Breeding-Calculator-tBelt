@@ -375,7 +375,7 @@ class ServerService {
         try {
             logger.info(`Searching API for: ${query}`);
             const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                params: { search: query, per_page: 20 },
+                params: { search: query, per_page: 20, official: true },
                 headers: { 'X-API-Key': this.apiKey },
                 timeout: 5000
             }));
