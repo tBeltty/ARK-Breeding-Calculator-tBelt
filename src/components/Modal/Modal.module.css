@@ -1,0 +1,102 @@
+/**
+ * Modal Component Styles
+ * Implements AtmosUI glassmorphism aesthetic
+ */
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(0 0 0 / 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn var(--transition-normal);
+}
+
+.modal {
+    background: linear-gradient(180deg,
+            rgb(var(--surface-container) / 0.95) 0%,
+            rgb(var(--surface-container) / 0.85) 100%);
+    border: 1px solid rgb(var(--outline) / 0.3);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.4);
+    animation: slideIn var(--transition-normal);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    border-bottom: 1px solid rgb(var(--outline) / 0.1);
+}
+
+.title {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: rgb(var(--on-surface));
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    color: rgb(var(--on-surface-variant));
+    cursor: pointer;
+    font-size: var(--text-lg);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.closeButton:hover {
+    background: rgb(var(--surface-container-high));
+    color: rgb(var(--on-surface));
+}
+
+.content {
+    padding: var(--space-md);
+    color: rgb(var(--on-surface-variant));
+    font-size: var(--text-sm);
+    line-height: 1.5;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgb(var(--surface-container-low) / 0.5);
+    border-top: 1px solid rgb(var(--outline) / 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
