@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { authService } from '../infrastructure/auth/DiscordAuthService';
 
 export default function AuthCallback() {
     const navigate = useNavigate();

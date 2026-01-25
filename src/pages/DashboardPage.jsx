@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { authService } from '../infrastructure/auth/DiscordAuthService';
 import { ServerSettingsEditor } from '../components/Dashboard/ServerSettingsEditor';
 import { CommandManager } from '../components/Dashboard/CommandManager';
 import { RemoteCommandRunner } from '../components/Dashboard/RemoteCommandRunner';

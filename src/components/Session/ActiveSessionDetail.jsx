@@ -6,7 +6,7 @@ import { NotificationConfigModal } from '../NotificationConfigModal';
 import { NotificationManager } from '../../infrastructure/NotificationManager';
 import { useToast } from '../../hooks/useToast';
 import { formatTime, calculateMaturationTime } from '../../domain/breeding';
-import { getNickname } from '../../utils/nicknames';
+import { getNickname } from '../../domain/constants/nicknames';
 import styles from '../../App.module.css'; // We might want to split this css later
 
 export function ActiveSessionDetail({
