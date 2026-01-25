@@ -15,6 +15,7 @@ import { initializeDatabase } from './infrastructure/database/sqlite.js';
 import { loadCommands } from './infrastructure/discord/commandLoader.js';
 import { loadEvents } from './infrastructure/discord/eventLoader.js';
 import { startApi } from './infrastructure/api/server.js';
+import { localization } from './infrastructure/services/LocalizationService.js';
 import { startNotificationScheduler } from './application/NotificationScheduler.js';
 import { ratesService } from './application/RatesService.js';
 import { serverService } from './application/ServerService.js';
@@ -32,9 +33,12 @@ for (const envVar of requiredEnvVars) {
 // Create Discord client with minimal required intents
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds, // Required for guild info
+        GatewayIntentBits.Guilds
     ],
 });
+
+// Load locales early
+localization.load();
 
 // Attach collections for commands
 client.commands = new Collection();

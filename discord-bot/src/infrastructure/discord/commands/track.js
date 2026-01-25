@@ -129,17 +129,11 @@ export async function execute(interaction) {
     }
 
     // 1. Get guild settings and check RBAC
-    const guild = GuildRepository.findOrCreate(interaction.guildId);
-    if (guild.command_restrictions) {
-        const allowedRoles = JSON.parse(guild.command_restrictions);
-        if (Array.isArray(allowedRoles) && allowedRoles.length > 0) {
-            const hasRole = interaction.member.roles.cache.some(r => allowedRoles.includes(r.id));
-            const isAdmin = interaction.member.permissions.has('ManageGuild');
-            if (!hasRole && !isAdmin) {
-                return interaction.reply({ content: 'You do not have permission to use this command in this server.', ephemeral: true });
-            }
-        }
+    const { checkCommandPermission } = await import('../security/permissionCheck.js');
+    if (!checkCommandPermission(interaction, 'track')) {
+        return interaction.reply({ content: '⛔ You do not have permission to use this command here (Channel or Role restricted).', ephemeral: true });
     }
+    const guild = GuildRepository.findOrCreate(interaction.guildId);
 
     // Validate creature name
     const creatureValidation = validateCreatureName(creatureInput);

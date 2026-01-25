@@ -35,8 +35,23 @@ export class TrackingRepository {
     }
 
     /**
-     * Check if a server is already being tracked in a channel
+     * Update the channel for a specific tracked server
      */
+    static updateChannel(guildId, serverId, channelId) {
+        const db = getDatabase();
+        const stmt = db.prepare("UPDATE server_tracking SET channel_id = ? WHERE guild_id = ? AND server_id = ?");
+        return stmt.run(channelId, guildId, serverId);
+    }
+
+    /**
+     * Update the channel for ALL tracked servers in a guild
+     */
+    static updateAllChannels(guildId, channelId) {
+        const db = getDatabase();
+        const stmt = db.prepare("UPDATE server_tracking SET channel_id = ? WHERE guild_id = ?");
+        return stmt.run(channelId, guildId);
+    }
+
     static isTracked(guildId, serverId) {
         const db = getDatabase();
         const row = db.prepare("SELECT id FROM server_tracking WHERE guild_id = ? AND server_id = ?").get(guildId, serverId);

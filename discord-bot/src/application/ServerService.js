@@ -3,6 +3,7 @@ import { GameDig } from 'gamedig';
 import { getDatabase } from '../infrastructure/database/sqlite.js';
 import { logger } from '../shared/logger.js';
 import { EmbedBuilder } from '../infrastructure/discord/EmbedBuilder.js';
+import { GuildRepository } from '../infrastructure/database/repositories/GuildRepository.js';
 
 /**
  * RequestQueue
@@ -299,7 +300,24 @@ class ServerService {
         try {
             if (!this.client) return;
 
-            const channel = await this.client.channels.fetch(record.channel_id);
+            let targetChannelId = record.channel_id;
+
+            // Priority: Specific Channel Override > Guild Global Setting
+            // If the record has no specific channel (or is just 'WEB'), use the Global Setting.
+            if ((!targetChannelId || targetChannelId === 'WEB') && record.guild_id) {
+                try {
+                    const settings = GuildRepository.findById(record.guild_id);
+                    if (settings && settings.notify_channel_id) {
+                        targetChannelId = settings.notify_channel_id;
+                    }
+                } catch (e) {
+                    // fall back
+                }
+            }
+
+            if (!targetChannelId) return;
+
+            const channel = await this.client.channels.fetch(targetChannelId);
             if (!channel) return;
 
             const name = record.server_name || `Server ${record.server_id}`;
@@ -395,25 +413,24 @@ class ServerService {
         return combined;
     }
 
-    async addTrackedServer(serverId, type = 'unofficial', name = null) {
+    async addTrackedServer(serverId, type = 'unofficial', name = null, guildId = 'WEB', channelId = 'WEB') {
         const db = getDatabase();
-        logger.info(`[ServerService] addTrackedServer called for ${serverId} (${type}) Name: ${name}`);
+        logger.info(`[ServerService] addTrackedServer called for ${serverId} (${type}) Name: ${name} Guild: ${guildId}`);
         try {
-            const exists = db.prepare('SELECT id, server_name FROM server_tracking WHERE server_id = ?').get(serverId);
+            const exists = db.prepare('SELECT id, server_name FROM server_tracking WHERE server_id = ? AND guild_id = ?').get(serverId, guildId);
 
             if (exists) {
                 logger.info(`[ServerService] Server exists in DB. Current Name: ${exists.server_name}. New Name: ${name}`);
-                // SELF-HEAL: If it exists, update the name! This fixes "Official [ID]" bad data.
+                // SELF-HEAL: If it exists, update the name!
                 if (name) {
-                    const info = db.prepare('UPDATE server_tracking SET server_name = ?, type = ?, last_updated = CURRENT_TIMESTAMP WHERE server_id = ?')
-                        .run(name, type, serverId);
+                    const info = db.prepare('UPDATE server_tracking SET server_name = ?, type = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?')
+                        .run(name, type, exists.id);
                     logger.info(`[ServerService] Update result: ${info.changes} changes.`);
                 }
             } else {
-                // HackDB for Web: Use 'WEB' as guild_id
                 db.prepare('INSERT INTO server_tracking (guild_id, channel_id, server_id, type, server_name, last_status) VALUES (?, ?, ?, ?, ?, ?)')
-                    .run('WEB', 'WEB', serverId, type, name || serverId, 'unknown');
-                logger.info(`[ServerService] Inserted new record.`);
+                    .run(guildId, channelId, serverId, type, name || serverId, 'unknown');
+                logger.info(`[ServerService] Inserted new record for guild ${guildId}.`);
             }
 
             // Initialize/Update cache immediately

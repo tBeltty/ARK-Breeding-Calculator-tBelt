@@ -61,19 +61,10 @@ export async function registerCommands(client) {
         );
         logger.success(`Registered ${commands.length} commands globally`);
 
-        // 2. Guild-specific registration (instantly available)
-        if (client.guilds.cache.size > 0) {
-            for (const [guildId, guild] of client.guilds.cache) {
-                await rest.put(
-                    Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, guildId),
-                    { body: commands }
-                );
-                logger.debug(`Registered commands for guild: ${guild.name} (${guildId})`);
-            }
-            logger.success(`Registered commands for ${client.guilds.cache.size} guilds instantly`);
-        } else {
-            logger.warn('No guilds found in cache for instant registration');
-        }
+        // 2. No longer registering per-guild to avoid duplicates with global commands
+        // Guild-specific registration is only useful for development in a single server
+        // but causes duplicates when combined with global registration.
+        logger.info('Global commands registered. Discord may take some time to propagate changes to all servers.');
     } catch (error) {
         logger.error('Failed to register commands:', error);
     }
