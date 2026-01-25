@@ -262,15 +262,6 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
 
             <div className={styles.footer}>
                 <button
-                    className={`${styles.configBtn} ${styles.creditsBtn}`}
-                    onClick={() => setCreditsOpen(true)}
-                    title={t('ui.credits')}
-                >
-                    <span className={styles.configBtnIcon}>📜</span>
-                    {!isDesktopCollapsed && <span>{t('ui.credits')}</span>}
-                </button>
-
-                <button
                     className={`${styles.configBtn} ${location.pathname === '/servers' ? styles.active : ''}`}
                     onClick={() => {
                         navigate('/servers');
@@ -308,6 +299,15 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                 >
                     <span className={styles.configBtnIcon}>⚙️</span>
                     {!isDesktopCollapsed && <span>{t('ui.settings', 'Settings')}</span>}
+                </button>
+
+                <button
+                    className={`${styles.configBtn} ${styles.creditsBtn}`}
+                    onClick={() => setCreditsOpen(true)}
+                    title={t('ui.credits')}
+                >
+                    <span className={styles.configBtnIcon}>📜</span>
+                    {!isDesktopCollapsed && <span>{t('ui.credits')}</span>}
                 </button>
             </div>
             <CreditsModal isOpen={creditsOpen} onClose={() => setCreditsOpen(false)} />
