@@ -26,3 +26,6 @@
     - **Incident 2026-01-24 (Submodules)**: `src_new` was a nested Git repository causing CI issues.
         - **Resolution**: Refactored to standard Monorepo structure (Flattened Source). `src_new` is DELETED. Source is now in `/src`.
         - **Rule**: Standard `src/` folder only. No nested submodules for core code.
+    - **Incident 2026-01-24 (PM2 Cold Start)**: `pm2 restart` failed because the process didn't exist (first run or manual stop).
+        - **Fix**: Updated usage to `pm2 restart <name> || pm2 start <file> --name <name>`.
+        - **Rule**: Deployment scripts must be idempotent. Always use `restart || start` logic for process management.
