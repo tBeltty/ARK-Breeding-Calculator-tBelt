@@ -92,7 +92,8 @@ export async function execute(interaction) {
             const query = interaction.options.getString('query');
 
             // 1. Find the server (Search returns an array or rate limit error)
-            const results = await serverService.findServer(query);
+            // Force onlyOfficial=true for this subcommand
+            const results = await serverService.findServer(query, true);
 
             if (results.error === 'RATE_LIMIT') {
                 return interaction.reply({
