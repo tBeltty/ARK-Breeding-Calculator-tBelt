@@ -1,0 +1,3 @@
+[submodule "src_new"]
+    path = src_new
+    url = https://github.com/tBeltty/ARK-Breeding-Calculator-tBelt.git
