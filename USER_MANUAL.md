@@ -1,83 +1,80 @@
-# 🦖 User Manual: ARK Breeding Assistant
+# 🦖 Arktic Assistant: Manual del Sobreviviente (v3.0)
 
-Welcome! This guide will help you get the most out of the bot and web platform so your ARK breeding is perfect and stress-free.
-
----
-
-## 🛰️ Server Monitoring (New in v3.0)
-
-Connect your calculator directly with ARK Official Servers:
-1.  **Live Status:** Check if your server is Online or Offline instantly.
-2.  **Auto-Rates:** Automatically detects evolution events (2x, 3x) and adjusts your timers without manual input.
-3.  **Downtime Compensation:** If the server goes down, the system "pauses" your breeding automatically to keep maturation % in sync.
-4.  **Return Notification:** Get an alert when the server comes back online.
-
-## 🥩 Food & Inventory Tracker
-Forget mental math with the new inventory management system:
-1.  **Track:** Activates a live countdown telling you *exactly* when the baby's inventory will be empty.
-2.  **Refill:** A simple button to reset the timer when you top up the inventory.
-3.  **Smart Buffer:** Calculates based on current weight and species consumption rate.
+**Arktic Assistant** es el ecosistema de crianza más avanzado para ARK: Survival Ascended (ASA) y ARK: Survival Evolved (ASE). Combina un potente Bot de Discord con un Dashboard Web sincronizado en tiempo real.
 
 ---
 
-## 🎮 Discord Usage
+## 🚀 1. Instalación Rápida
 
-The bot lives in your Discord server and is your breeding companion. Use slash commands (`/`) to interact.
-
-### 🐣 Start Tracking
-Use `/track` to start watching a baby.
-*   **Key Fields:**
-    *   `creature`: Species name (Rex, Argy, etc). Use autocomplete.
-    *   `progress`: Current maturation % (default 0).
-    *   `nickname`: Optional name for the baby.
-    *   `weight`: **(Important)** Current **Weight** stat. This allows the bot to calculate "buffer".
-    *   `notify_mode`: Choose **DM** (Private) or **Channel**.
-    *   `channel`: If Channel mode, select where to alert.
-
-### 📊 Check Status
-Use `/status` to see a visual table with progress, time remaining, and food buffer status for all your dinos.
-
-### 🛑 Stop Tracking
-Use `/stop [ID]` when done or if you made a mistake. You can only stop your own trackers.
+Para añadir Arktic Assistant a tu servidor, no necesitas buscar enlaces externos:
+1.  **Directo desde la Web:** Ve a [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard) e inicia sesión con Discord.
+2.  **Selección de Servidor:** Verás una lista de servidores donde tienes permisos de administración. Haz clic en el botón **"Invite Bot"** junto al servidor deseado.
+3.  **Autorización:** El enlace de invitación ya viene pre-configurado con los permisos necesarios (Roles, Canales y Comandos Slash).
 
 ---
 
-## 💻 The Web Dashboard
+## ⚙️ 2. Administración y Ajustes Inteligentes
 
-Access at [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard) with your Discord account.
+El bot es flexible y se adapta a cualquier tipo de servidor (Oficial o Privado).
 
-### What can you do on Web?
-1.  **Personal View:** See all active dinos across all servers in one screen.
-2.  **Alert Config:** Switch between DM/Channel alerts with one click.
-3.  **Remote Tracking:** Start a Discord tracker comfortably from the web using the **Remote Command Runner**.
-4.  **Precise Calc:** The web uses a real-time deterministic engine that never stops.
-
----
-
-## 🔔 Custom Notifications
-
-You decide how to receive alerts:
-*   **Direct Message (DM):** The bot DMs you privately.
-*   **Channel Mention:** The bot pings you in a specific channel.
-
-> [!NOTE]
-> You get an alert when "buffer" is low and another when maturation hits 100%.
+### Panel de Ajustes (`/settings`)
+Solo los administradores pueden modificar estos valores:
+*   **🔌 Modo de Juego:** Cambia entre **ASA** y **ASE**. El bot ajustará automáticamente las curvas de consumo de comida y tiempos de maduración.
+*   **📈 Tasas de Maduración:**
+    *   **Official (Auto-Sync):** Se sincroniza en tiempo real con los eventos de Wildcard (2x, 3x, etc.).
+    *   **Custom (Manual):** Introduce tu multiplicador personalizado (ej. `10.0` para servidores ultra-rápidos).
+*   **🔔 Sistema de Notificaciones:**
+    *   **Modo Canal:** Alertas públicas en un canal específico para todo el equipo.
+    *   **Modo DM:** Alertas privadas directas a tu cuenta de Discord.
+    *   **Umbrales:** Recibe avisos cuando al bebé le queden 5, 10 o 20 minutos de comida.
 
 ---
 
-## 🛡️ Tiers & Limits
+## 🐣 3. Guía de Crianza Paso a Paso
 
-System offers different capacities based on tier:
-*   **Free Tier:** Up to **2 active dinos** simultaneously. Full access to features.
-*   **Pro/Tribe Tier:** Unlocks higher limits (50+) for mass breeding.
+### El comando `/track` (El corazón del Bot)
+Cuando nazca un bebé, ejecuta `/track` y rellena estos campos clave:
+*   **Especie:** Usa el autocompletado (más de 145 criaturas disponibles).
+*   **Comida (Food):** Selecciona el tipo de alimento que tendrá en su inventario. El bot calculará la duración basándose en los puntos nutricionales de ese ítem.
+*   **Peso (Weight):** Indica el **Peso actual** del bebé. El bot usa este dato para saber cuántos stacks de comida caben realmente y calcular cuántas horas de "Buffer" tiene antes de morir.
+
+### Herramientas de Gestión
+*   **`/status`**: Muestra el "Gimnasio" de bebés activos con barras de progreso visuales y contadores de comida.
+*   **`/buffer`**: Calcula cuánto tiempo exacto durará un inventario lleno antes de que el bebé se muera de hambre.
+*   **`/stats`**: Detalles técnicos como el tiempo exacto para la siguiente impronta o el paso a etapa juvenil (10%).
 
 ---
 
-## ❓ FAQ
+## � 4. El Dashboard Online (Control Total)
 
-*   **Do I need to keep the web open?** No. The system calculates deterministically based on real time.
-*   **Why can't I use commands?** Ensure you have the Discord role designated by your admin.
-*   **Bot doesn't DM me:** Check your Discord privacy settings to allow DMs from server members.
+El dashboard en [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard) es donde Arktic Assistant brilla realmente. Ofrece funciones imposibles de realizar mediante texto en Discord:
+
+### 🎮 Gestión de Servidores
+*   **Dashboard Centralizado:** Visualiza todos tus bebés de múltiples servidores en una sola pantalla.
+*   **Edición Visual de Tasas:** Cambia las tasas de maduración y juego con sliders y menús desplegables sin usar comandos.
+
+### 🔒 Restricciones de Comandos (Solo Web)
+Desde el Dashboard, puedes configurar **quién** y **dónde** se usan los comandos:
+*   **Por Rol:** Permite que solo los "Breeders" puedan usar `/track`.
+*   **Por Canal:** Restringe el spam del bot a canales específicos de crianza.
+
+### �️ Monitoreo de Estado de Servidor (ASA/ASE)
+Vincula tus bebés a un servidor de ARK real:
+*   **Sincronización por Caída:** Si tu servidor de ARK se cae, el dashboard lo detecta y **pausa automáticamente tus timers** de crianza para que no pierdas a tus bebés por culpa de un crash del servidor o mantenimiento.
+
+### ⚡ Ejecutor de Comandos Remoto
+¿No estás en Discord? Puedes iniciar el rastreo de un bebé directamente desde la web rellenando el formulario y haciendo clic en **"Start Tracker"**. El bot enviará el mensaje a Discord automáticamente.
 
 ---
-*Happy Breeding, Survivor!* 🦕✨
+
+## 🛑 5. Comandos de Emergencia
+*   **`/stop [ID]`**: Detener un rastreo.
+*   **`/stopall`**: Limpiar todos tus rastreos (útil si acabas una camada masiva).
+*   **`/support`**: Obtén un enlace a nuestro Discord de soporte técnico.
+
+---
+
+> [!IMPORTANT]
+> **Privacidad:** El Dashboard solo solicita acceso a tus servidores para identificar dónde tienes permisos de administración. Tus datos nunca se comparten con terceros.
+
+*¡Nacido para dominar el Arca!* 🦕✨

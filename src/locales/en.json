@@ -331,5 +331,34 @@
         "concept": "Core Concept",
         "concept_desc": "Food Calculator originally by",
         "made_by": "Made with ❤️ by"
+    },
+    "help": {
+        "title": "Survivor's Handbook",
+        "subtitle": "Everything you need to master breeding in ARK",
+        "footer": "Born to rule the Ark! 🦕✨",
+        "back_btn": "Back Home",
+        "invite_btn": "Invite Bot",
+        "sections": {
+            "install": {
+                "title": "Quick Installation",
+                "content": "To add Arktic Assistant to your server, go to the **Dashboard** tab ([ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard)) and log in with Discord. You'll see a list of servers where you have administrative permissions. Simply click **'Invite Bot'** and authorize the pre-configured permissions."
+            },
+            "settings": {
+                "title": "Server Settings",
+                "content": "The bot adapts to any configuration. Use **/settings game** to toggle between ASA and ASE, and **/settings rates** to choose between automatic official sync or custom multipliers for private servers."
+            },
+            "breeding": {
+                "title": "Breeding Guide",
+                "content": "The key command is **/track**. Make sure to provide the **Weight** of your creature; this is the most critical data point, as it allows the bot to calculate how much food fits in the inventory and how much real 'Buffer' time the baby has before starving."
+            },
+            "dashboard": {
+                "title": "Online Dashboard",
+                "content": "At **ark.tbelt.online/dashboard**, you can manage everything visually. It includes a **Remote Executor** to start trackers without opening Discord and **Command Restrictions** to limit bot usage to specific roles or trusted channels."
+            },
+            "monitoring": {
+                "title": "Server Monitoring",
+                "content": "Link your creatures to a real server. If the ARK server goes down, the system will detect the offline status and **automatically pause your breeding timers** to prevent accidental deaths due to lack of food during downtime."
+            }
+        }
     }
 }
