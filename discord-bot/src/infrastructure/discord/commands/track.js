@@ -18,6 +18,7 @@ import {
     getDefaultFoodForCreature,
     DEFAULT_SETTINGS
 } from '../../../domain/breeding.js';
+import { logger } from '../../../shared/logger.js';
 
 // Get list of creature names for autocomplete
 const creatureNames = Object.keys(creatures).sort();

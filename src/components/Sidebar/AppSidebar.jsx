@@ -267,7 +267,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                         navigate('/servers');
                         setIsMobileExpanded(false);
                     }}
-                    title="Server Monitoring"
+                    title={t('panels.server_tracking')}
                     style={{ marginBottom: '8px', background: 'var(--primary-container)', color: 'var(--on-primary-container)' }}
                 >
                     <span className={styles.configBtnIcon}>🛰️</span>
@@ -283,11 +283,11 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                             authService.login();
                         }
                     }}
-                    title="Bot Dashboard"
+                    title={t('panels.bot_dashboard')}
                     style={{ marginBottom: '8px', background: 'var(--primary-container)', color: 'var(--on-primary-container)' }}
                 >
                     <span className={styles.configBtnIcon}>🤖</span>
-                    {!isDesktopCollapsed && <span>Bot Dashboard</span>}
+                    {!isDesktopCollapsed && <span>{t('panels.bot_dashboard')}</span>}
                 </button>
                 <button
                     className={styles.configBtn}

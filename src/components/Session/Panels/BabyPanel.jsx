@@ -127,7 +127,7 @@ export function BabyPanel({
                                         }}
                                         className={styles.actionButton}
                                         style={{ background: 'var(--primary)', color: 'white', border: 'none' }}
-                                        title="Refill Inventory (Reset Timer)"
+                                        title={t('tooltips.refill_btn_action')}
                                     >
                                         🔄 {t('ui.refill_btn')}
                                     </button>
@@ -140,7 +140,7 @@ export function BabyPanel({
                                             updateDinoData('trackedBufferDuration', calculations?.currentBuffer);
                                         }}
                                         className={styles.actionButton}
-                                        title="Start Tracking Depletion"
+                                        title={t('tooltips.start_tracking_action')}
                                     >
                                         ⏱️ {t('ui.track_btn')}
                                     </button>
@@ -151,7 +151,7 @@ export function BabyPanel({
                                         onClick={() => updateDinoData('foodTrackingEnabled', false)}
                                         className={styles.actionButton}
                                         style={{ opacity: 0.7 }}
-                                        title="Stop Tracking"
+                                        title={t('tooltips.stop_tracking')}
                                     >
                                         ❌
                                     </button>

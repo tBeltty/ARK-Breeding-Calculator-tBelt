@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ServerStatusManager.module.css';
 
+import { useTranslation } from 'react-i18next';
 export function ServerStatusManager({ guildId, channels, globalSettings }) {
+    const { t } = useTranslation();
     const [servers, setServers] = useState([]);
     const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(null); // Unused
@@ -138,26 +140,26 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
         <div className={styles.container}>
             <div className={styles.header}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <h3>Managed Servers ({servers.length})</h3>
+                    <h3>{t('panels.managed_servers')} ({servers.length})</h3>
                 </div>
                 <button
                     onClick={() => setAddMode(!addMode)}
                     className={addMode ? styles.cancelBtn : styles.addBtn}
                 >
-                    {addMode ? 'Cancel' : '+ Add Server'}
+                    {addMode ? t('ui.cancel') : t('ui.add_server')}
                 </button>
             </div>
 
             {addMode && (
                 <div className={styles.addSection}>
                     <div className={styles.channelSelect}>
-                        <label>Notification Channel (Optional Override):</label>
+                        <label>{t('ui.notify_channel')}:</label>
                         <select
                             value={notificationChannel}
                             onChange={e => setNotificationChannel(e.target.value)}
                             className={styles.select}
                         >
-                            <option value="">-- Use Global Default (#{defaultChannelName}) --</option>
+                            <option value="">{t('ui.default_global', { channel: defaultChannelName })}</option>
                             {channels.map(c => (
                                 <option key={c.id} value={c.id}>#{c.name}</option>
                             ))}
@@ -167,13 +169,13 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
                     <form onSubmit={handleSearch} className={styles.searchForm}>
                         <input
                             type="text"
-                            placeholder="Search Official Name or IP:Port..."
+                            placeholder={t('ui.search_placeholder')}
                             value={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                             className={styles.input}
                         />
                         <button type="submit" disabled={isSearching} className={styles.searchBtn}>
-                            {isSearching ? '...' : 'Search'}
+                            {isSearching ? t('ui.loading') : t('ui.search')}
                         </button>
                     </form>
 
@@ -184,7 +186,7 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
                             {searchResults.map(res => (
                                 <div key={res.id} className={styles.resultItem}>
                                     <span>{res.name}</span>
-                                    <button onClick={() => handleAdd(res)} className={styles.trackBtn}>Track</button>
+                                    <button onClick={() => handleAdd(res)} className={styles.trackBtn}>{t('ui.track')}</button>
                                 </div>
                             ))}
                         </div>
@@ -194,7 +196,7 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
 
             <div className={styles.list}>
                 {loading ? (
-                    <div className={styles.loading}>Loading servers...</div>
+                    <div className={styles.loading}>{t('ui.loading')}</div>
                 ) : servers.length === 0 ? (
                     <div className={styles.empty}>No servers tracked for this guild.</div>
                 ) : (
@@ -202,10 +204,10 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
                         <table className={styles.table}>
                             <thead>
                                 <tr>
-                                    <th>Server Name</th>
-                                    <th>Alert Channel</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>{t('ui.table_name')}</th>
+                                    <th>{t('ui.table_channel')}</th>
+                                    <th>{t('ui.table_status')}</th>
+                                    <th>{t('ui.table_actions')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -222,7 +224,7 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
                                                 className={styles.miniSelect}
                                                 style={{ maxWidth: '150px' }}
                                             >
-                                                <option value="">Default (#{defaultChannelName})</option>
+                                                <option value="">{t('ui.default', { channel: defaultChannelName })}</option>
                                                 {channels && channels.map(c => (
                                                     <option key={c.id} value={c.id}>#{c.name}</option>
                                                 ))}
@@ -234,7 +236,7 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
                                             </span>
                                         </td>
                                         <td>
-                                            <button onClick={() => handleRemove(s.id)} className={styles.deleteBtn} title="Stop Tracking">
+                                            <button onClick={() => handleRemove(s.id)} className={styles.deleteBtn} title={t('tooltips.stop_tracking')}>
                                                 🗑️
                                             </button>
                                         </td>

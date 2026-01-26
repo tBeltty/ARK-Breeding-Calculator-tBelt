@@ -147,7 +147,6 @@ app.get('/api/servers/tracked', (req, res) => {
                 map: cache?.map || 'Unknown',
                 players: cache?.players || 0,
                 maxPlayers: cache?.maxPlayers || 70,
-                maxPlayers: cache?.maxPlayers || 70,
                 lastUpdated: row.last_updated,
                 channel_id: row.channel_id
             };

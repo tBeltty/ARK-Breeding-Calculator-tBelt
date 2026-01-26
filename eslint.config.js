@@ -55,4 +55,14 @@ export default defineConfig([
       }]
     }
   },
+  // Node.js globals for Discord Bot
+  {
+    files: ['discord-bot/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.browser // Some files might share logic
+      }
+    }
+  }
 ])
