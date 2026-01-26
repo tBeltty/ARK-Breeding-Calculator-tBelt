@@ -14,6 +14,7 @@ export const authService = {
     login: () => {
         if (!CLIENT_ID) {
             console.error('VITE_DISCORD_CLIENT_ID not set');
+            alert('Client configuration error: VITE_DISCORD_CLIENT_ID is missing.');
             return;
         }
 
@@ -29,9 +30,10 @@ export const authService = {
     logout: () => {
         localStorage.removeItem('discord_access_token');
         localStorage.removeItem('discord_token_type');
-        localStorage.removeItem('discord_expires_in');
+        localStorage.removeItem('discord_expires_at');
         localStorage.removeItem('discord_user');
-        window.location.href = '/';
+        // Redirigir siempre a la raíz limpia para evitar bucles de hash
+        window.location.href = window.location.origin;
     },
 
     handleCallback: () => {
@@ -56,7 +58,8 @@ export const authService = {
     getToken: () => {
         const expiresAt = localStorage.getItem('discord_expires_at');
         if (!expiresAt || Date.now() > parseInt(expiresAt)) {
-            authService.logout(); // Token expired
+            // Ya no llamamos a logout() aquí para evitar redirecciones infinitas
+            // durante la inicialización de la app o el proceso de login.
             return null;
         }
         return localStorage.getItem('discord_access_token');

@@ -9,8 +9,10 @@ import styles from './DashboardPage.module.css';
 import '../styles/tokens.css';
 import '../styles/globals.css';
 import { CollapsibleSection } from '../components/Dashboard/CollapsibleSection';
+import { useTranslation } from 'react-i18next';
 
 export default function DashboardPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [guilds, setGuilds] = useState([]);
@@ -48,9 +50,11 @@ export default function DashboardPage() {
     };
 
     useEffect(() => {
-        if (authService.isAuthenticated()) {
+        const token = authService.getToken();
+        if (token) {
             fetchGuilds();
         } else {
+            console.log('No valid token found, skipping guild fetch');
             setLoading(false);
         }
     }, []);
@@ -147,7 +151,7 @@ export default function DashboardPage() {
         navigate('/');
     };
 
-    if (loading) return <div className={styles.container} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading dashboard...</div>;
+    if (loading) return <div className={styles.container} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t('ui.loading')}</div>;
 
     if (!authService.isAuthenticated()) {
         return (
@@ -172,17 +176,17 @@ export default function DashboardPage() {
             <header className={styles.header}>
                 <div className={styles.brand}>
                     <img src="/logo.png" alt="Logo" className={styles.logo} />
-                    <h1 className={styles.title}>Bot Dashboard</h1>
+                    <h1 className={styles.title}>{t('panels.bot_dashboard')}</h1>
                 </div>
                 <div className={styles.userControls}>
-                    <button onClick={() => navigate('/')} className={styles.navLink}>Calculator</button>
+                    <button onClick={() => navigate('/')} className={styles.navLink}>{t('ui.calculator_btn')}</button>
                     {user && (
                         <div className={styles.userInfo}>
                             <img src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`} className={styles.userAvatar} alt="User" />
                             <span>{user.username}</span>
                         </div>
                     )}
-                    <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
+                    <button onClick={handleLogout} className={styles.logoutBtn}>{t('ui.logout')}</button>
                 </div>
             </header>
 
@@ -191,18 +195,18 @@ export default function DashboardPage() {
                     <div className={styles.managementView}>
                         <div className={styles.headerLine}>
                             <button onClick={() => { setSelectedGuild(null); setGuildDetail(null); }} className={styles.backBtn}>
-                                &larr; Back to Servers
+                                &larr; {t('ui.back_servers')}
                             </button>
                             <div className={styles.guildTitle}>
                                 <img src={`https://cdn.discordapp.com/icons/${selectedGuild.id}/${selectedGuild.icon}.png`} className={styles.smallIcon} alt="" />
-                                <h2>{selectedGuild.name} {guildDetail.isAdmin ? '(Admin)' : '(Member)'}</h2>
+                                <h2>{selectedGuild.name} {guildDetail.isAdmin ? t('ui.admin') : t('ui.member')}</h2>
                             </div>
                         </div>
 
                         <div className={styles.editorFlex}>
                             {guildDetail.isAdmin && (
                                 <>
-                                    <CollapsibleSection title="Server Settings" icon="⚙️" defaultOpen={false}>
+                                    <CollapsibleSection title={t('panels.server_settings')} icon="⚙️" defaultOpen={false}>
                                         <ServerSettingsEditor
                                             settings={guildDetail.settings}
                                             channels={guildDetail.channels}
@@ -210,7 +214,7 @@ export default function DashboardPage() {
                                         />
                                     </CollapsibleSection>
 
-                                    <CollapsibleSection title="Command Restrictions" icon="🔒">
+                                    <CollapsibleSection title={t('panels.command_restrictions')} icon="🔒">
                                         <CommandManager
                                             channels={guildDetail.channels}
                                             roles={guildDetail.roles || []}
@@ -219,7 +223,7 @@ export default function DashboardPage() {
                                         />
                                     </CollapsibleSection>
 
-                                    <CollapsibleSection title="Server Monitoring" icon="🛰️" defaultOpen={true}>
+                                    <CollapsibleSection title={t('panels.server_tracking')} icon="🛰️" defaultOpen={true}>
                                         <ServerStatusManager
                                             guildId={selectedGuild.id}
                                             channels={guildDetail.channels}
@@ -229,7 +233,7 @@ export default function DashboardPage() {
                                 </>
                             )}
 
-                            <CollapsibleSection title="Remote Command Runner" icon="⚡" defaultOpen={!guildDetail.isAdmin}>
+                            <CollapsibleSection title={t('panels.remote_runner')} icon="⚡" defaultOpen={!guildDetail.isAdmin}>
                                 <RemoteCommandRunner
                                     channels={guildDetail.channels}
                                     onExecute={handleRemoteTrack}
@@ -237,7 +241,7 @@ export default function DashboardPage() {
                             </CollapsibleSection>
                         </div>
 
-                        <CollapsibleSection title={guildDetail.isAdmin ? "All Active Trackers" : "My Active Trackers"} icon="🦕" defaultOpen={true}>
+                        <CollapsibleSection title={guildDetail.isAdmin ? t('panels.all_trackers') : t('panels.my_trackers')} icon="🦕" defaultOpen={true}>
                             <div className={styles.trackerGrid}>
                                 {guildDetail.creatures.map(c => (
                                     <div key={c.id} className={styles.trackerCard}>
@@ -245,14 +249,14 @@ export default function DashboardPage() {
                                             <strong>{c.nickname || c.creature_type}</strong>
                                             <span>{c.creature_type} {guildDetail.isAdmin && c.user_id !== user?.id && `(Owner ID: ${c.user_id})`}</span>
                                         </div>
-                                        <button onClick={() => handleStopCreature(c.id)} className={styles.stopBtn}>Stop</button>
+                                        <button onClick={() => handleStopCreature(c.id)} className={styles.stopBtn}>{t('ui.stop')}</button>
                                     </div>
                                 ))}
                                 {guildDetail.creatures.length === 0 && (
                                     <p className={styles.emptyText}>
                                         {guildDetail.isAdmin
-                                            ? "No active trackers in this server."
-                                            : "You don't have any active trackers in this server."}
+                                            ? t('messages.no_trackers')
+                                            : t('messages.no_trackers')}
                                     </p>
                                 )}
                             </div>
@@ -260,7 +264,7 @@ export default function DashboardPage() {
                     </div>
                 ) : (
                     <>
-                        <h2 className={styles.sectionTitle}>Select a Server</h2>
+                        <h2 className={styles.sectionTitle}>{t('ui.select_server')}</h2>
                         <div className={styles.grid}>
                             {guilds.map(guild => (
                                 <div key={guild.id} className={styles.card}>
@@ -279,21 +283,21 @@ export default function DashboardPage() {
                                             className={`${styles.actionBtn} ${styles.primaryBtn}`}
                                             disabled={detailLoading}
                                         >
-                                            {detailLoading ? 'Loading...' : 'Manage bot'}
+                                            {detailLoading ? t('ui.loading') : t('ui.manage_bot')}
                                         </button>
                                     ) : (
                                         <a
                                             href={`https://discord.com/api/oauth2/authorize?client_id=${import.meta.env.VITE_DISCORD_CLIENT_ID}&permissions=8&scope=bot%20applications.commands&guild_id=${guild.id}`}
                                             target="_blank" rel="noopener noreferrer" className={`${styles.actionBtn} ${styles.outlineBtn}`}
                                         >
-                                            Invite Bot
+                                            {t('ui.invite_bot')}
                                         </a>
                                     )}
                                 </div>
                             ))}
                         </div>
                         {guilds.length === 0 && !loading && (
-                            <div className={styles.emptyState}>You don't have Manage Server permissions on any servers.</div>
+                            <div className={styles.emptyState}>{t('messages.no_perms')}</div>
                         )}
                     </>
                 )}

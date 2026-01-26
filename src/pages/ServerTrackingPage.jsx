@@ -184,8 +184,8 @@ export default function ServerTrackingPage() {
     return (
         <div className={styles.page}>
             <header className={styles.header}>
-                <h1 className={styles.title}>🛰️ {t('panels.server_tracking', 'Server Monitoring')}</h1>
-                <p className={styles.subtitle}>Real-time status and health metrics for your connected servers.</p>
+                <h1 className={styles.title}>🛰️ {t('panels.server_tracking')}</h1>
+                <p className={styles.subtitle}>{t('ui.server_tracking_subtitle')}</p>
             </header>
 
             {/* Search & Connect Section */}
@@ -194,12 +194,12 @@ export default function ServerTrackingPage() {
                     <input
                         type="text"
                         className={styles.searchInput}
-                        placeholder="Search Official Server (e.g. 'NA-PVP-TheIsland') or Enter IP:Port"
+                        placeholder={t('ui.search_placeholder_long')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <button type="submit" className={styles.searchButton} disabled={isSearching || retryTime > 0}>
-                        {isSearching ? '...' : retryTime > 0 ? `${retryTime}s` : 'Search'}
+                        {isSearching ? '...' : retryTime > 0 ? `${retryTime}s` : t('ui.search')}
                     </button>
                 </form>
 
@@ -221,7 +221,7 @@ export default function ServerTrackingPage() {
                                     className={styles.connectButton}
                                     onClick={() => handleConnect(result)}
                                 >
-                                    Connect
+                                    {t('ui.connect')}
                                 </button>
                             </div>
                         ))}
@@ -230,12 +230,12 @@ export default function ServerTrackingPage() {
             </div>
 
             {loading && trackedServerIds.length > 0 ? (
-                <div className={styles.loading}>Connecting to Arktic Cloud...</div>
+                <div className={styles.loading}>{t('ui.loading')}</div>
             ) : trackedServerIds.length === 0 ? (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>🛰️</div>
-                    <h3>No Servers Linked</h3>
-                    <p>Go to your Dino settings or start a new tracking session to link a server.</p>
+                    <h3>{t('ui.no_servers')}</h3>
+                    <p>{t('ui.no_servers_desc')}</p>
                 </div>
             ) : (
                 <div className={styles.grid}>
@@ -249,11 +249,11 @@ export default function ServerTrackingPage() {
                                     <div className={styles.statusIndicator} />
                                     <h3 className={styles.serverName}>{s?.name || (String(id).includes(':') ? `Private [${id}]` : `Official [${id}]`)}</h3>
                                     <div style={{ display: 'flex', gap: '5px' }}>
-                                        <span className={styles.statusBadge}>{isOnline ? 'ONLINE' : 'OFFLINE'}</span>
+                                        <span className={styles.statusBadge}>{isOnline ? t('ui.online') : t('ui.offline')}</span>
                                         <button
                                             onClick={() => handleRemove(id)}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', padding: '0 5px' }}
-                                            title="Stop Tracking"
+                                            title={t('tooltips.stop_tracking')}
                                         >
                                             🗑️
                                         </button>
@@ -263,15 +263,15 @@ export default function ServerTrackingPage() {
                                 {isOnline && (
                                     <div className={styles.stats}>
                                         <div className={styles.stat}>
-                                            <span className={styles.statLabel}>Map</span>
+                                            <span className={styles.statLabel}>{t('ui.map')}</span>
                                             <span className={styles.statValue}>{s.map || 'Unknown'}</span>
                                         </div>
                                         <div className={styles.stat}>
-                                            <span className={styles.statLabel}>Players</span>
+                                            <span className={styles.statLabel}>{t('ui.players')}</span>
                                             <span className={styles.statValue}>{s.players}/{s.maxPlayers}</span>
                                         </div>
                                         <div className={styles.stat}>
-                                            <span className={styles.statLabel}>Health</span>
+                                            <span className={styles.statLabel}>{t('ui.health')}</span>
                                             <span className={styles.statValue}>{s.uptime || 100}%</span>
                                         </div>
                                     </div>
