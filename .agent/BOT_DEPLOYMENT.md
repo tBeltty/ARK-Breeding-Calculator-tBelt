@@ -38,7 +38,15 @@ Deployment scripts and manual restarts must be **idempotent**.
 - **Frontend Root:** `/var/www/ark.tbelt.online/html`
 - **Bot Root:** `/var/www/ark.tbelt.online/bot`
 - **Database:** `/var/www/ark.tbelt.online/bot/data/bot.sqlite` (SQLite)
-- **Environment:** Bot requires `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, and `NODE_ENV=production`.
+- **Environment:**
+    - **Bot:** Requires `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, and `NODE_ENV=production`.
+    - **Frontend:** Requires `VITE_DISCORD_CLIENT_ID` in root `.env` (baked in during build).
+
+## 🔐 Environment Variables (VITE)
+The frontend build (`npm run build`) requires `VITE_DISCORD_CLIENT_ID` to be present.
+
+> [!CAUTION]
+> If `VITE_DISCORD_CLIENT_ID` is missing during build, the dashboard will show a configuration error. Ensure it is defined in your CI/CD environment or root `.env`.
 
 ## ⚠️ Critical Infrastructure Warnings
 
