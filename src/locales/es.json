@@ -307,5 +307,34 @@
         "concept": "Concepto Original",
         "concept_desc": "Calculadora de comida original por",
         "made_by": "Hecho con ❤️ por"
+    },
+    "help": {
+        "title": "Guía del Sobreviviente",
+        "subtitle": "Todo lo que necesitas para dominar la crianza en ARK",
+        "footer": "¡Nacido para dominar el Arca! 🦕✨",
+        "back_btn": "Volver al Inicio",
+        "invite_btn": "Invitar al Bot",
+        "sections": {
+            "install": {
+                "title": "Instalación Rápida",
+                "content": "Para añadir Arktic Assistant a tu servidor, ve a la pestaña **Dashboard** ([ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard)) e inicia sesión con Discord. Allí verás una lista de servidores donde tienes permisos de administración. Solo tienes que hacer clic en **'Invite Bot'** y autorizar los permisos pre-configurados."
+            },
+            "settings": {
+                "title": "Ajustes del Servidor",
+                "content": "El bot se adapta a cualquier configuración. Usa **/settings game** para alternar entre ASA y ASE, y **/settings rates** para elegir entre sincronización oficial automática o multiplicadores personalizados para servidores privados."
+            },
+            "breeding": {
+                "title": "Guía de Crianza",
+                "content": "El comando clave es **/track**. Asegúrate de indicar el **Peso (Weight)** de tu criatura; este es el dato más importante, ya que permite al bot calcular cuánta comida cabe en el inventario y cuánto tiempo de 'Buffer' real tiene el bebé antes de morir."
+            },
+            "dashboard": {
+                "title": "Dashboard Online",
+                "content": "En **ark.tbelt.online/dashboard** puedes gestionar todo visualmente. Incluye un **Ejecutor Remoto** para iniciar rastreos sin abrir Discord y **Restricciones de Comandos** para limitar el uso del bot a ciertos roles o canales de confianza."
+            },
+            "monitoring": {
+                "title": "Monitoreo de Servidores",
+                "content": "Vincula tus criaturas a un servidor real. Si el servidor de ARK se cae, el sistema detectará el estado offline y **pausará automáticamente tus timers** de crianza para evitar muertes accidentales por falta de comida durante el downtime."
+            }
+        }
     }
 }

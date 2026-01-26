@@ -1,0 +1,209 @@
+.helpPageWrapper {
+    padding: var(--space-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    color: rgb(var(--on-surface));
+    animation: fadeIn var(--transition-base);
+}
+
+.pageHeader {
+    margin-bottom: var(--space-3xl);
+    text-align: center;
+}
+
+.mainTitle {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+    background: linear-gradient(135deg, rgb(var(--primary)), #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.headerSubtitle {
+    color: rgb(var(--on-surface-variant));
+    font-size: var(--text-lg);
+}
+
+.contentLayout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-2xl);
+}
+
+.navigationSidebar {
+    position: sticky;
+    top: var(--space-xl);
+    height: fit-content;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-weight: 500;
+    background: transparent;
+    border: none;
+    color: inherit;
+    text-align: left;
+    width: 100%;
+}
+
+.navLink:hover:not(.linkActive) {
+    background: rgb(var(--surface-container-high) / 0.5);
+}
+
+.linkActive {
+    background: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+}
+
+.navIcon {
+    font-size: var(--text-xl);
+}
+
+.viewPort {
+    background: rgb(var(--surface-container));
+    border: 1px solid rgb(var(--outline) / 0.2);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3xl);
+    min-height: 600px;
+}
+
+.contentSection {
+    animation: slideUp var(--transition-base);
+}
+
+.sectionTitle {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    color: rgb(var(--on-surface));
+}
+
+.sectionBody {
+    line-height: 1.6;
+    margin-bottom: var(--space-xl);
+    color: rgb(var(--on-surface-variant));
+    font-size: var(--text-base);
+}
+
+.sectionBody strong {
+    color: rgb(var(--primary));
+}
+
+.highlightCard {
+    background: rgb(var(--surface-container-high));
+    border: 1px solid rgb(var(--outline) / 0.3);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-top: var(--space-2xl);
+}
+
+.actionButton {
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.actionButton:hover {
+    transform: translateY(-2px);
+}
+
+.actionButton:active {
+    transform: scale(0.98);
+}
+
+.primaryAction {
+    background: rgb(var(--primary));
+    color: rgb(var(--on-primary));
+    border: none;
+    box-shadow: 0 4px 12px rgb(var(--primary) / 0.3);
+}
+
+.secondaryAction {
+    background: transparent;
+    border: 1px solid rgb(var(--outline) / 0.5);
+    color: rgb(var(--on-surface));
+}
+
+.pageFooter {
+    margin-top: var(--space-3xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.footerNote {
+    margin-left: auto;
+    color: rgb(var(--on-surface-variant));
+    opacity: 0.6;
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(var(--space-xl));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .helpPageWrapper {
+        padding: var(--space-lg);
+    }
+
+    .contentLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .navigationSidebar {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: var(--space-sm);
+        white-space: nowrap;
+        gap: var(--space-sm);
+    }
+
+    .navLink {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .viewPort {
+        padding: var(--space-xl);
+    }
+}
