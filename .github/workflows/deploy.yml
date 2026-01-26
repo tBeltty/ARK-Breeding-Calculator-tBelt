@@ -23,7 +23,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
-          VITE_DISCORD_CLIENT_ID: "DISCORD_CLIENT_ID_PLACEHOLDER"
+          VITE_DISCORD_CLIENT_ID: ${{ secrets.VITE_DISCORD_CLIENT_ID }}
 
       - name: Deploy Frontend to Nginx
         # Rsync the build output (dist/) to the web root

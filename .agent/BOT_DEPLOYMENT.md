@@ -18,7 +18,7 @@
 
 ### 2. Manual Verification (SSH)
 If the CI/CD fails, you can verify the status on the VPS (`mi-vps`):
-- **Access:** `ssh root@93.188.163.184` (Key passphrase: `SSH_PASSPHRASE_PLACEHOLDER`)
+- **Access:** `ssh root@93.188.163.184` (Key passphrase: `<REDACTED>`)
 - **Logs:** `pm2 logs ark-bot`
 - **Status:** `pm2 status`
 
@@ -57,7 +57,7 @@ This VPS (`mi-vps`) also hosts **finances.tbelt.online** (Port 3001).
 - **DO NOT** modify `/var/www/finances.tbelt.online`.
 
 ### 🛡️ SSH Security
-The SSH key requires a passphrase. While CI/CD handles deployment, manual cleanup requires `ssh-add ~/.ssh/id_rsa` or providing the passphrase `SSH_PASSPHRASE_PLACEHOLDER` when prompted.
+The SSH key requires a passphrase. While CI/CD handles deployment, manual cleanup requires `ssh-add ~/.ssh/id_rsa` or providing the passphrase `<REDACTED>` when prompted.
 
 ---
 *Last Updated: 2026-01-26 (Sync with CONTEXT.md)*
