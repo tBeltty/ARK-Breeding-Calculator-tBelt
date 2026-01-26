@@ -34,19 +34,19 @@ describe('Session Entity', () => {
         const session = new Session('1', 'Dodo', 'Dodi');
 
         session.update({ maturationPct: 150 });
-        expect(session.maturationPct).toBe(100);
+        expect(session.maturationPct).toBe(1);
 
         session.update({ maturationPct: -50 });
         expect(session.maturationPct).toBe(0);
 
-        session.update({ maturationPct: 50.5 });
-        expect(session.maturationPct).toBe(50.5);
+        session.update({ maturationPct: 0.505 });
+        expect(session.maturationPct).toBe(0.505);
     });
 
     it('should serialize and deserialize correctly', () => {
         const original = new Session('1', 'Argentavis', 'Argy');
         original.start();
-        original.update({ maturationPct: 42, weight: 500 });
+        original.update({ maturationPct: 0.42, weight: 500 });
         // Simulating extra data
         original.update({ selectedFood: 'Raw Meat', maxFood: 1000 });
 
@@ -57,7 +57,7 @@ describe('Session Entity', () => {
         expect(restored).toBeInstanceOf(Session);
         expect(restored.id).toBe(original.id);
         expect(restored.isPlaying).toBe(false);
-        expect(restored.maturationPct).toBeCloseTo(42, 1);
+        expect(restored.maturationPct).toBeCloseTo(0.42, 2);
         expect(restored.weight).toBe(500);
 
         // Verify extra data
@@ -96,11 +96,11 @@ describe('Session Entity', () => {
 
         // Advance 30 minutes (50%)
         vi.advanceTimersByTime(1800 * 1000);
-        expect(session.maturationPct).toBeCloseTo(50, 1);
+        expect(session.maturationPct).toBeCloseTo(0.5, 2);
 
         // Advance another 1800 seconds (100%)
         vi.advanceTimersByTime(1800 * 1000);
-        expect(session.maturationPct).toBe(100);
+        expect(session.maturationPct).toBe(1);
 
         vi.useRealTimers();
     });

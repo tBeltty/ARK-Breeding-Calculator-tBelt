@@ -7,12 +7,12 @@ describe('UpdateSession Use Case', () => {
     it('should update a session with object updates', () => {
         const session = new Session('1', 'Rex', 'Rexy', { weight: 100 });
         const updated = UpdateSession.execute(session, {
-            data: { weight: 200, maturationPct: 50, isPlaying: true }
+            data: { weight: 200, maturationPct: 0.5, isPlaying: true }
         });
 
         expect(updated).not.toBe(session); // Immutability check
         expect(updated.weight).toBe(200);
-        expect(updated.maturationPct).toBeCloseTo(50, 1);
+        expect(updated.maturationPct).toBeCloseTo(0.5, 2);
         expect(updated.isPlaying).toBe(true);
     });
 
