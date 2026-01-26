@@ -22,7 +22,7 @@ describe('App Integration', () => {
             </MemoryRouter>
         );
         // Check for main title in Header
-        expect(screen.getByText('ARK Breeding Calculator')).toBeDefined();
+        expect(screen.getByText(/Arktic Assistant/i)).toBeDefined();
     });
 
     it('renders sidebar and content', () => {
@@ -34,8 +34,7 @@ describe('App Integration', () => {
         // Sidebar title
         expect(screen.getByText('Creatures')).toBeDefined();
 
-        // ActiveSessionDetail content (default panel might be expanded or collapsed, but 'Maturation Details' is a header)
-        // We can search for the "Creature Settings" panel title which is always rendered
-        expect(screen.getByText(/Creature Settings/i)).toBeDefined();
+        // ActiveSessionDetail content (default panel might be expanded or collapsed, but 'No Creatures Tracked' is the empty state)
+        expect(screen.getByText(/No Creatures Tracked/i)).toBeDefined();
     });
 });
