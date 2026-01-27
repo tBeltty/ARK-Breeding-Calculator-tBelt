@@ -350,15 +350,15 @@
             },
             "calc_details": {
                 "title": "Maturation Details",
-                "content": "This section is your control center.\n\n![Maturation Details](/assets/help/screenshots/maduration_details.png)\n\n1. **Current Buffer:** The most valuable data. Tells you how long you can log off without the baby dying.\n2. **Time to Juvenile:** How long until it eats from the trough.\n3. **Weight:** As it goes up, your buffer increases."
+                "content": "This section is your control center.\n\n![Maturation Details](/assets/maduration_details.png)\n\n1. **Current Buffer:** The most valuable data. Tells you how long you can log off without the baby dying.\n2. **Time to Juvenile:** How long until it eats from the trough.\n3. **Weight:** As it goes up, your buffer increases."
             },
             "calc_baby": {
                 "title": "Baby Phase",
-                "content": "The most dangerous stage (0-10%).\n\n![Baby Phase](/assets/help/screenshots/baby_phase.png)\n\nThe **'Hand Feed For'** indicator is key: It tells you what % is needed so you can fill the inventory and leave it until Juvenile."
+                "content": "The most dangerous stage (0-10%).\n\n![Baby Phase](/assets/baby_phase.png)\n\nThe **'Hand Feed For'** indicator is key: It tells you what % is needed so you can fill the inventory and leave it until Juvenile."
             },
             "calc_food": {
                 "title": "Food Requirements",
-                "content": "How much meat or berries do I need?\n\n![Food Requirements](/assets/help/screenshots/food_requirements.png)\n\nPlan ahead. You will see the total food needed to reach Juvenile (10%) or Adult (100%)."
+                "content": "How much meat or berries do I need?\n\n![Food Requirements](/assets/food_requirements.png)\n\nPlan ahead. You will see the total food needed to reach Juvenile (10%) or Adult (100%)."
             },
             "calc_trough": {
                 "title": "Trough Management",

@@ -1,0 +1,19 @@
+{
+  "baseUrl": "http://localhost:5173",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "id": "01-add-dino-modal",
+      "file": "01-add-dino-modal.png",
+      "caption": "Haz clic en el botón '+' para añadir un nuevo dinosaurio a tu rastreador."
+    },
+    {
+      "id": "02-calculator-view",
+      "file": "02-calculator-view.png",
+      "caption": "Aquí puedes ver el progreso de maduración, el buffer de comida y configurar alertas."
+    }
+  ]
+}
