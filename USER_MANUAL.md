@@ -35,46 +35,57 @@ Solo los administradores pueden modificar estos valores:
 ### El comando `/track` (El corazón del Bot)
 Cuando nazca un bebé, ejecuta `/track` y rellena estos campos clave:
 *   **Especie:** Usa el autocompletado (más de 145 criaturas disponibles).
-*   **Comida (Food):** Selecciona el tipo de alimento que tendrá en su inventario. El bot calculará la duración basándose en los puntos nutricionales de ese ítem.
-*   **Peso (Weight):** Indica el **Peso actual** del bebé. El bot usa este dato para saber cuántos stacks de comida caben realmente y calcular cuántas horas de "Buffer" tiene antes de morir.
+# Manual del Sobreviviente - Arktic Assistant
 
-### Herramientas de Gestión
-*   **`/status`**: Muestra el "Gimnasio" de bebés activos con barras de progreso visuales y contadores de comida.
-*   **`/buffer`**: Calcula cuánto tiempo exacto durará un inventario lleno antes de que el bebé se muera de hambre.
-*   **`/stats`**: Detalles técnicos como el tiempo exacto para la siguiente impronta o el paso a etapa juvenil (10%).
+Todo lo que necesitas para dominar la crianza en ARK con la mejor tecnología.
 
 ---
 
-## � 4. El Dashboard Online (Control Total)
+## 💻 Calculadora Web (ark.tbelt.online)
 
-El dashboard en [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard) es donde Arktic Assistant brilla realmente. Ofrece funciones imposibles de realizar mediante texto en Discord:
+La calculadora web es tu centro de mando principal para el seguimiento individual de criaturas.
 
-### 🎮 Gestión de Servidores
-*   **Dashboard Centralizado:** Visualiza todos tus bebés de múltiples servidores en una sola pantalla.
-*   **Edición Visual de Tasas:** Cambia las tasas de maduración y juego con sliders y menús desplegables sin usar comandos.
+### 1. Uso Básico
+- Haz clic en el botón **+** arriba a la izquierda.
+- Selecciona la **Especie** y su **Peso (Weight)** actual.
+- Usa los botones de **Play/Pause** para sincronizar el tiempo real de maduración con el del juego.
 
-### 🔒 Restricciones de Comandos (Solo Web)
-Desde el Dashboard, puedes configurar **quién** y **dónde** se usan los comandos:
-*   **Por Rol:** Permite que solo los "Breeders" puedan usar `/track`.
-*   **Por Canal:** Restringe el spam del bot a canales específicos de crianza.
+### 2. ¿Qué es el Buffer de Comida?
+El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno.
+- **Peso es Vital**: Cuanto más peso tenga el dino, más comida cabe y más tiempo de buffer tendrás. Un Gigano con 40 de peso tiene mucho menos buffer que uno con 200.
 
-### �️ Monitoreo de Estado de Servidor (ASA/ASE)
-Vincula tus bebés a un servidor de ARK real:
-*   **Sincronización por Caída:** Si tu servidor de ARK se cae, el dashboard lo detecta y **pausa automáticamente tus timers** de crianza para que no pierdas a tus bebés por culpa de un crash del servidor o mantenimiento.
+### 3. Hand Feed For (Alimentar a mano)
+Este valor indica el % de maduración en el que el inventario del bebé es lo suficientemente grande como para durar hasta la etapa **Juvenil (10.0%)**.
+- Si el "Hand Feed For" dice 5%, significa que al llegar a ese %, puedes llenar al bebé e irte; no morirá hasta empezar a comer del comedero.
 
-### ⚡ Ejecutor de Comandos Remoto
-¿No estás en Discord? Puedes iniciar el rastreo de un bebé directamente desde la web rellenando el formulario y haciendo clic en **"Start Tracker"**. El bot enviará el mensaje a Discord automáticamente.
-
----
-
-## 🛑 5. Comandos de Emergencia
-*   **`/stop [ID]`**: Detener un rastreo.
-*   **`/stopall`**: Limpiar todos tus rastreos (útil si acabas una camada masiva).
-*   **`/support`**: Obtén un enlace a nuestro Discord de soporte técnico.
+### 4. Gestión de Comederos
+En la pestaña de **Comederos**, puedes simular la duración de la comida compartida.
+- Soporta **Comederos Normales, Tek y Maewings**.
+- Calcula automáticamente la tasa de descomposición (**Spoilage**) según el tipo de recipiente.
 
 ---
 
-> [!IMPORTANT]
-> **Privacidad:** El Dashboard solo solicita acceso a tus servidores para identificar dónde tienes permisos de administración. Tus datos nunca se comparten con terceros.
+## 🤖 Bot de Discord
 
-*¡Nacido para dominar el Arca!* 🦕✨
+Lleva el control de tu tribu al siguiente nivel con automatizaciones y alertas.
+
+### 1. Instalación
+Ve a [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard), selecciona tu servidor y haz clic en **Invite Bot**.
+
+### 2. Comandos Principales
+- **/track**: Inicia un rastreador en el canal. ¡No olvides poner el Peso!
+- **/status**: Muestra un resumen rápido de todos los bebés activos.
+- **/stop**: Detiene el rastreo de una criatura específica.
+- **/stopall**: Detiene todos los rastreos del servidor.
+
+### 3. Monitoreo Pro de Servidores
+Vincula tus trackers a un servidor oficial o privado. Si el servidor cae (Downtime), el bot **pausará automáticamente todos los timers** de la tribu para evitar muertes por falta de comida.
+
+---
+
+## 🆘 Soporte y Emergencias
+Si necesitas ayuda adicional o el bot se queda "atascado":
+- Usa **/support** para obtener el enlace al servidor de ayuda.
+- Visita el [Dashboard Online](https://ark.tbelt.online/dashboard) para forzar pausas o reinicios.
+
+*¡Domina el Arca con inteligencia! 🦕✨*

@@ -310,31 +310,47 @@
         "made_by": "Hecho con ❤️ por"
     },
     "help": {
-        "title": "Guía del Sobreviviente",
-        "subtitle": "Todo lo que necesitas para dominar la crianza en ARK",
-        "footer": "¡Nacido para dominar el Arca! 🦕✨",
-        "back_btn": "Volver al Inicio",
+        "title": "Manual del Sobreviviente",
+        "subtitle": "Guía completa para dominar la crianza en Arktic Assistant",
+        "footer": "¡Domina el Arca con inteligencia! 🦕✨",
+        "back_btn": "Calculadora",
         "invite_btn": "Invitar al Bot",
+        "categories": {
+            "calculator": "Calculadora Web",
+            "bot": "Bot de Discord"
+        },
         "sections": {
+            "calc_basic": {
+                "title": "Uso de la Calculadora",
+                "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda. Selecciona la especie y su **Peso (Weight)** actual. La calculadora creará un rastreador que puedes pausar o reanudar con los botones de **Play/Pause**. El porcentaje de maduración se actualiza automáticamente basándose en las tasas de tu servidor."
+            },
+            "calc_buffer": {
+                "title": "Buffer y Peso",
+                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre. El dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
+            },
+            "calc_handfeed": {
+                "title": "Handfeed For (Alimentar a mano)",
+                "content": "El valor **'Hand Feed For'** indica el porcentaje de maduración necesario para que el bebé pueda sostener un inventario lleno que dure hasta la etapa Juvenil (10%). Una vez alcances ese %, puedes llenar al bebé e irte tranquilo; el comedero se encargará del resto al llegar al 10%."
+            },
+            "calc_trough": {
+                "title": "Gestión de Comederos",
+                "content": "Usa la pestaña de **Comederos** para simular cuánto durará la comida compartida entre varias criaturas. Puedes elegir el tipo de comedero (Normal, Tek o Maewing) para calcular la tasa de descomposición (spoilage) correcta y recibir alertas antes de que se vacíe."
+            },
             "install": {
-                "title": "Instalación Rápida",
-                "content": "Para añadir Arktic Assistant a tu servidor, ve a la pestaña **Dashboard** ([ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard)) e inicia sesión con Discord. Allí verás una lista de servidores donde tienes permisos de administración. Solo tienes que hacer clic en **'Invite Bot'** y autorizar los permisos pre-configurados."
+                "title": "Instalación del Bot",
+                "content": "Para añadir Arktic Assistant a tu servidor de Discord, ve a [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard). Verás tus servidores; haz clic en **'Invite Bot'** para autorizarlo con los permisos necesarios."
             },
             "settings": {
-                "title": "Ajustes del Servidor",
-                "content": "El bot se adapta a cualquier configuración. Usa **/settings game** para alternar entre ASA y ASE, y **/settings rates** para elegir entre sincronización oficial automática o multiplicadores personalizados para servidores privados."
-            },
-            "breeding": {
-                "title": "Guía de Crianza",
-                "content": "El comando clave es **/track**. Asegúrate de indicar el **Peso (Weight)** de tu criatura; este es el dato más importante, ya que permite al bot calcular cuánta comida cabe en el inventario y cuánto tiempo de 'Buffer' real tiene el bebé antes de morir."
+                "title": "Ajustes del Bot",
+                "content": "Configura el bot con **/settings**. Puedes cambiar la versión del juego (**ASA/ASE**), las tasas de maduración (sincronizadas con oficiales o manuales) y el canal de notificaciones para alertas de hambre."
             },
             "dashboard": {
                 "title": "Dashboard Online",
-                "content": "En **ark.tbelt.online/dashboard** puedes gestionar todo visualmente. Incluye un **Ejecutor Remoto** para iniciar rastreos sin abrir Discord y **Restricciones de Comandos** para limitar el uso del bot a ciertos roles o canales de confianza."
+                "content": "El panel web permite gestionar múltiples servidores, configurar restricciones de comandos por rol/canal y usar el **Ejecutor Remoto** para iniciar rastreadores en Discord desde la web."
             },
             "monitoring": {
-                "title": "Monitoreo de Servidores",
-                "content": "Vincula tus criaturas a un servidor real. Si el servidor de ARK se cae, el sistema detectará el estado offline y **pausará automáticamente tus timers** de crianza para evitar muertes accidentales por falta de comida durante el downtime."
+                "title": "Monitoreo Pro",
+                "content": "Vincula tus rastreadores a un servidor ARK real. Si el servidor cae, Arktic Assistant **pausará automáticamente tus bebés** para que no mueran durante el tiempo de inactividad del servidor."
             }
         }
     }

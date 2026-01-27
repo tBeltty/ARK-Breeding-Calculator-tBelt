@@ -35,46 +35,57 @@ Only administrators can modify these values:
 ### The `/track` command (The Heart of the Bot)
 When a baby is born, run `/track` and fill in these key fields:
 *   **Species:** Use autocomplete (over 145 creatures available).
-*   **Food:** Select the type of food in its inventory. The bot will calculate duration based on the nutritional points of that item.
-*   **Weight:** Indicate the **current Weight** of the baby. The bot uses this data to know how many stacks of food actually fit and calculate how many hours of "Buffer" it has before starving.
+# Survivor's Handbook - Arktic Assistant
 
-### Management Tools
-*   **`/status`**: Shows the "Gym" of active babies with visual progress bars and food counters.
-*   **`/buffer`**: Calculates exactly how long a full inventory will last before the baby starves.
-*   **`/stats`**: Technical details like exact time for the next imprint or reaching the Juvenile stage (10%).
+Everything you need to master breeding in ARK with the best technology.
 
 ---
 
-## 💻 4. The Online Dashboard (Total Control)
+## 💻 Web Calculator (ark.tbelt.online)
 
-The dashboard at [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard) is where Arktic Assistant truly shines. It offers features impossible to perform via text in Discord:
+The web calculator is your main command center for individual creature tracking.
 
-### 🎮 Server Management
-*   **Centralized Dashboard:** View all your babies from multiple servers on a single screen.
-*   **Visual Rate Editing:** Change maturation and game rates with sliders and dropdowns without using commands.
+### 1. Basic Usage
+- Click the **+** button at the top left.
+- Select the **Species** and its current **Weight**.
+- Use the **Play/Pause** buttons to sync real maturation time with the game.
 
-### 🔒 Command Restrictions (Web Only)
-From the Dashboard, you can configure **who** and **where** commands are used:
-*   **By Role:** Allow only "Breeders" to use `/track`.
-*   **By Channel:** Restrict bot spam to specific breeding channels.
+### 2. What is the Food Buffer?
+The **Buffer** is the actual time your baby can survive with a full inventory.
+- **Weight is Key**: The more weight the dino has, the more food stacks fit, and the more buffer time you'll have. A Giga with 40 weight has much less buffer than one with 200.
 
-### 🛰️ Server Status Monitoring (ASA/ASE)
-Link your babies to a real ARK server:
-*   **Downtime Sync:** If your ARK server goes down, the dashboard detects it and **automatically pauses your breeding timers** so you don't lose babies due to server crashes or maintenance.
+### 3. Hand Feed For
+This value indicates the maturation % where the baby's inventory is large enough to last until the **Juvenile stage (10.0%)**.
+- If "Hand Feed For" says 5%, it means that once you reach that %, you can fill the baby and leave; it won't die until it starts eating from the trough.
 
-### ⚡ Remote Command Runner
-Not on Discord? You can start a baby tracker directly from the web by filling out the form and clicking **"Start Tracker"**. The bot will automatically send the message to Discord.
-
----
-
-## 🛑 5. Emergency Commands
-*   **`/stop [ID]`**: Stop a tracker.
-*   **`/stopall`**: Clear all your active trackers (useful after a massive hatch).
-*   **`/support`**: Get a link to our technical support Discord.
+### 4. Trough Management
+In the **Troughs** tab, you can simulate how long shared food will last.
+- Supports **Normal, Tek, and Maewings**.
+- Automatically calculates the **Spoilage** rate based on the container type.
 
 ---
 
-> [!IMPORTANT]
-> **Privacy:** The Dashboard only requests access to your servers to identify where you have administrative permissions. Your data is never shared with third parties.
+## 🤖 Discord Bot
 
-*Born to rule the Ark!* 🦕✨
+Take your tribe's control to the next level with automations and alerts.
+
+### 1. Installation
+Go to [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard), select your server, and click **Invite Bot**.
+
+### 2. Main Commands
+- **/track**: Start a tracker in the channel. Don't forget the Weight!
+- **/status**: Shows a quick summary of all active babies.
+- **/stop**: Stops tracking a specific creature.
+- **/stopall**: Stops all trackers for the server.
+
+### 3. Pro Server Monitoring
+Link your trackers to an official or private server. If the server goes down (Downtime), the bot will **automatically pause all tribe timers** to prevent deaths due to lack of food.
+
+---
+
+## 🆘 Support and Emergencies
+If you need additional help or the bot gets "stuck":
+- Use **/support** to get the link to the help server.
+- Visit the [Online Dashboard](https://ark.tbelt.online/dashboard) to force pauses or restarts.
+
+*Rule the Ark with intelligence! 🦕✨*
