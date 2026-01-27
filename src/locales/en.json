@@ -346,7 +346,7 @@
         "sections": {
             "calc_basic": {
                 "title": "Using the Calculator",
-                "content": "To start, click the **+** button at the top left.\n\n![Add Creature Button](/assets/help/screenshots/add_creature.png)\n\nThis opens the configuration modal:\n\n![Creature Settings](/assets/add_new_creature_modal.png)\n\nHere you must:\n1. **Select Dino:** Choose the species you are breeding.\n2. **Enter Name:** A nickname to identify it.\n3. **Weight:** Critical, as it determines inventory capacity and survival time.\n4. **Maturation %:** Current progress. If adding an existing baby, adjust it here.\n5. **Start Tracking:** Toggle this to start the timer immediately."
+                "content": "To start, click the **+** button at the top left.\n\n![Add Creature Button](/assets/btn_add.png)\n\nThis opens the configuration modal:\n\n![Creature Settings](/assets/add_new_creature_modal.png)\n\nHere you must:\n1. **Select Dino:** Choose the species you are breeding.\n2. **Enter Name:** A nickname to identify it.\n3. **Weight:** Critical, as it determines inventory capacity and survival time.\n4. **Maturation %:** Current progress. If adding an existing baby, adjust it here.\n5. **Start Tracking:** Toggle this to start the timer immediately."
             },
             "calc_buffer": {
                 "title": "Buffer and Weight",
