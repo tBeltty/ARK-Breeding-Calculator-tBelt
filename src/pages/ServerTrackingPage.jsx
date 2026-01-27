@@ -39,6 +39,7 @@ export default function ServerTrackingPage() {
 
     // Error / Rate Limit State
     const [errorMsg, setErrorMsg] = useState(null);
+    const [retryTime, setRetryTime] = useState(0); // Restored state
     // Modal State
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [serverToDelete, setServerToDelete] = useState(null);
