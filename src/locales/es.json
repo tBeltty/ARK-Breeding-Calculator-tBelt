@@ -330,11 +330,11 @@
             },
             "calc_handfeed": {
                 "title": "Handfeed For (Alimentar a mano)",
-                "content": "El valor **'Hand Feed For'** indica el porcentaje de maduración necesario para que el bebé pueda sostener un inventario lleno que dure hasta la etapa Juvenil (10%).\n\n![Estadísticas de Crianza](/assets/help/screenshots/04-stats-grid.png)\n\nUna vez alcances ese %, puedes llenar al bebé e irte tranquilo; el comedero se encargará del resto al llegar al 10%."
+                "content": "La **Fase de Bebé** es crítica. Hasta que la maduración llegue al 10% (Juvenil), el bebé no comerá del comedero.\n\n![Fase de Bebé](/assets/help/screenshots/baby_phase.png)\n\nEl indicador **'Hand Feed For'** te dice exactamente cuánto falta para que puedas dejar de alimentarlo manualmente.\n\nAdemás, puedes consultar los requisitos globales:\n\n![Requisitos de Comida](/assets/help/screenshots/food_requirements.png)\n\nEsto muestra cuánta carne/bayas necesitará en total para llegar a Juvenil y a Adulto."
             },
             "calc_trough": {
                 "title": "Gestión de Comederos",
-                "content": "Usa la pestaña de **Comederos** para simular cuánto durará la comida compartida entre varias criaturas. Puedes elegir el tipo de comedero (Normal, Tek o Maewing) para calcular la tasa de descomposición (spoilage) correcta y recibir alertas antes de que se vacíe."
+                "content": "La **Calculadora de Comederos** te ayuda a planificar largas ausencias.\n\n![Calculadora de Comederos](/assets/help/screenshots/trough_calculator.png)\n\n1. **Añade Criaturas:** El sistema suma automáticamente el consumo de todos los bebés activos.\n2. **Tipo de Comedero:** Cambia entre Normal, Tek o Maewing para ajustar el cálculo de descomposición (spoilage).\n3. **Duración:** Verás una estimación precisa de cuánto durarán los stacks antes de agotarse."
             },
             "install": {
                 "title": "Instalación del Bot",
@@ -350,7 +350,7 @@
             },
             "monitoring": {
                 "title": "Monitoreo Pro",
-                "content": "Vincula tus rastreadores a un servidor ARK real. Si el servidor cae, Arktic Assistant **pausará automáticamente tus bebés** para que no mueran durante el tiempo de inactividad del servidor."
+                "content": "El **Monitoreo de Servidores** te permite vincular el estado real del servidor con tus calculadoras.\n\n![Búsqueda de Servidor](/assets/help/screenshots/server_monitoring_search.png)\n\nBusca tu servidor (Oficial o IP de No Oficial) y conéctalo. Si el servidor se cae o entra en mantenimiento, **Arktic Assistant pausará tus temporizadores** automáticamente para evitar que se desincronicen durante el downtime."
             }
         }
     }
