@@ -22,8 +22,13 @@ export class TrackingRepository {
      */
     static remove(guildId, serverId) {
         const db = getDatabase();
-        const stmt = db.prepare("DELETE FROM server_tracking WHERE guild_id = ? AND server_id = ?");
-        return stmt.run(guildId, serverId);
+        // Robust delete: handles strict ID and potential float-converted ID
+        const stmt = db.prepare(`
+            DELETE FROM server_tracking 
+            WHERE guild_id = ? 
+            AND (server_id = ? OR server_id = ?)
+        `);
+        return stmt.run(guildId, serverId, `${serverId}.0`);
     }
 
     /**
