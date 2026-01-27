@@ -9,6 +9,7 @@
         "trough": "Trough Calculator",
         "server_tracking": "Server Monitoring",
         "bot_dashboard": "Bot Dashboard",
+        "help": "Help",
         "server_settings": "Server Settings",
         "command_restrictions": "Command Restrictions",
         "remote_runner": "Remote Command Runner",

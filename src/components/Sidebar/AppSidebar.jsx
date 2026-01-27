@@ -302,6 +302,18 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                 </button>
 
                 <button
+                    className={`${styles.configBtn} ${location.pathname === '/help' ? styles.active : ''}`}
+                    onClick={() => {
+                        navigate('/help');
+                        setIsMobileExpanded(false);
+                    }}
+                    title={t('panels.help')}
+                >
+                    <span className={styles.configBtnIcon}>❓</span>
+                    {!isDesktopCollapsed && <span>{t('panels.help')}</span>}
+                </button>
+
+                <button
                     className={`${styles.configBtn} ${styles.creditsBtn}`}
                     onClick={() => setCreditsOpen(true)}
                     title={t('ui.credits')}

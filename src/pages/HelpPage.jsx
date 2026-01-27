@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../hooks/useTheme';
 import styles from './HelpPage.module.css';
 
 export default function HelpPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    // Ensure the theme from main app is applied to the body
+    useTheme();
 
     const sections = [
         { id: 'install', icon: '🚀' },
@@ -41,6 +45,13 @@ export default function HelpPage() {
         <div className={styles.helpPageRoot}>
             <div className={styles.helpPageWrapper}>
                 <header className={styles.pageHeader}>
+                    <button
+                        className={styles.backButton}
+                        onClick={() => navigate('/')}
+                        title={t('help.back_btn')}
+                    >
+                        ← {t('help.back_btn')}
+                    </button>
                     <h1 className={styles.mainTitle}>{t('help.title')}</h1>
                     <p className={styles.headerSubtitle}>{t('help.subtitle')}</p>
                 </header>
@@ -87,12 +98,6 @@ export default function HelpPage() {
                 </div>
 
                 <footer className={styles.pageFooter}>
-                    <button
-                        className={`${styles.actionButton} ${styles.secondaryAction}`}
-                        onClick={() => navigate('/')}
-                    >
-                        {t('help.back_btn')}
-                    </button>
                     <p className={styles.footerNote}>{t('help.footer')}</p>
                 </footer>
             </div>
