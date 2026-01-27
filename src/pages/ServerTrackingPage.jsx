@@ -10,7 +10,21 @@ export default function ServerTrackingPage() {
     const [serverData, setServerData] = useState({});
     const [loading, setLoading] = useState(true);
 
-    // Get servers: Use context for personal tracking
+
+    // Search State
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    // const { updateGlobalSetting } = useOutletContext(); // Grab global setter - already destructured above
+
+    // Error / Rate Limit State
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [retryTime, setRetryTime] = useState(0); // Restored state
+    // Modal State
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [serverToDelete, setServerToDelete] = useState(null);
+    const [hiddenServerIds, setHiddenServerIds] = useState(new Set());
+
     // Get servers: Use context for personal tracking
     const trackedServerIds = useMemo(() => {
         const ids = new Set();
@@ -33,20 +47,6 @@ export default function ServerTrackingPage() {
 
         return [...ids];
     }, [sessions, settings?.defaultServerId, trackedServers, hiddenServerIds]);
-
-    // Search State
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [isSearching, setIsSearching] = useState(false);
-    // const { updateGlobalSetting } = useOutletContext(); // Grab global setter - already destructured above
-
-    // Error / Rate Limit State
-    const [errorMsg, setErrorMsg] = useState(null);
-    const [retryTime, setRetryTime] = useState(0); // Restored state
-    // Modal State
-    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    const [serverToDelete, setServerToDelete] = useState(null);
-    const [hiddenServerIds, setHiddenServerIds] = useState(new Set());
 
     const handleSearch = async (e) => {
         e.preventDefault();
