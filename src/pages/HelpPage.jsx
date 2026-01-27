@@ -5,7 +5,7 @@ import { useTheme } from '../hooks/useTheme';
 import styles from './HelpPage.module.css';
 
 export default function HelpPage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
 
     // Ensure the theme from main app is applied to the body
@@ -19,7 +19,8 @@ export default function HelpPage() {
                 { id: 'calc_details', icon: '📊' },
                 { id: 'calc_baby', icon: '🍼' },
                 { id: 'calc_food', icon: '🍖' },
-                { id: 'calc_trough', icon: '🍲' }
+                { id: 'calc_trough', icon: '🍲' },
+                { id: 'calc_servers', icon: '🛰️' }
             ]
         },
         {
@@ -74,6 +75,22 @@ export default function HelpPage() {
                     >
                         ← {t('help.back_btn')}
                     </button>
+
+                    <div className={styles.languageSwitch}>
+                        <button
+                            className={`${styles.langButton} ${i18n.language === 'en' ? styles.activeLang : ''}`}
+                            onClick={() => i18n.changeLanguage('en')}
+                        >
+                            EN
+                        </button>
+                        <button
+                            className={`${styles.langButton} ${i18n.language === 'es' ? styles.activeLang : ''}`}
+                            onClick={() => i18n.changeLanguage('es')}
+                        >
+                            ES
+                        </button>
+                    </div>
+
                     <h1 className={styles.mainTitle}>{t('help.title')}</h1>
                     <p className={styles.headerSubtitle}>{t('help.subtitle')}</p>
                 </header>

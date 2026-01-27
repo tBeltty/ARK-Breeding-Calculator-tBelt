@@ -340,6 +340,10 @@
                 "title": "Gestión de Comederos",
                 "content": "Calcula cuánto durará la comida en tus comederos.\n\n![Calculadora de Comederos](/assets/trough_calculator.png)\n\n1. **Add Current:** Añade el dino que estás calculando actualmente a la lista del comedero.\n2. **Trough Type:** Elige 'Normal', 'Tek' o 'Maewing'. El Maewing incluye opciones extra como Peso y Nursing Effectiveness.\n3. **Desired Duration:** Introduce cuánto tiempo quieres ausentarte (ej. 8h).\n4. **Resultados:** Verás si la comida es suficiente, cuánta se estropeará y la eficiencia total."
             },
+            "calc_servers": {
+                "title": "Monitor de Servidores",
+                "content": "Rastrea el estado de tus servidores favoritos.\n\n![Monitor de Servidores](/assets/server_monitoring_search.png)\n\n1. **Búsqueda:** Busca por nombre (Oficiales) o IP Directa (No Oficiales).\n2. **Conectar:** Añade el servidor a tu lista de rastreo y lo vincula a tus sesiones activas.\n3. **Estado en Vivo:** Verás jugadores online, día del juego y estado (Online/Offline) actualizado cada 30s."
+            },
             "install": {
                 "title": "Instalación del Bot",
                 "content": "Para añadir Arktic Assistant a tu servidor de Discord, ve a [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard). Verás tus servidores; haz clic en **'Invite Bot'** para autorizarlo con los permisos necesarios."
