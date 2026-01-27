@@ -11,15 +11,28 @@ export default function HelpPage() {
     // Ensure the theme from main app is applied to the body
     useTheme();
 
-    const sections = [
-        { id: 'install', icon: '🚀' },
-        { id: 'settings', icon: '⚙️' },
-        { id: 'breeding', icon: '🐣' },
-        { id: 'dashboard', icon: '💻' },
-        { id: 'monitoring', icon: '🛰️' }
+    const categories = [
+        {
+            id: 'calculator',
+            sections: [
+                { id: 'calc_basic', icon: '📝' },
+                { id: 'calc_buffer', icon: '⚖️' },
+                { id: 'calc_handfeed', icon: '🍼' },
+                { id: 'calc_trough', icon: '🍲' }
+            ]
+        },
+        {
+            id: 'bot',
+            sections: [
+                { id: 'install', icon: '🚀' },
+                { id: 'settings', icon: '⚙️' },
+                { id: 'dashboard', icon: '💻' },
+                { id: 'monitoring', icon: '🛰️' }
+            ]
+        }
     ];
 
-    const [activeSectionId, setActiveSectionId] = useState('install');
+    const [activeSectionId, setActiveSectionId] = useState('calc_basic');
 
     const handleInviteClick = () => {
         window.open('https://ark.tbelt.online/dashboard', '_blank');
@@ -39,7 +52,13 @@ export default function HelpPage() {
     };
 
     const sectionContent = t(`help.sections.${activeSectionId}`, { returnObjects: true });
-    const currentIcon = sections.find(s => s.id === activeSectionId)?.icon;
+
+    // Find active icon
+    let currentIcon = '';
+    categories.forEach(cat => {
+        const found = cat.sections.find(s => s.id === activeSectionId);
+        if (found) currentIcon = found.icon;
+    });
 
     return (
         <div className={styles.helpPageRoot}>
@@ -58,15 +77,22 @@ export default function HelpPage() {
 
                 <div className={styles.contentLayout}>
                     <aside className={styles.navigationSidebar}>
-                        {sections.map(section => (
-                            <button
-                                key={section.id}
-                                className={`${styles.navLink} ${activeSectionId === section.id ? styles.linkActive : ''}`}
-                                onClick={() => setActiveSectionId(section.id)}
-                            >
-                                <span className={styles.navIcon}>{section.icon}</span>
-                                <span className={styles.navText}>{t(`help.sections.${section.id}.title`)}</span>
-                            </button>
+                        {categories.map(category => (
+                            <div key={category.id} className={styles.categoryGroup}>
+                                <h3 className={styles.categoryHeader}>
+                                    {t(`help.categories.${category.id}`)}
+                                </h3>
+                                {category.sections.map(section => (
+                                    <button
+                                        key={section.id}
+                                        className={`${styles.navLink} ${activeSectionId === section.id ? styles.linkActive : ''}`}
+                                        onClick={() => setActiveSectionId(section.id)}
+                                    >
+                                        <span className={styles.navIcon}>{section.icon}</span>
+                                        <span className={styles.navText}>{t(`help.sections.${section.id}.title`)}</span>
+                                    </button>
+                                ))}
+                            </div>
                         ))}
                     </aside>
 
@@ -83,7 +109,7 @@ export default function HelpPage() {
                                 }}
                             />
 
-                            {activeSectionId === 'install' && (
+                            {(activeSectionId === 'install' || activeSectionId === 'dashboard') && (
                                 <div className={styles.highlightCard}>
                                     <button
                                         className={`${styles.actionButton} ${styles.primaryAction}`}

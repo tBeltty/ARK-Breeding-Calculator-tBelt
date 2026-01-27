@@ -335,30 +335,46 @@
     },
     "help": {
         "title": "Survivor's Handbook",
-        "subtitle": "Everything you need to master breeding in ARK",
-        "footer": "Born to rule the Ark! 🦕✨",
-        "back_btn": "Back Home",
+        "subtitle": "Complete guide to mastering breeding in Arktic Assistant",
+        "footer": "Rule the Ark with intelligence! 🦕✨",
+        "back_btn": "Calculator",
         "invite_btn": "Invite Bot",
+        "categories": {
+            "calculator": "Web Calculator",
+            "bot": "Discord Bot"
+        },
         "sections": {
+            "calc_basic": {
+                "title": "Using the Calculator",
+                "content": "To start, click the **+** button at the top left. Select the species and its current **Weight**. The calculator will create a tracker that you can pause or resume using the **Play/Pause** buttons. The maturation percentage updates automatically based on your server rates."
+            },
+            "calc_buffer": {
+                "title": "Buffer and Weight",
+                "content": "The **Buffer** is the actual time your baby can survive with a full inventory before starving. The most critical data point is **Weight**: more weight means more food stacks fit in the inventory, providing a longer 'Buffer' (and more sleep for you)."
+            },
+            "calc_handfeed": {
+                "title": "Handfeed For",
+                "content": "The **'Hand Feed For'** value indicates the maturation percentage needed so the baby can sustain a full inventory until it reaches the Juvenile stage (10%). Once you reach that %, you can fill the baby and rest easy; the trough will take over at 10%."
+            },
+            "calc_trough": {
+                "title": "Trough Management",
+                "content": "Use the **Troughs** tab to simulate how long shared food will last among multiple creatures. You can choose the trough type (Normal, Tek, or Maewing) to calculate the correct spoilage rate and receive alerts before it runs empty."
+            },
             "install": {
-                "title": "Quick Installation",
-                "content": "To add Arktic Assistant to your server, go to the **Dashboard** tab ([ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard)) and log in with Discord. You'll see a list of servers where you have administrative permissions. Simply click **'Invite Bot'** and authorize the pre-configured permissions."
+                "title": "Bot Installation",
+                "content": "To add Arktic Assistant to your Discord server, go to [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard). You will see your servers; click **'Invite Bot'** to authorize it with the necessary permissions."
             },
             "settings": {
-                "title": "Server Settings",
-                "content": "The bot adapts to any configuration. Use **/settings game** to toggle between ASA and ASE, and **/settings rates** to choose between automatic official sync or custom multipliers for private servers."
-            },
-            "breeding": {
-                "title": "Breeding Guide",
-                "content": "The key command is **/track**. Make sure to provide the **Weight** of your creature; this is the most critical data point, as it allows the bot to calculate how much food fits in the inventory and how much real 'Buffer' time the baby has before starving."
+                "title": "Bot Settings",
+                "content": "Configure the bot with **/settings**. You can change the game version (**ASA/ASE**), maturation rates (synced with officials or manual), and the notification channel for hunger alerts."
             },
             "dashboard": {
                 "title": "Online Dashboard",
-                "content": "At **ark.tbelt.online/dashboard**, you can manage everything visually. It includes a **Remote Executor** to start trackers without opening Discord and **Command Restrictions** to limit bot usage to specific roles or trusted channels."
+                "content": "The web panel allows you to manage multiple servers, configure command restrictions by role/channel, and use the **Remote Executor** to start Discord trackers from the web."
             },
             "monitoring": {
-                "title": "Server Monitoring",
-                "content": "Link your creatures to a real server. If the ARK server goes down, the system will detect the offline status and **automatically pause your breeding timers** to prevent accidental deaths due to lack of food during downtime."
+                "title": "Pro Monitoring",
+                "content": "Link your trackers to a real ARK server. If the server goes down, Arktic Assistant will **automatically pause your babies** so they don't die during server downtime."
             }
         }
     }
