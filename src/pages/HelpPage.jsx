@@ -19,6 +19,7 @@ export default function HelpPage() {
                 { id: 'calc_details', icon: '📊' },
                 { id: 'calc_baby', icon: '🍼' },
                 { id: 'calc_food', icon: '🍖' },
+                { id: 'calc_linked', icon: '🔗' },
                 { id: 'calc_trough', icon: '🍲' },
                 { id: 'calc_servers', icon: '🛰️' }
             ]
