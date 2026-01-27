@@ -1,8 +1,9 @@
 .helpPageRoot {
     min-height: 100vh;
     width: 100%;
-    /* Ensure the background from tokens.css is visible but darkened for content focus */
-    background: linear-gradient(to bottom, rgba(13, 6, 24, 0.85), rgba(13, 6, 24, 0.95));
+    /* No hardcoded dark background here, let the body theme background show.
+       We add a very subtle overlay to ensure text readability regardless of background. */
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     padding: var(--space-2xl) var(--space-lg);
@@ -18,6 +19,29 @@
 .pageHeader {
     margin-bottom: var(--space-3xl);
     text-align: center;
+    position: relative;
+}
+
+.backButton {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--glass-blur));
+    color: rgb(var(--on-surface));
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+}
+
+.backButton:hover {
+    background: rgb(var(--primary) / 0.2);
+    border-color: rgb(var(--primary));
+    transform: translateY(-52%);
 }
 
 .mainTitle {
@@ -96,6 +120,8 @@
     padding: var(--space-3xl);
     min-height: 650px;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(var(--glass-blur));
+    /* Add glass effect to main content too */
 }
 
 .contentSection {
@@ -192,7 +218,7 @@
     border-top: 1px solid rgb(var(--outline) / 0.2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: var(--space-xl);
 }
 
@@ -249,12 +275,14 @@
         padding: var(--space-xl);
     }
 
-    .pageFooter {
-        flex-direction: column;
-        text-align: center;
+    .backButton {
+        position: static;
+        transform: none;
+        margin-bottom: var(--space-md);
+        display: inline-block;
     }
 
-    .footerNote {
-        margin-left: 0;
+    .backButton:hover {
+        transform: translateY(-2px);
     }
 }
