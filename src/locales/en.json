@@ -346,11 +346,11 @@
         "sections": {
             "calc_basic": {
                 "title": "Using the Calculator",
-                "content": "To start, click the **+** button at the top left. Select the species and its current **Weight**. The calculator will create a tracker that you can pause or resume using the **Play/Pause** buttons. The maturation percentage updates automatically based on your server rates."
+                "content": "To start, click the **+** button at the top left.\n\n![Button to add dinosaurs](/assets/help/screenshots/01-add-dino-modal.png)\n\nSelect the species and its current **Weight**. The calculator will create a tracker that you can pause or resume using the **Play/Pause** buttons. The maturation percentage updates automatically based on your server rates."
             },
             "calc_buffer": {
                 "title": "Buffer and Weight",
-                "content": "The **Buffer** is the actual time your baby can survive with a full inventory before starving. The most critical data point is **Weight**: more weight means more food stacks fit in the inventory, providing a longer 'Buffer' (and more sleep for you)."
+                "content": "The **Buffer** is the actual time your baby can survive with a full inventory before starving.\n\n![Calculator overview](/assets/help/screenshots/02-calculator-view.png)\n\nThe most critical data point is **Weight**: more weight means more food stacks fit in the inventory, providing a longer 'Buffer' (and more sleep for you)."
             },
             "calc_handfeed": {
                 "title": "Handfeed For",
