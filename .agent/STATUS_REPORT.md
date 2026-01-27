@@ -42,3 +42,19 @@
 ## 4. Objetivo Final v3.0 (Logrado)
 Entregar un sistema profesional, rápido y documentado donde el usuario pueda gestionar su criadero sin pérdida de datos ni demoras en la interfaz de Discord.
 
+
+## 5. Actualización v3.1 (27 de Enero, 2026)
+
+### Documentación y Ayuda (Help Page Overhaul)
+- **Restauración de Imágenes**: Se corrigieron todas las rutas de imágenes en la página de ayuda, moviéndolas a `public/assets/` para carga instantánea y optimizada.
+- **Switch de Idioma (i18n)**: Se implementó un control nativo EN/ES en el encabezado de la página de ayuda, eliminando la necesidad de guías separadas.
+- **Precisión Técnica**: Se reescribieron las secciones "Trough Management" y "Baby Phase" basándose en el código fuente real (`TroughCalculator.jsx`), corrigiendo la desinformación sobre tipos de comedero y lógica de "Add Current".
+
+### Nuevas Funcionalidades Documentadas
+- **Server Monitoring**: Nueva sección que explica cómo buscar, conectar y monitorear servidores en tiempo real (Status 30s refresh).
+- **Linked Server**: Documentación completada sobre la vinculación de servidor en los ajustes de criatura para sincronización de tiempos en caso de caídas.
+
+### Limpieza de Repositorio
+- **Scripts Temporales**: Eliminados scripts de generación de capturas (`scripts/generate_screenshots.js`) para mantener limpio el entorno de producción.
+- **Workflow Optimization**: Se verificaron los workflows de GitHub para asegurar que solo lo esencial (`deploy.yml`) permanezca activo.
+
