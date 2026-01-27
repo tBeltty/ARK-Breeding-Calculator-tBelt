@@ -16,8 +16,9 @@ export default function HelpPage() {
             id: 'calculator',
             sections: [
                 { id: 'calc_basic', icon: '📝' },
-                { id: 'calc_buffer', icon: '⚖️' },
-                { id: 'calc_handfeed', icon: '🍼' },
+                { id: 'calc_details', icon: '📊' },
+                { id: 'calc_baby', icon: '🍼' },
+                { id: 'calc_food', icon: '🍖' },
                 { id: 'calc_trough', icon: '🍲' }
             ]
         },

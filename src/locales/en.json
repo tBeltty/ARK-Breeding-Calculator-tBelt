@@ -348,17 +348,21 @@
                 "title": "Using the Calculator",
                 "content": "To start, click the **+** button at the top left.\n\n![Add Creature Button](/assets/btn_add.png)\n\nThis opens the configuration modal:\n\n![Creature Settings](/assets/add_new_creature_modal.png)\n\nHere you must:\n1. **Select Dino:** Choose the species you are breeding.\n2. **Enter Name:** A nickname to identify it.\n3. **Weight:** Critical, as it determines inventory capacity and survival time.\n4. **Maturation %:** Current progress. If adding an existing baby, adjust it here.\n5. **Start Tracking:** Toggle this to start the timer immediately."
             },
-            "calc_buffer": {
-                "title": "Buffer and Weight",
-                "content": "The **Buffer** is the actual time your baby can survive with a full inventory before starving.\n\n![Buffer Section](/assets/help/screenshots/03-progress-buffer.png)\n\nThe most critical data point is **Weight**: more weight means more food stacks fit in the inventory, providing a longer 'Buffer' (and more sleep for you)."
+            "calc_details": {
+                "title": "Maturation Details",
+                "content": "This section is your control center.\n\n![Maturation Details](/assets/help/screenshots/maduration_details.png)\n\n1. **Current Buffer:** The most valuable data. Tells you how long you can log off without the baby dying.\n2. **Time to Juvenile:** How long until it eats from the trough.\n3. **Weight:** As it goes up, your buffer increases."
             },
-            "calc_handfeed": {
-                "title": "Handfeed For",
-                "content": "The **Baby Phase** is critical. Until maturation reaches 10% (Juvenile), the baby will not eat from the trough.\n\n![Baby Phase](/assets/help/screenshots/baby_phase.png)\n\nThe **'Hand Feed For'** indicator tells you exactly how much longer you need to hand-feed/top off inventory.\n\nYou can also check global requirements:\n\n![Food Requirements](/assets/help/screenshots/food_requirements.png)\n\nThis shows total meat/berries needed to reach Juvenile and Adult stages."
+            "calc_baby": {
+                "title": "Baby Phase",
+                "content": "The most dangerous stage (0-10%).\n\n![Baby Phase](/assets/help/screenshots/baby_phase.png)\n\nThe **'Hand Feed For'** indicator is key: It tells you what % is needed so you can fill the inventory and leave it until Juvenile."
+            },
+            "calc_food": {
+                "title": "Food Requirements",
+                "content": "How much meat or berries do I need?\n\n![Food Requirements](/assets/help/screenshots/food_requirements.png)\n\nPlan ahead. You will see the total food needed to reach Juvenile (10%) or Adult (100%)."
             },
             "calc_trough": {
                 "title": "Trough Management",
-                "content": "The **Trough Calculator** helps you plan long absences.\n\n![Trough Calculator](/assets/help/screenshots/trough_calculator.png)\n\n1. **Add Creatures:** The system automatically sums consumption for all active babies.\n2. **Trough Type:** Switch between Normal, Tek, or Maewing to adjust spoilage rates.\n3. **Duration:** See a precise estimate of how long stacks will last before running out."
+                "content": "When they are Juveniles, group them here.\n\n![Trough Calculator](/assets/help/screenshots/trough_calculator.png)\n\nSums the consumption of all active dinos and calculates the exact duration of your troughs (Tek or Normal) considering spoilage."
             },
             "install": {
                 "title": "Bot Installation",
