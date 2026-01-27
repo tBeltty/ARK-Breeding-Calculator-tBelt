@@ -322,15 +322,15 @@
         "sections": {
             "calc_basic": {
                 "title": "Uso de la Calculadora",
-                "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda.\n\n![Botón para añadir dinosaurios](/assets/help/screenshots/01-add-dino-modal.png)\n\nSelecciona la especie y su **Peso (Weight)** actual. La calculadora creará un rastreador que puedes pausar o reanudar con los botones de **Play/Pause**. El porcentaje de maduración se actualiza automáticamente basándose en las tasas de tu servidor."
+                "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda.\n\n![Botón para añadir dinosaurios](/assets/help/screenshots/01-add-dino-modal.png)\n\nSelecciona la especie y su **Peso (Weight)** actual. La calculadora creará un rastreador:\n\n![Vista general de la calculadora](/assets/help/screenshots/02-calculator-view.png)\n\nPuedes pausar o reanudar con los botones de **Play/Pause**."
             },
             "calc_buffer": {
                 "title": "Buffer y Peso",
-                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre.\n\n![Vista general de la calculadora](/assets/help/screenshots/02-calculator-view.png)\n\nEl dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
+                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre.\n\n![Sección de Buffer](/assets/help/screenshots/03-progress-buffer.png)\n\nEl dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
             },
             "calc_handfeed": {
                 "title": "Handfeed For (Alimentar a mano)",
-                "content": "El valor **'Hand Feed For'** indica el porcentaje de maduración necesario para que el bebé pueda sostener un inventario lleno que dure hasta la etapa Juvenil (10%). Una vez alcances ese %, puedes llenar al bebé e irte tranquilo; el comedero se encargará del resto al llegar al 10%."
+                "content": "El valor **'Hand Feed For'** indica el porcentaje de maduración necesario para que el bebé pueda sostener un inventario lleno que dure hasta la etapa Juvenil (10%).\n\n![Estadísticas de Crianza](/assets/help/screenshots/04-stats-grid.png)\n\nUna vez alcances ese %, puedes llenar al bebé e irte tranquilo; el comedero se encargará del resto al llegar al 10%."
             },
             "calc_trough": {
                 "title": "Gestión de Comederos",
