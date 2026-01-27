@@ -50,13 +50,20 @@ La calculadora web es tu centro de mando principal para el seguimiento individua
 - Selecciona la **Especie** y su **Peso (Weight)** actual.
 - Usa los botones de **Play/Pause** para sincronizar el tiempo real de maduración con el del juego.
 
+![Modal de Selección](public/assets/help/screenshots/01-add-dino-modal.png)
+![Vista General](public/assets/help/screenshots/02-calculator-view.png)
+
 ### 2. ¿Qué es el Buffer de Comida?
 El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno.
 - **Peso es Vital**: Cuanto más peso tenga el dino, más comida cabe y más tiempo de buffer tendrás. Un Gigano con 40 de peso tiene mucho menos buffer que uno con 200.
 
+![Sección de Buffer](public/assets/help/screenshots/03-progress-buffer.png)
+
 ### 3. Hand Feed For (Alimentar a mano)
 Este valor indica el % de maduración en el que el inventario del bebé es lo suficientemente grande como para durar hasta la etapa **Juvenil (10.0%)**.
 - Si el "Hand Feed For" dice 5%, significa que al llegar a ese %, puedes llenar al bebé e irte; no morirá hasta empezar a comer del comedero.
+
+![Estadísticas Clave](public/assets/help/screenshots/04-stats-grid.png)
 
 ### 4. Gestión de Comederos
 En la pestaña de **Comederos**, puedes simular la duración de la comida compartida.

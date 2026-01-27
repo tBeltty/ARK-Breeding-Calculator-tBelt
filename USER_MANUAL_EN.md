@@ -50,13 +50,20 @@ The web calculator is your main command center for individual creature tracking.
 - Select the **Species** and its current **Weight**.
 - Use the **Play/Pause** buttons to sync real maturation time with the game.
 
+![Add Dino Modal](public/assets/help/screenshots/01-add-dino-modal.png)
+![Calculator Overview](public/assets/help/screenshots/02-calculator-view.png)
+
 ### 2. What is the Food Buffer?
 The **Buffer** is the actual time your baby can survive with a full inventory.
 - **Weight is Key**: The more weight the dino has, the more food stacks fit, and the more buffer time you'll have. A Giga with 40 weight has much less buffer than one with 200.
 
+![Buffer Section](public/assets/help/screenshots/03-progress-buffer.png)
+
 ### 3. Hand Feed For
 This value indicates the maturation % where the baby's inventory is large enough to last until the **Juvenile stage (10.0%)**.
 - If "Hand Feed For" says 5%, it means that once you reach that %, you can fill the baby and leave; it won't die until it starts eating from the trough.
+
+![Key Stats](public/assets/help/screenshots/04-stats-grid.png)
 
 ### 4. Trough Management
 In the **Troughs** tab, you can simulate how long shared food will last.

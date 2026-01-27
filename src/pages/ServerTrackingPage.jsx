@@ -10,13 +10,22 @@ export default function ServerTrackingPage() {
     const [loading, setLoading] = useState(true);
 
     // Get servers: Use context for personal tracking
+    // Get servers: Use context for personal tracking
     const trackedServerIds = useMemo(() => {
-        const ids = new Set(sessions.map(s => s.trackedServerId).filter(Boolean));
+        const ids = new Set();
+
+        // 1. Add from active sessions (Normalize to string)
+        sessions.forEach(s => {
+            if (s.trackedServerId) ids.add(String(s.trackedServerId));
+        });
+
+        // 2. Add from global default
         if (settings?.defaultServerId) {
-            ids.add(settings.defaultServerId);
+            ids.add(String(settings.defaultServerId));
         }
-        // Add persisted servers from database
-        trackedServers.forEach(s => ids.add(s.id));
+
+        // 3. Add persisted servers from database
+        trackedServers.forEach(s => ids.add(String(s.id)));
 
         return [...ids];
     }, [sessions, settings?.defaultServerId, trackedServers]);
@@ -157,11 +166,29 @@ export default function ServerTrackingPage() {
     const handleRemove = async (serverId) => {
         if (!confirm('Stop tracking this server?')) return;
         try {
+            // 0. Optimistic UI update or wait? Let's just do it.
+
+            // 1. Call API
             const res = await fetch('/api/servers/track', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ serverId })
             });
+
+            // 2. Cleanup local references (Essential because they re-add the server to the list)
+
+            // Cleanup Default Server
+            if (String(settings?.defaultServerId) === String(serverId)) {
+                updateGlobalSetting('defaultServerId', null);
+            }
+
+            // Cleanup Sessions
+            sessions.forEach(session => {
+                if (String(session.trackedServerId) === String(serverId)) {
+                    updateSession(session.id, { trackedServerId: null });
+                }
+            });
+
             if (res.ok) {
                 fetchTrackedServers();
             }

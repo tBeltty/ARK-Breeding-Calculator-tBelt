@@ -133,26 +133,30 @@ export function ActiveSessionDetail({
                 onUpdateGlobalSettings={onUpdateGlobalSettings}
             />
 
-            <MaturationPanel
-                isOpen={panelStates.maturation}
-                onToggle={() => onTogglePanel('maturation')}
-                calculations={calculations}
-                maturationProgress={activeData.maturation || 0}
-                onUpdateSession={onUpdateSession}
-                activeData={activeData}
-            />
+            <div data-doc="maturation-panel">
+                <MaturationPanel
+                    isOpen={panelStates.maturation}
+                    onToggle={() => onTogglePanel('maturation')}
+                    calculations={calculations}
+                    maturationProgress={activeData.maturation || 0}
+                    onUpdateSession={onUpdateSession}
+                    activeData={activeData}
+                />
+            </div>
 
-            <BabyPanel
-                isOpen={panelStates.baby}
-                onToggle={() => onTogglePanel('baby')}
-                calculations={calculations}
-                activeData={activeData}
-                onUpdateSession={onUpdateSession}
-                creature={creature}
-                now={now}
-                // Passing the calculated value
-                maturationNeededForBuffer={maturationNeededForBuffer}
-            />
+            <div data-doc="baby-panel">
+                <BabyPanel
+                    isOpen={panelStates.baby}
+                    onToggle={() => onTogglePanel('baby')}
+                    calculations={calculations}
+                    activeData={activeData}
+                    onUpdateSession={onUpdateSession}
+                    creature={creature}
+                    now={now}
+                    // Passing the calculated value
+                    maturationNeededForBuffer={maturationNeededForBuffer}
+                />
+            </div>
 
             <FoodPanel
                 isOpen={panelStates.food}
