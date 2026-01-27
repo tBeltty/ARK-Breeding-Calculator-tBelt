@@ -28,8 +28,11 @@ export default function ServerTrackingPage() {
         // 3. Add persisted servers from database
         trackedServers.forEach(s => ids.add(String(s.id)));
 
+        // 4. Remove Hidden (Optimistic Deletion)
+        hiddenServerIds.forEach(hiddenId => ids.delete(String(hiddenId)));
+
         return [...ids];
-    }, [sessions, settings?.defaultServerId, trackedServers]);
+    }, [sessions, settings?.defaultServerId, trackedServers, hiddenServerIds]);
 
     // Search State
     const [searchQuery, setSearchQuery] = useState('');
@@ -43,6 +46,7 @@ export default function ServerTrackingPage() {
     // Modal State
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [serverToDelete, setServerToDelete] = useState(null);
+    const [hiddenServerIds, setHiddenServerIds] = useState(new Set());
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -174,36 +178,56 @@ export default function ServerTrackingPage() {
 
     const handleRemove = async () => {
         if (!serverToDelete) return;
-        const serverId = serverToDelete.id;
+        const serverId = String(serverToDelete.id);
+
+        // 0. Optimistic Hide
+        setHiddenServerIds(prev => {
+            const next = new Set(prev);
+            next.add(serverId);
+            return next;
+        });
 
         try {
-            // 0. Optimistic UI update or wait? Let's just do it.
-
-            // 1. Call API
-            const res = await fetch('/api/servers/track', {
+            // 1. API Call (Delete from DB)
+            await fetch('/api/servers/track', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ serverId })
             });
 
-            // 2. Cleanup local references (Essential because they re-add the server to the list)
-
-            // Cleanup Default Server
-            if (String(settings?.defaultServerId) === String(serverId)) {
+            // 2. Cleanup Default Server
+            if (String(settings?.defaultServerId) === serverId) {
                 updateGlobalSetting('defaultServerId', null);
             }
 
-            // Cleanup Sessions
+            // 3. Cleanup Sessions (Iterate all sessions to ensure deep clean)
             sessions.forEach(session => {
-                if (String(session.trackedServerId) === String(serverId)) {
+                if (String(session.trackedServerId) === serverId) {
+                    console.log('[Delete] Removing server from session:', session.id);
                     updateSession(session.id, { trackedServerId: null });
                 }
             });
 
-            if (res.ok) {
-                fetchTrackedServers();
-            }
-        } catch (e) { console.error(e); }
+            // 4. Force Refresh List
+            await fetchTrackedServers();
+
+            // Toast Success
+            const toast = document.createElement('div');
+            toast.className = styles.toast;
+            toast.textContent = t('ui.server_removed', 'Server removed successfully');
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+
+        } catch (e) {
+            console.error(e);
+            setErrorMsg('Failed to remove server');
+            // Revert Optimistic Hide
+            setHiddenServerIds(prev => {
+                const next = new Set(prev);
+                next.delete(serverId);
+                return next;
+            });
+        }
     };
 
     // Countdown effect for rate limit
