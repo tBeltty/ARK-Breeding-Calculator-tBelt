@@ -16,6 +16,11 @@ lint.txt
 .env
 .env.*
 !.env.example
+ 
+# Documentation Automation
+scripts/generate_screenshots.js
+screenshots/
+public/assets/help/screenshots/
 
 # Editor directories and files
 .vscode/*

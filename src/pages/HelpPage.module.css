@@ -170,6 +170,31 @@
     font-weight: 700;
 }
 
+.imageContainer {
+    margin: var(--space-2xl) 0;
+    text-align: center;
+    background: rgb(var(--surface-container-high) / 0.3);
+    padding: var(--space-xl);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgb(var(--outline) / 0.1);
+}
+
+.screenshot {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgb(var(--outline) / 0.2);
+}
+
+.imageCaption {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    color: rgb(var(--on-surface-variant));
+    font-style: italic;
+    opacity: 0.8;
+}
+
 .inlineLink {
     color: rgb(var(--primary));
     text-decoration: underline;

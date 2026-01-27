@@ -322,11 +322,11 @@
         "sections": {
             "calc_basic": {
                 "title": "Uso de la Calculadora",
-                "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda. Selecciona la especie y su **Peso (Weight)** actual. La calculadora creará un rastreador que puedes pausar o reanudar con los botones de **Play/Pause**. El porcentaje de maduración se actualiza automáticamente basándose en las tasas de tu servidor."
+                "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda.\n\n![Botón para añadir dinosaurios](/assets/help/screenshots/01-add-dino-modal.png)\n\nSelecciona la especie y su **Peso (Weight)** actual. La calculadora creará un rastreador que puedes pausar o reanudar con los botones de **Play/Pause**. El porcentaje de maduración se actualiza automáticamente basándose en las tasas de tu servidor."
             },
             "calc_buffer": {
                 "title": "Buffer y Peso",
-                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre. El dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
+                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre.\n\n![Vista general de la calculadora](/assets/help/screenshots/02-calculator-view.png)\n\nEl dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
             },
             "calc_handfeed": {
                 "title": "Handfeed For (Alimentar a mano)",

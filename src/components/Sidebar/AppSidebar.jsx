@@ -162,6 +162,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                         className={styles.addButton}
                         onClick={onOpenAddModal}
                         title={t('ui.add_dino_title', 'Add New Creature')}
+                        data-doc="sidebar-add-btn"
                     >
                         +
                     </button>
@@ -185,6 +186,7 @@ export function AppSidebar({ sessions, activeSessionId, onSwitch, onOpenAddModal
                                     onMouseLeave={handleMouseLeave}
                                     title={!isDesktopCollapsed ? (session.name || session.creature) : ''}
                                     style={{ '--creature-bg': `url('${getCreatureIcon(session.creature)}')` }}
+                                    data-doc="sidebar-creature-item"
                                 >
                                     {editingId === session.id ? (
                                         <input
