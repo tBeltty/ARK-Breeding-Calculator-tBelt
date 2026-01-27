@@ -362,7 +362,7 @@
             },
             "calc_trough": {
                 "title": "Trough Management",
-                "content": "When they are Juveniles, group them here.\n\n![Trough Calculator](/assets/help/screenshots/trough_calculator.png)\n\nSums the consumption of all active dinos and calculates the exact duration of your troughs (Tek or Normal) considering spoilage."
+                "content": "When they are Juveniles, group them here.\n\n![Trough Calculator](/assets/trough_calculator.png)\n\n1. **Add Creatures:** Select the dinos that will eat from this trough.\n2. **Trough Type:** Choose Normal (4x) or Tek (100x) to calculate real spoilage.\n3. **Duration:** Estimated time until food runs out."
             },
             "install": {
                 "title": "Bot Installation",

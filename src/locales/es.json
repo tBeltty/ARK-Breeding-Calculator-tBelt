@@ -338,7 +338,7 @@
             },
             "calc_trough": {
                 "title": "Gestión de Comederos",
-                "content": "Cuando ya son Juveniles, agrupa tus dinos aquí.\n\n![Calculadora de Comederos](/assets/help/screenshots/trough_calculator.png)\n\nSuma el consumo de todos tus dinos activos y calcula la duración exacta de tus comederos (Tek o Normales) considerando el spoilage."
+                "content": "Cuando ya son Juveniles, agrupa tus dinos aquí.\n\n![Calculadora de Comederos](/assets/trough_calculator.png)\n\n1. **Añade Criaturas:** Selecciona los dinos que comerán de este comedero.\n2. **Tipo de Comedero:** Elige Normal (4x) o Tek (100x) para calcular el spoilage real.\n3. **Duración:** Tiempo estimando hasta que se acabe la comida."
             },
             "install": {
                 "title": "Instalación del Bot",
