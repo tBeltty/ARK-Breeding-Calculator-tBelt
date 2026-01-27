@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ConfirmationModal } from '../components/Modal/ConfirmationModal';
 import styles from './ServerTrackingPage.module.css';
 
 export default function ServerTrackingPage() {
@@ -38,7 +39,9 @@ export default function ServerTrackingPage() {
 
     // Error / Rate Limit State
     const [errorMsg, setErrorMsg] = useState(null);
-    const [retryTime, setRetryTime] = useState(0);
+    // Modal State
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [serverToDelete, setServerToDelete] = useState(null);
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -163,8 +166,15 @@ export default function ServerTrackingPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(trackedServerIds), trackedServers]);
 
-    const handleRemove = async (serverId) => {
-        if (!confirm('Stop tracking this server?')) return;
+    const confirmRemove = (server) => {
+        setServerToDelete(server);
+        setDeleteModalOpen(true);
+    };
+
+    const handleRemove = async () => {
+        if (!serverToDelete) return;
+        const serverId = serverToDelete.id;
+
         try {
             // 0. Optimistic UI update or wait? Let's just do it.
 
@@ -207,6 +217,12 @@ export default function ServerTrackingPage() {
             // Let's leave it, but maybe change text to "Ready".
         }
     }, [retryTime, errorMsg]);
+
+    const performDelete = async () => {
+        await handleRemove();
+        setDeleteModalOpen(false);
+        setServerToDelete(null);
+    };
 
     return (
         <div className={styles.page}>
@@ -278,7 +294,7 @@ export default function ServerTrackingPage() {
                                     <div style={{ display: 'flex', gap: '5px' }}>
                                         <span className={styles.statusBadge}>{isOnline ? t('ui.online') : t('ui.offline')}</span>
                                         <button
-                                            onClick={() => handleRemove(id)}
+                                            onClick={() => confirmRemove({ id, name: s?.name })}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', padding: '0 5px' }}
                                             title={t('tooltips.stop_tracking')}
                                         >
@@ -316,6 +332,16 @@ export default function ServerTrackingPage() {
                     })}
                 </div>
             )}
+            {/* Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={performDelete}
+                title={t('ui.stop_tracking_title', 'Stop Tracking?')}
+                message={t('ui.stop_tracking_msg', 'Are you sure you want to remove this server from your tracking list?')}
+                confirmText={t('ui.remove', 'Remove')}
+                isDangerous={true}
+            />
         </div>
     );
 }
