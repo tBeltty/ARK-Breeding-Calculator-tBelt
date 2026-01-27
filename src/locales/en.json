@@ -362,7 +362,7 @@
             },
             "calc_trough": {
                 "title": "Trough Management",
-                "content": "When they are Juveniles, group them here.\n\n![Trough Calculator](/assets/trough_calculator.png)\n\n1. **Add Creatures:** Select the dinos that will eat from this trough.\n2. **Trough Type:** Choose Normal (4x) or Tek (100x) to calculate real spoilage.\n3. **Duration:** Estimated time until food runs out."
+                "content": "Calculate how long food will last in your troughs.\n\n![Trough Calculator](/assets/trough_calculator.png)\n\n1. **Add Creatures:** Add all dinos that will feed from this trough.\n2. **Trough Type:** Choose 'Normal' (4x spoilage) or 'Tek' (100x spoilage).\n3. **Desired Duration:** Enter how long you want to be away (e.g., 8h).\n4. **Results:** View if food is sufficient, how much will spoil, and total efficiency."
             },
             "install": {
                 "title": "Bot Installation",
