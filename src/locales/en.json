@@ -364,6 +364,10 @@
                 "title": "Trough Management",
                 "content": "Calculate how long food will last in your troughs.\n\n![Trough Calculator](/assets/trough_calculator.png)\n\n1. **Add Current:** Adds the dino currently loaded in the calculator to the trough list.\n2. **Trough Type:** Choose 'Normal', 'Tek', or 'Maewing'. Maewing includes extra options like Weight and Nursing Effectiveness.\n3. **Desired Duration:** Enter how long you want to be away (e.g., 8h).\n4. **Results:** View if food is sufficient, how much will spoil, and total efficiency."
             },
+            "calc_servers": {
+                "title": "Server Monitoring",
+                "content": "Track the status of your favorite servers.\n\n![Server Monitoring](/assets/server_monitoring_search.png)\n\n1. **Search:** Search by name (Official) or Direct IP (Unofficial).\n2. **Connect:** Adds the server to your tracking list and links it to your active sessions.\n3. **Live Status:** View online players, in-game day, and status (Online/Offline) updated every 30s."
+            },
             "install": {
                 "title": "Bot Installation",
                 "content": "To add Arktic Assistant to your Discord server, go to [ark.tbelt.online/dashboard](https://ark.tbelt.online/dashboard). You will see your servers; click **'Invite Bot'** to authorize it with the necessary permissions."
