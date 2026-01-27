@@ -350,11 +350,11 @@
             },
             "calc_details": {
                 "title": "Maturation Details",
-                "content": "This section is your control center.\n\n![Maturation Details](/assets/maduration_details.png)\n\n1. **Current Buffer:** The most valuable data. Tells you how long you can log off without the baby dying.\n2. **Time to Juvenile:** How long until it eats from the trough.\n3. **Weight:** As it goes up, your buffer increases."
+                "content": "This section shows the growth schedule.\n\n![Maturation Details](/assets/maduration_details.png)\n\n1. **Incubation:** Time until hatching.\n2. **Maturation %:** Current progress. You can edit this manually to sync if needed.\n3. **Time to Juvenile:** Exact time until it eats from the trough.\n4. **Time to Adult:** Total remaining breeding time."
             },
             "calc_baby": {
                 "title": "Baby Phase",
-                "content": "The most dangerous stage (0-10%).\n\n![Baby Phase](/assets/baby_phase.png)\n\nThe **'Hand Feed For'** indicator is key: It tells you what % is needed so you can fill the inventory and leave it until Juvenile."
+                "content": "Monitors immediate survival.\n\n![Baby Phase](/assets/baby_phase.png)\n\n1. **Current Buffer:** The most critical data. The REAL time the baby survives without attention. Don't let it hit zero!\n2. **Hand Feed For:** Tells you how much % is left until a full inventory lasts until Juvenile stage."
             },
             "calc_food": {
                 "title": "Food Requirements",

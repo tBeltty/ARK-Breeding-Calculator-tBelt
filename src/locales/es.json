@@ -326,11 +326,11 @@
             },
             "calc_details": {
                 "title": "Detalles de Maduración",
-                "content": "Esta sección es tu centro de control.\n\n![Detalles de Maduración](/assets/maduration_details.png)\n\n1. **Buffer Actual:** El dato más valioso. Te dice cuánto tiempo puedes desconectarte sin que el bebé muera.\n2. **Tiempo a Juvenil:** Cuánto falta para que coma del comedero.\n3. **Peso:** A medida que sube, tu buffer aumenta."
+                "content": "Esta sección muestra el cronograma completo.\n\n![Detalles de Maduración](/assets/maduration_details.png)\n\n1. **Incubation:** Tiempo restante para eclosionar.\n2. **Maturation %:** Progreso actual. Puedes editarlo si necesitas sincronizar manualmenente.\n3. **Time to Juvenile:** Tiempo exacto hasta que coma del comedero.\n4. **Time to Adult:** Tiempo total restante de crianza."
             },
             "calc_baby": {
                 "title": "Fase de Bebé",
-                "content": "La etapa más peligrosa (0-10%).\n\n![Fase de Bebé](/assets/baby_phase.png)\n\nEl indicador **'Hand Feed For'** es clave: Te dice cuánto % falta para que puedas llenar el inventario y olvidarte hasta que sea Juvenil."
+                "content": "Monitoriza la supervivencia inmediata.\n\n![Fase de Bebé](/assets/baby_phase.png)\n\n1. **Current Buffer:** El dato más importante. Es el tiempo REAL que el bebé sobrevive sin atención. ¡Que nunca llegue a cero!\n2. **Hand Feed For:** Indica cuánto % falta para que un inventario lleno dure hasta la fase Juvenil."
             },
             "calc_food": {
                 "title": "Requisitos de Comida",
