@@ -324,17 +324,21 @@
                 "title": "Uso de la Calculadora",
                 "content": "Para empezar, haz clic en el botón **+** arriba a la izquierda.\n\n![Botón para añadir dinosaurios](/assets/btn_add.png)\n\nEsto abrirá el modal de configuración:\n\n![Configuración de Criatura](/assets/add_new_creature_modal.png)\n\nAquí debes:\n1. **Seleccionar el Dino:** Elige la especie que estás criando.\n2. **Introducir Nombre:** Un apodo para identificarlo.\n3. **Peso (Weight):** Fundamental, ya que determina la capacidad del inventario y cuánto tiempo puede sobrevivir sin atención.\n4. **% de Maduración:** El progreso actual. Si estás añadiendo un bebé ya nacido, ajústalo aquí.\n5. **Start Tracking:** Activa este interruptor para que el contador comience a correr de inmediato."
             },
-            "calc_buffer": {
-                "title": "Buffer y Peso",
-                "content": "El **Buffer** es el tiempo real que tu bebé puede sobrevivir con el inventario lleno antes de morir de hambre.\n\n![Sección de Buffer](/assets/help/screenshots/03-progress-buffer.png)\n\nEl dato más importante es el **Peso (Weight)**: a mayor peso, más stacks de comida caben, y por lo tanto, más 'Buffer' (tiempo de sueño para ti) tendrás."
+            "calc_details": {
+                "title": "Detalles de Maduración",
+                "content": "Esta sección es tu centro de control.\n\n![Detalles de Maduración](/assets/help/screenshots/maduration_details.png)\n\n1. **Buffer Actual:** El dato más valioso. Te dice cuánto tiempo puedes desconectarte sin que el bebé muera.\n2. **Tiempo a Juvenil:** Cuánto falta para que coma del comedero.\n3. **Peso:** A medida que sube, tu buffer aumenta."
             },
-            "calc_handfeed": {
-                "title": "Handfeed For (Alimentar a mano)",
-                "content": "La **Fase de Bebé** es crítica. Hasta que la maduración llegue al 10% (Juvenil), el bebé no comerá del comedero.\n\n![Fase de Bebé](/assets/help/screenshots/baby_phase.png)\n\nEl indicador **'Hand Feed For'** te dice exactamente cuánto falta para que puedas dejar de alimentarlo manualmente.\n\nAdemás, puedes consultar los requisitos globales:\n\n![Requisitos de Comida](/assets/help/screenshots/food_requirements.png)\n\nEsto muestra cuánta carne/bayas necesitará en total para llegar a Juvenil y a Adulto."
+            "calc_baby": {
+                "title": "Fase de Bebé",
+                "content": "La etapa más peligrosa (0-10%).\n\n![Fase de Bebé](/assets/help/screenshots/baby_phase.png)\n\nEl indicador **'Hand Feed For'** es clave: Te dice cuánto % falta para que puedas llenar el inventario y olvidarte hasta que sea Juvenil."
+            },
+            "calc_food": {
+                "title": "Requisitos de Comida",
+                "content": "¿Cuánta carne o bayas necesito farmear?\n\n![Requisitos de Comida](/assets/help/screenshots/food_requirements.png)\n\nPlanifica con antelación. Verás el total de comida necesaria para llegar a la fase Juvenil (10%) o hasta Adulto (100%)."
             },
             "calc_trough": {
                 "title": "Gestión de Comederos",
-                "content": "La **Calculadora de Comederos** te ayuda a planificar largas ausencias.\n\n![Calculadora de Comederos](/assets/help/screenshots/trough_calculator.png)\n\n1. **Añade Criaturas:** El sistema suma automáticamente el consumo de todos los bebés activos.\n2. **Tipo de Comedero:** Cambia entre Normal, Tek o Maewing para ajustar el cálculo de descomposición (spoilage).\n3. **Duración:** Verás una estimación precisa de cuánto durarán los stacks antes de agotarse."
+                "content": "Cuando ya son Juveniles, agrupa tus dinos aquí.\n\n![Calculadora de Comederos](/assets/help/screenshots/trough_calculator.png)\n\nSuma el consumo de todos tus dinos activos y calcula la duración exacta de tus comederos (Tek o Normales) considerando el spoilage."
             },
             "install": {
                 "title": "Instalación del Bot",
