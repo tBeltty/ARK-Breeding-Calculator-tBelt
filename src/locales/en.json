@@ -354,7 +354,7 @@
             },
             "calc_baby": {
                 "title": "Baby Phase",
-                "content": "Monitors immediate survival.\n\n![Baby Phase](/assets/baby_phase.png)\n\n1. **Current Buffer:** The most critical data. The REAL time the baby survives without attention. Don't let it hit zero!\n2. **Hand Feed For:** Tells you how much % is left until a full inventory lasts until Juvenile stage."
+                "content": "Monitors immediate survival.\n\n![Baby Phase](/assets/baby_phase.png)\n\n1. **Hand Feed For:** Remaining time/% of mandatory manual feeding.\n2. **Current Buffer:** REAL survival time without attention. Watch this!\n3. **Desired Buffer:** Target time you want to sleep or log off (e.g. 60 min).\n4. **Auto-Sort Stacks:** Helps reduce spoilage by consolidating half-full stacks.\n5. **Maturation Needed:** The Maturation % required to achieve your 'Desired Buffer' with a full inventory."
             },
             "calc_food": {
                 "title": "Food Requirements",
