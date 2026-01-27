@@ -47,7 +47,8 @@ export default function HelpPage() {
         let processed = text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/!\[(.*?)\]\((.*?)\)/g, `<div class="${styles.imageContainer}"><img src="$2" alt="$1" class="${styles.screenshot}" /><p class="${styles.imageCaption}">$1</p></div>`)
-            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="' + styles.inlineLink + '">$1</a>');
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="' + styles.inlineLink + '">$1</a>')
+            .replace(/\n/g, '<br />');
 
         return processed;
     };
