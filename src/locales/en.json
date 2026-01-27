@@ -358,7 +358,11 @@
             },
             "calc_food": {
                 "title": "Food Requirements",
-                "content": "How much meat or berries do I need?\n\n![Food Requirements](/assets/food_requirements.png)\n\nPlan ahead. You will see the total food needed to reach Juvenile (10%) or Adult (100%)."
+                "content": "How much meat or berries do I need to farm?\n\n![Food Requirements](/assets/food_requirements.png)\n\nPlan ahead. You will see the total food needed to reach Juvenile phase (10%) or Adult (100%)."
+            },
+            "calc_linked": {
+                "title": "Linked Server",
+                "content": "Syncs your breeding with server status.\n\n![Linked Server](/assets/linked_server.png)\n\nIn creature settings, you can link a monitored server. If the server goes down or offline, the calculator effectively pauses/adjusts timers automatically to prevent desync."
             },
             "calc_trough": {
                 "title": "Trough Management",

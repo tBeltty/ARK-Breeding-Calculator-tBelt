@@ -336,6 +336,10 @@
                 "title": "Requisitos de Comida",
                 "content": "¿Cuánta carne o bayas necesito farmear?\n\n![Requisitos de Comida](/assets/food_requirements.png)\n\nPlanifica con antelación. Verás el total de comida necesaria para llegar a la fase Juvenil (10%) o hasta Adulto (100%)."
             },
+            "calc_linked": {
+                "title": "Servidor Vinculado",
+                "content": "Sincroniza tu crianza con el estado del servidor.\n\n![Servidor Vinculado](/assets/linked_server.png)\n\nEn los ajustes de la criatura, puedes vincular un servidor monitoreado. Si el servidor se cae o se apaga, la calculadora pausará/ajustará los tiempos automáticamente para evitar desincronización."
+            },
             "calc_trough": {
                 "title": "Gestión de Comederos",
                 "content": "Calcula cuánto durará la comida en tus comederos.\n\n![Calculadora de Comederos](/assets/trough_calculator.png)\n\n1. **Add Current:** Añade el dino que estás calculando actualmente a la lista del comedero.\n2. **Trough Type:** Elige 'Normal', 'Tek' o 'Maewing'. El Maewing incluye opciones extra como Peso y Nursing Effectiveness.\n3. **Desired Duration:** Introduce cuánto tiempo quieres ausentarte (ej. 8h).\n4. **Resultados:** Verás si la comida es suficiente, cuánta se estropeará y la eficiencia total."
