@@ -14,8 +14,8 @@ export default function App() {
         <Route path="/" element={<CalculatorPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/servers" element={<ServerTrackingPage />} />
-        <Route path="/help" element={<HelpPage />} />
       </Route>
+      <Route path="/help" element={<HelpPage />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
