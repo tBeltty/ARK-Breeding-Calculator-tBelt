@@ -346,7 +346,7 @@
         "sections": {
             "calc_basic": {
                 "title": "Using the Calculator",
-                "content": "To start, click the **+** button at the top left.\n\n![Button to add dinosaurs](/assets/help/screenshots/01-add-dino-modal.png)\n\nSelect the species and its current **Weight**. The calculator will create a tracker:\n\n![Calculator overview](/assets/help/screenshots/02-calculator-view.png)\n\nYou can pause or resume using the **Play/Pause** buttons."
+                "content": "To start, click the **+** button at the top left.\n\n![Add Creature Button](/assets/help/screenshots/add_creature.png)\n\nThis opens the configuration modal:\n\n![Creature Settings](/assets/add_new_creature_modal.png)\n\nHere you must:\n1. **Select Dino:** Choose the species you are breeding.\n2. **Enter Name:** A nickname to identify it.\n3. **Weight:** Critical, as it determines inventory capacity and survival time.\n4. **Maturation %:** Current progress. If adding an existing baby, adjust it here.\n5. **Start Tracking:** Toggle this to start the timer immediately."
             },
             "calc_buffer": {
                 "title": "Buffer and Weight",
@@ -354,11 +354,11 @@
             },
             "calc_handfeed": {
                 "title": "Handfeed For",
-                "content": "The **'Hand Feed For'** value indicates the maturation percentage needed so the baby can sustain a full inventory until it reaches the Juvenile stage (10%).\n\n![Breeding Stats](/assets/help/screenshots/04-stats-grid.png)\n\nOnce you reach that %, you can fill the baby and rest easy; the trough will take over at 10%."
+                "content": "The **Baby Phase** is critical. Until maturation reaches 10% (Juvenile), the baby will not eat from the trough.\n\n![Baby Phase](/assets/help/screenshots/baby_phase.png)\n\nThe **'Hand Feed For'** indicator tells you exactly how much longer you need to hand-feed/top off inventory.\n\nYou can also check global requirements:\n\n![Food Requirements](/assets/help/screenshots/food_requirements.png)\n\nThis shows total meat/berries needed to reach Juvenile and Adult stages."
             },
             "calc_trough": {
                 "title": "Trough Management",
-                "content": "Use the **Troughs** tab to simulate how long shared food will last among multiple creatures. You can choose the trough type (Normal, Tek, or Maewing) to calculate the correct spoilage rate and receive alerts before it runs empty."
+                "content": "The **Trough Calculator** helps you plan long absences.\n\n![Trough Calculator](/assets/help/screenshots/trough_calculator.png)\n\n1. **Add Creatures:** The system automatically sums consumption for all active babies.\n2. **Trough Type:** Switch between Normal, Tek, or Maewing to adjust spoilage rates.\n3. **Duration:** See a precise estimate of how long stacks will last before running out."
             },
             "install": {
                 "title": "Bot Installation",
@@ -374,7 +374,7 @@
             },
             "monitoring": {
                 "title": "Pro Monitoring",
-                "content": "Link your trackers to a real ARK server. If the server goes down, Arktic Assistant will **automatically pause your babies** so they don't die during server downtime."
+                "content": "The **Server Monitoring** links real server status to your trackers.\n\n![Server Search](/assets/help/screenshots/server_monitoring_search.png)\n\nSearch for your server (Official or Unofficial IP) and connect it. If the server goes down or enters maintenance, **Arktic Assistant will pause your timers** automatically to prevent desync during downtime."
             }
         }
     }
