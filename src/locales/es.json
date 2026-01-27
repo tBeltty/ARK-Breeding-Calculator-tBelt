@@ -326,15 +326,15 @@
             },
             "calc_details": {
                 "title": "Detalles de Maduración",
-                "content": "Esta sección es tu centro de control.\n\n![Detalles de Maduración](/assets/help/screenshots/maduration_details.png)\n\n1. **Buffer Actual:** El dato más valioso. Te dice cuánto tiempo puedes desconectarte sin que el bebé muera.\n2. **Tiempo a Juvenil:** Cuánto falta para que coma del comedero.\n3. **Peso:** A medida que sube, tu buffer aumenta."
+                "content": "Esta sección es tu centro de control.\n\n![Detalles de Maduración](/assets/maduration_details.png)\n\n1. **Buffer Actual:** El dato más valioso. Te dice cuánto tiempo puedes desconectarte sin que el bebé muera.\n2. **Tiempo a Juvenil:** Cuánto falta para que coma del comedero.\n3. **Peso:** A medida que sube, tu buffer aumenta."
             },
             "calc_baby": {
                 "title": "Fase de Bebé",
-                "content": "La etapa más peligrosa (0-10%).\n\n![Fase de Bebé](/assets/help/screenshots/baby_phase.png)\n\nEl indicador **'Hand Feed For'** es clave: Te dice cuánto % falta para que puedas llenar el inventario y olvidarte hasta que sea Juvenil."
+                "content": "La etapa más peligrosa (0-10%).\n\n![Fase de Bebé](/assets/baby_phase.png)\n\nEl indicador **'Hand Feed For'** es clave: Te dice cuánto % falta para que puedas llenar el inventario y olvidarte hasta que sea Juvenil."
             },
             "calc_food": {
                 "title": "Requisitos de Comida",
-                "content": "¿Cuánta carne o bayas necesito farmear?\n\n![Requisitos de Comida](/assets/help/screenshots/food_requirements.png)\n\nPlanifica con antelación. Verás el total de comida necesaria para llegar a la fase Juvenil (10%) o hasta Adulto (100%)."
+                "content": "¿Cuánta carne o bayas necesito farmear?\n\n![Requisitos de Comida](/assets/food_requirements.png)\n\nPlanifica con antelación. Verás el total de comida necesaria para llegar a la fase Juvenil (10%) o hasta Adulto (100%)."
             },
             "calc_trough": {
                 "title": "Gestión de Comederos",
