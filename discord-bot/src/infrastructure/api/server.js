@@ -33,12 +33,38 @@ app.get('/health', (req, res) => {
 
 import guildRoutes from './routes/guilds.js';
 
-// API routes
+// API Status Endpoint
 app.get('/api/stats', (req, res) => {
+    const client = req.app.locals.client;
     res.json({
-        version: '3.0.0',
+        version: '3.0.1',
         name: 'Arktic Assistant',
-        status: 'running',
+        status: client && client.isReady() ? 'running' : 'starting_or_disconnected',
+        discord_ready: client ? client.isReady() : false,
+        guilds: client ? client.guilds.cache.size : 0
+    });
+});
+
+// Debug Endpoint for Internal State
+app.get('/api/debug', (req, res) => {
+    const client = req.app.locals.client;
+    const getLastError = req.app.locals.getLastError;
+
+    res.json({
+        timestamp: new Date().toISOString(),
+        process: {
+            uptime: process.uptime(),
+            memory: process.memoryUsage(),
+            env: process.env.NODE_ENV
+        },
+        discord: {
+            ready: client ? client.isReady() : false,
+            status: client ? client.ws.status : 'N/A',
+            ping: client ? client.ws.ping : -1,
+            guilds: client ? client.guilds.cache.size : 0,
+            user: client?.user?.tag || 'none'
+        },
+        last_error: getLastError ? getLastError() : null
     });
 });
 
@@ -164,10 +190,12 @@ app.use('/api/guilds', guildRoutes);
 /**
  * Start the API server
  * @param {Client} client - Discord JS Client instance
+ * @param {Function} getLastError - Callback to get the last recorded global error
  */
-export async function startApi(client) {
-    // Make client available to routes
+export async function startApi(client, getLastError) {
+    // Make variables available to routes
     app.locals.client = client;
+    app.locals.getLastError = getLastError;
 
     return new Promise((resolve) => {
         app.listen(PORT, () => {

@@ -43,6 +43,9 @@ localization.load();
 // Attach collections for commands
 client.commands = new Collection();
 
+// Global error tracker for diagnostics
+let lastError = null;
+
 // Bootstrap application
 async function main() {
     try {
@@ -68,7 +71,7 @@ async function main() {
         // 5. Start API Server (for dashboard)
         if (process.env.NODE_ENV !== 'test') {
             logger.info('🌐 Starting API server...');
-            await startApi(client);
+            await startApi(client, () => lastError);
         }
 
         // 6. Start Notification Scheduler
@@ -87,10 +90,39 @@ async function main() {
 
         logger.info('✅ Arktic Assistant is ready!');
     } catch (error) {
+        lastError = {
+            message: error.message,
+            stack: error.stack,
+            timestamp: new Date().toISOString()
+        };
         logger.error('Failed to start bot:', error);
+        // Don't exit immediately in production if API is already up, 
+        // to allow diagnostic endpoint to work. 
+        // But since this is the main catch, API hasn't started yet.
         process.exit(1);
     }
 }
+
+// Global process error handlers
+process.on('unhandledRejection', (reason, promise) => {
+    lastError = {
+        type: 'unhandledRejection',
+        reason: reason?.message || reason,
+        stack: reason?.stack,
+        timestamp: new Date().toISOString()
+    };
+    logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+    lastError = {
+        type: 'uncaughtException',
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString()
+    };
+    logger.error('Uncaught Exception:', error);
+});
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
