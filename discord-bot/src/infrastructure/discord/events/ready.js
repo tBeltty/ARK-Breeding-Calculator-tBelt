@@ -20,7 +20,6 @@ export async function execute(client) {
 
     logger.info(`Serving ${client.guilds.cache.size} guilds`);
 
-
     // Sync guilds to database to prevent 404s in dashboard
     for (const guild of client.guilds.cache.values()) {
         GuildRepository.findOrCreate(guild.id);
