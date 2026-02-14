@@ -216,6 +216,12 @@ export function BabyPanel({
                 }
             />
 
+            <DataRow
+                label={t('fields.food_capacity')}
+                tooltip={t('tooltips.food_capacity', { weight: (activeData.weight || 0).toFixed(1) })}
+                value={calculations?.foodCapacity?.toLocaleString() || '0'}
+            />
+
             <div className={styles.inputGroup} style={{ marginBottom: '8px', display: 'flex', alignItems: 'flex-end' }}>
                 <div style={{ flex: 1 }}>
                     <DataInput
