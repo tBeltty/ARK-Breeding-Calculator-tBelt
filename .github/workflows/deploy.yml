@@ -11,7 +11,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -26,7 +25,6 @@ jobs:
           VITE_DISCORD_CLIENT_ID: ${{ secrets.VITE_DISCORD_CLIENT_ID }}
 
       - name: Deploy Frontend to Nginx
-        # Rsync the build output (dist/) to the web root
         run: rsync -r --delete dist/ /var/www/ark.tbelt.online/html/
 
       - name: Deploy Bot
@@ -35,3 +33,40 @@ jobs:
           cd /var/www/ark.tbelt.online/bot
           npm install --production
           pm2 restart ark-bot --update-env || pm2 start src/index.js --name ark-bot
+
+      - name: Verify Bot Environment
+        run: |
+          echo "Checking required environment variables in production .env..."
+          ENV_FILE="/var/www/ark.tbelt.online/bot/.env"
+          REQUIRED_VARS=("DISCORD_TOKEN" "DISCORD_CLIENT_ID" "NODE_ENV" "API_PORT" "ARK_STATUS_API_KEY")
+          MISSING=()
+          for var in "${REQUIRED_VARS[@]}"; do
+            if ! grep -q "^${var}=" "$ENV_FILE" 2>/dev/null; then
+              MISSING+=("$var")
+            fi
+          done
+          if [ ${#MISSING[@]} -gt 0 ]; then
+            echo "::error::CRITICAL: Missing required env vars in production .env: ${MISSING[*]}"
+            echo "The bot WILL malfunction without these. Add them to $ENV_FILE on the VPS."
+            exit 1
+          fi
+          echo "✅ All required environment variables present."
+
+      - name: Verify Bot Health
+        run: |
+          echo "Waiting 8s for bot to initialize..."
+          sleep 8
+          RESPONSE=$(curl -sf http://localhost:3005/api/stats 2>/dev/null)
+          if [ $? -ne 0 ]; then
+            echo "::error::Bot API is not responding on port 3005!"
+            pm2 logs ark-bot --lines 20 --nostream
+            exit 1
+          fi
+          echo "Bot API response: $RESPONSE"
+          DISCORD_READY=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('discord_ready', False))" 2>/dev/null)
+          VERSION=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('version', 'unknown'))" 2>/dev/null)
+          echo "Bot version: $VERSION | Discord ready: $DISCORD_READY"
+          if [ "$DISCORD_READY" != "True" ]; then
+            echo "::warning::Discord connection not ready yet (may still be initializing)"
+          fi
+          echo "✅ Bot health check passed."
