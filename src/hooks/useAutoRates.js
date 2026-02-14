@@ -17,7 +17,6 @@ export function useAutoRates(settings, setSettings, setSessions, addToast) {
         if (!currentSettings.autoRatesEnabled) return;
 
         try {
-            console.log('[Auto-Rates] Fetching current official rates...');
             const response = await fetch('/api/rates');
             if (!response.ok) {
                 console.error('[Auto-Rates] HTTP Error:', response.status);
@@ -25,24 +24,22 @@ export function useAutoRates(settings, setSettings, setSessions, addToast) {
             }
 
             const data = await response.json();
-            console.log('[Auto-Rates] Received data:', data);
+            // console.log('[Auto-Rates] Received data:', data);
             const { maturation, lastChangedAt } = data;
 
             // Helper to update setting if changed
             let updates = {};
-            console.log('[Auto-Rates] Current Settings:', { m: currentSettings.maturationSpeed, h: currentSettings.hatchSpeed });
+            // console.log('[Auto-Rates] Current Settings:', { m: currentSettings.maturationSpeed, h: currentSettings.hatchSpeed });
             if (maturation && maturation !== currentSettings.maturationSpeed) {
-                console.log('[Auto-Rates] Maturation change detected:', maturation);
                 updates.maturationSpeed = maturation;
             }
             if (data.hatch && data.hatch !== currentSettings.hatchSpeed) {
-                console.log('[Auto-Rates] Hatch change detected:', data.hatch);
                 updates.hatchSpeed = data.hatch;
             }
             if (data.consumption && data.consumption !== currentSettings.consumptionSpeed) updates.consumptionSpeed = data.consumption;
 
             if (Object.keys(updates).length > 0) {
-                console.log('[Auto-Rates] Updating settings:', updates);
+                // console.log('[Auto-Rates] Updating settings:', updates);
 
                 // 1. Update Global Settings
                 setSettings(prev => ({ ...prev, ...updates }));
