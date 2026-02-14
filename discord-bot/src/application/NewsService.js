@@ -30,6 +30,24 @@ export class NewsService {
     }
 
     /**
+     * Fetch and send the latest post immediately to a channel
+     */
+    static async sendLatestNow(guildId, channelId) {
+        try {
+            const response = await axios.get(RSS_URL);
+            const items = this.parseRSS(response.data);
+
+            if (items.length > 0) {
+                await this.distributeNews({ guild_id: guildId, channel_id: channelId }, [items[0]]);
+                return items[0].guid;
+            }
+        } catch (error) {
+            logger.error(`NewsService.sendLatestNow error: ${error.message}`);
+        }
+        return null;
+    }
+
+    /**
      * Check RSS feed for new posts
      */
     static async checkNews() {
