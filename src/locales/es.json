@@ -44,6 +44,7 @@
         "max_food": "Comida Máxima",
         "food_to_adult": "Comida hasta Adulto",
         "food_to_juvenile": "Comida hasta Juvenil",
+        "total_required": "Total Requerido",
         "auto_sort": "Reorganizar Stacks"
     },
     "ui": {
