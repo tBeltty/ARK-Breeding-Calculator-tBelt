@@ -13,7 +13,7 @@ export function loadJson(filename) {
     try {
         const filePath = path.join(DATA_DIR, filename);
         if (!fs.existsSync(filePath)) {
-            console.error(`[DataLoader] File not found: ${filePath}`);
+            logger.error(`[DataLoader] CRITICAL: File not found at ${filePath}. Bot will have empty data.`);
             return {};
         }
         const content = fs.readFileSync(filePath, 'utf8');
