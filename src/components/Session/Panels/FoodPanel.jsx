@@ -28,7 +28,7 @@ export function FoodPanel({
                 }
             />
             {calculations?.toJuvFoodItems > 0 && (
-                <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
+                <div style={{ fontSize: '0.8em', opacity: 0.6, marginTop: '-5px', textAlign: 'right', marginBottom: '8px' }}>
                     {translate('ui.total_required', { count: (calculations?.totalJuvFoodItems || 0).toLocaleString() })}
                 </div>
             )}
@@ -39,7 +39,7 @@ export function FoodPanel({
                 value={calculations?.toAdultFoodItems.toLocaleString()}
             />
             {calculations?.toAdultFoodItems > 0 && (
-                <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
+                <div style={{ fontSize: '0.8em', opacity: 0.6, marginTop: '-5px', textAlign: 'right', marginBottom: '8px' }}>
                     {translate('ui.total_required', { count: (calculations?.totalFoodItems || 0).toLocaleString() })}
                 </div>
             )}
@@ -47,7 +47,7 @@ export function FoodPanel({
             <DataRow
                 label={translate('fields.food_rate')}
                 tooltip={translate('tooltips.food_rate')}
-                value={translate('ui.food_rate_value', { rate: calculations?.currentFoodRate.toFixed(4) })}
+                value={translate('ui.food_rate_value', { rate: Math.round(calculations?.currentFoodRate || 0).toLocaleString() })}
             />
         </DataPanel>
     );
