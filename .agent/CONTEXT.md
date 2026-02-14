@@ -37,6 +37,11 @@
     - **Post-Deploy Verification**: The CI/CD pipeline (`deploy.yml`) includes automated checks:
         1. Verifies all required env vars exist in production `.env` (fails the build if missing).
         2. Health-checks `localhost:3005/api/stats` to confirm the bot API responds and Discord is connected.
+    - **Automated Maintenance (PM2)**:
+        - **Daily restart**: Cron `0 5 * * *` (5 AM UTC / 12 AM EST) — clears memory leaks, refreshes Discord gateway connections.
+        - **Memory guard**: Auto-restarts if memory exceeds 200MB (`--max-memory-restart 200M`).
+        - Both settings are **persisted** via `pm2 save` — survives server reboots.
+        - **Do not change** without also updating this documentation.
 
 
 
