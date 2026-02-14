@@ -167,13 +167,31 @@ class ServerService {
 
     async checkOfficial(record) {
         try {
-            // Strategy 1: Search by Name (Most reliable if we have it)
-            // Strategy 2: Search by ID (Fallback, sometimes reliable)
+            // Strategy 1: Direct ID Lookup (Most reliable and fast)
+            // Strategy 2: Search by Name (Fallback)
 
             let match = null;
 
-            // Attempt 1: Name search
-            if (record.server_name) {
+            // Attempt 1: Direct ID lookup (Official IDs are numeric strings)
+            if (record.server_id && /^\d+$/.test(record.server_id)) {
+                try {
+                    const response = await this.requestQueue.add(() => axios.get(`https://arkstatus.com/api/v1/servers/${record.server_id}`, {
+                        headers: { 'X-API-Key': this.apiKey },
+                        timeout: 5000
+                    }));
+                    if (response.data?.success && response.data.data) {
+                        match = response.data.data;
+                        logger.info(`[Sync] Found official server by direct ID: ${match.name}`);
+                    }
+                } catch (e) {
+                    if (e.response?.status !== 404) {
+                        logger.warn(`Direct ID lookup failed for ${record.server_id}: ${e.message}`);
+                    }
+                }
+            }
+
+            // Attempt 2: Name search (Fallback)
+            if (!match && record.server_name) {
                 try {
                     const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
                         params: { search: record.server_name, per_page: 20, official: true },
@@ -181,32 +199,12 @@ class ServerService {
                         timeout: 5000
                     }));
                     if (response.data?.success) {
-                        // Strict check by ID OR Name match
                         match = response.data.data.find(s =>
                             String(s.id) === record.server_id ||
                             s.name === record.server_name
                         );
                     }
                 } catch (e) { /* ignore and try next */ }
-            }
-
-            // Attempt 2: ID search (if name failed or verify failed)
-            if (!match) {
-                try {
-                    const response = await this.requestQueue.add(() => axios.get('https://arkstatus.com/api/v1/servers', {
-                        params: { search: record.server_id, per_page: 20, official: true },
-                        headers: { 'X-API-Key': this.apiKey },
-                        timeout: 5000
-                    }));
-                    if (response.data?.success) {
-                        match = response.data.data.find(s =>
-                            String(s.id) === record.server_id ||
-                            s.name.includes(record.server_id) // Allow finding "NA-PVE...6309" by searching "6309"
-                        );
-                    }
-                } catch (e) {
-                    if (e.isRateLimit) throw e; // Propagate rate limit
-                }
             }
 
             if (match) {
@@ -384,9 +382,23 @@ class ServerService {
             });
 
         // 2. Query External API
-        let apiResults = [];
+        let rawApiResults = []; // Temporary array to hold raw API objects before mapping
         try {
             logger.info(`Searching API for: ${query} (Official Only: ${onlyOfficial})`);
+
+            // Attempt 1: Direct ID lookup (Official IDs are numeric)
+            if (onlyOfficial && /^\d+$/.test(String(query))) {
+                try {
+                    const idResponse = await this.requestQueue.add(() => axios.get(`https://arkstatus.com/api/v1/servers/${query}`, {
+                        headers: { 'X-API-Key': this.apiKey },
+                        timeout: 5000
+                    }));
+                    if (idResponse.data?.success && idResponse.data.data) {
+                        rawApiResults.push(idResponse.data.data);
+                    }
+                } catch (e) { /* ignore and try search */ }
+            }
+
             const params = { search: query, per_page: 20 };
             if (onlyOfficial) {
                 params.official = true;
@@ -399,43 +411,54 @@ class ServerService {
             }));
 
             if (response.data && response.data.success) {
-                apiResults = response.data.data.map(s => {
-                    const local = localMatches.find(l => String(l.id) === String(s.id));
-                    return {
-                        id: String(s.id),
-                        name: s.name,
-                        map: s.map || 'Unknown',
-                        players: s.players || 0,
-                        maxPlayers: s.max_players || 70,
-                        status: s.status || 'unknown',
-                        type: s.official ? 'official' : 'unofficial',
-                        isTracked: !!local,
-                        platform: s.platform,
-                        version: s.version
-                    };
+                // Merge with ID result if not already there
+                const searchResults = response.data.data;
+                searchResults.forEach(s => {
+                    if (!rawApiResults.some(a => String(a.id) === String(s.id))) {
+                        rawApiResults.push(s);
+                    }
                 });
             }
+
+            // Map results to unified structure
+            const apiResults = rawApiResults.map(s => {
+                const local = localMatches.find(l => String(l.id) === String(s.id));
+                return {
+                    id: String(s.id),
+                    name: s.name,
+                    map: s.map || 'Unknown',
+                    players: s.players || 0,
+                    maxPlayers: s.max_players || 70,
+                    status: s.status || 'unknown',
+                    type: s.official || s.is_official ? 'official' : 'unofficial', // API can return 'official' or 'is_official'
+                    isTracked: !!local,
+                    platform: s.platform,
+                    version: s.version
+                };
+            });
+
+            // Merge: API results + Local results that weren't in API (e.g. unofficials not found by search)
+            // Deduplicate by ID
+            const combined = [...apiResults];
+
+            localMatches.forEach(local => {
+                if (!combined.some(c => String(c.id) === String(local.id))) {
+                    if (!onlyOfficial || local.type === 'official') {
+                        combined.unshift(local);
+                    }
+                }
+            });
+
+            return combined;
+
         } catch (e) {
             if (e.isRateLimit) {
                 logger.warn(`Search failed due to rate limit: ${e.retryAfter}s`);
                 return { error: 'RATE_LIMIT', retryAfter: e.retryAfter };
             }
             logger.error('API Search failed:', e.message);
+            return localMatches; // Fallback to local results only on search error
         }
-
-        // Merge: API results + Local results that weren't in API (e.g. unofficials not found by search)
-        // Deduplicate by ID
-        const combined = [...apiResults];
-
-        localMatches.forEach(local => {
-            if (!combined.some(c => String(c.id) === String(local.id))) {
-                if (!onlyOfficial || local.type === 'official') {
-                    combined.unshift(local);
-                }
-            }
-        });
-
-        return combined;
     }
 
     async addTrackedServer(serverId, type = 'unofficial', name = null, guildId = 'WEB', channelId = 'WEB') {
