@@ -6,47 +6,41 @@
 
 import { SlashCommandBuilder } from 'discord.js';
 import { createInfoEmbed } from '../../../shared/embeds.js';
+import { t, getLocale } from '../../../shared/i18n.js';
 
 export const data = new SlashCommandBuilder()
     .setName('help')
-    .setDescription('Shows available commands and usage information');
+    .setNameLocalizations({ 'es-ES': 'ayuda', 'es-419': 'ayuda' })
+    .setDescription('Shows available commands and usage information')
+    .setDescriptionLocalizations({ 'es-ES': 'Muestra los comandos disponibles', 'es-419': 'Muestra los comandos disponibles' });
 
 export async function execute(interaction) {
+    const locale = getLocale(interaction.guildId);
+
     const embed = createInfoEmbed(
-        'Arktic Assistant Commands',
-        'Track your ARK baby creatures and get notifications!'
+        t(locale, 'help.title'),
+        t(locale, 'help.desc')
     );
 
     embed.addFields(
         {
-            name: '🦖 Tracking', value:
-                '`/track <creature>` - Start tracking a baby\n' +
-                '`/status` - View all tracked creatures\n' +
-                '`/stats <id>` - Detailed creature info\n' +
-                '`/stop <id>` - Stop tracking a creature\n' +
-                '`/stopall` - Stop all tracking',
+            name: t(locale, 'help.tracking_title'),
+            value: t(locale, 'help.tracking_desc'),
             inline: false
         },
         {
-            name: '🧮 Calculators', value:
-                '`/trough` - Calculate trough requirements\n' +
-                '`/buffer` - Time until next feed needed\n' +
-                '`/mature <creature>` - Full maturation time',
+            name: t(locale, 'help.calc_title'),
+            value: t(locale, 'help.calc_desc'),
             inline: false
         },
         {
-            name: '⚙️ Settings', value:
-                '`/settings view` - View current settings\n' +
-                '`/settings game` - Set ASE or ASA\n' +
-                '`/settings rates` - Set server rates\n' +
-                '`/settings notify` - Configure notifications',
+            name: t(locale, 'help.settings_title'),
+            value: t(locale, 'help.settings_desc'),
             inline: false
         },
         {
-            name: '📊 Info', value:
-                '`/info` - Bot statistics\n' +
-                '`/invite` - Get bot invite link\n' +
-                '`/support` - Support server',
+            name: t(locale, 'help.server_title'),
+            value: t(locale, 'help.server_desc'),
             inline: false
         }
     );

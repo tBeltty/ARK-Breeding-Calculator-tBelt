@@ -7,14 +7,18 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { CreatureRepository } from '../../database/repositories/CreatureRepository.js';
 import { createSuccessEmbed, createErrorEmbed } from '../../../shared/embeds.js';
+import { t, getLocale } from '../../../shared/i18n.js';
 
 export const data = new SlashCommandBuilder()
     .setName('stop')
+    .setNameLocalizations({ 'es-ES': 'detener', 'es-419': 'detener' })
     .setDescription('Stop tracking a creature')
+    .setDescriptionLocalizations({ 'es-ES': 'Deja de seguir una criatura', 'es-419': 'Deja de seguir una criatura' })
     .addIntegerOption(option =>
         option
             .setName('id')
             .setDescription('The creature ID (search by name)')
+            .setDescriptionLocalizations({ 'es-ES': 'ID de la criatura (busca por nombre)', 'es-419': 'ID de la criatura (busca por nombre)' })
             .setRequired(true)
             .setAutocomplete(true)
     );
@@ -52,13 +56,14 @@ export async function autocomplete(interaction) {
 export async function execute(interaction) {
     const id = interaction.options.getInteger('id');
     const member = interaction.member;
+    const locale = getLocale(interaction.guildId);
 
     // Find the creature
     const creature = CreatureRepository.findById(id);
 
     if (!creature) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Not Found', `No creature found with ID \`${id}\`.`)],
+            embeds: [createErrorEmbed(t(locale, 'stop.not_found'), t(locale, 'stop.not_found_desc', { id }))],
             ephemeral: true,
         });
         return;
@@ -67,7 +72,7 @@ export async function execute(interaction) {
     // Verify it belongs to this guild
     if (creature.guild_id !== interaction.guildId) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Access Denied', 'This creature belongs to a different server.')],
+            embeds: [createErrorEmbed(t(locale, 'stop.access_denied'), t(locale, 'stop.access_denied_desc'))],
             ephemeral: true,
         });
         return;
@@ -77,7 +82,7 @@ export async function execute(interaction) {
     const isAdmin = member.permissions.has(PermissionFlagsBits.ManageGuild);
     if (!isAdmin && creature.user_id !== interaction.user.id) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Permission Denied', 'You can only stop your own trackers.')],
+            embeds: [createErrorEmbed(t(locale, 'stop.permission_denied'), t(locale, 'stop.permission_denied_desc'))],
             ephemeral: true,
         });
         return;
@@ -87,8 +92,8 @@ export async function execute(interaction) {
     CreatureRepository.stop(id);
 
     const embed = createSuccessEmbed(
-        'Tracking Stopped',
-        `Stopped tracking **${creature.nickname || creature.creature_type}** (ID: ${id})`
+        t(locale, 'stop.success_title'),
+        t(locale, 'stop.success_desc', { name: creature.nickname || creature.creature_type, id })
     );
 
     await interaction.reply({ embeds: [embed] });

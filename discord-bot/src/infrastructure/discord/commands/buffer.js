@@ -18,31 +18,40 @@ import {
     getDefaultFoodForCreature,
     DEFAULT_SETTINGS
 } from '../../../domain/breeding.js';
+import { t, getLocale } from '../../../shared/i18n.js';
 
 const creatureNames = Object.keys(creatures).sort();
 const foodNames = Object.keys(foods).sort();
 
 export const data = new SlashCommandBuilder()
     .setName('buffer')
+    .setNameLocalizations({ 'es-ES': 'comida', 'es-419': 'comida' })
     .setDescription('Calculate how long food supply will last')
+    .setDescriptionLocalizations({ 'es-ES': 'Calcula cuánto dura la comida', 'es-419': 'Calcula cuánto dura la comida' })
     .addStringOption(option =>
         option
             .setName('creature')
+            .setNameLocalizations({ 'es-ES': 'criatura', 'es-419': 'criatura' })
             .setDescription('The creature type')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de criatura', 'es-419': 'Tipo de criatura' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addStringOption(option =>
         option
             .setName('food')
+            .setNameLocalizations({ 'es-ES': 'comida', 'es-419': 'comida' })
             .setDescription('Food type (default: based on diet)')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de comida (según dieta)', 'es-419': 'Tipo de comida (según dieta)' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addNumberOption(option =>
         option
             .setName('progress')
+            .setNameLocalizations({ 'es-ES': 'progreso', 'es-419': 'progreso' })
             .setDescription('Current maturation % (default: 5)')
+            .setDescriptionLocalizations({ 'es-ES': '% de maduración actual (predeterminado: 5)', 'es-419': '% de maduración actual (predeterminado: 5)' })
             .setRequired(false)
             .setMinValue(0.1)
             .setMaxValue(100)
@@ -50,14 +59,18 @@ export const data = new SlashCommandBuilder()
     .addNumberOption(option =>
         option
             .setName('food_amount')
+            .setNameLocalizations({ 'es-ES': 'cantidad', 'es-419': 'cantidad' })
             .setDescription('Food items available (default: inventory capacity)')
+            .setDescriptionLocalizations({ 'es-ES': 'Comida disponible (predeterminado: capacidad)', 'es-419': 'Comida disponible (predeterminado: capacidad)' })
             .setRequired(false)
             .setMinValue(1)
     )
     .addNumberOption(option =>
         option
             .setName('weight')
+            .setNameLocalizations({ 'es-ES': 'peso', 'es-419': 'peso' })
             .setDescription('Override creature weight stat')
+            .setDescriptionLocalizations({ 'es-ES': 'Peso de la criatura (override)', 'es-419': 'Peso de la criatura (override)' })
             .setRequired(false)
             .setMinValue(1)
     );
@@ -90,11 +103,13 @@ export async function execute(interaction) {
     const foodInput = interaction.options.getString('food');
     const weightInput = interaction.options.getNumber('weight');
 
+    const locale = getLocale(interaction.guildId);
+
     // Find creature
     const creatureName = findMatch(creatureInput, creatureNames);
     if (!creatureName) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Unknown Creature', `"${creatureInput}" not found.`)],
+            embeds: [createErrorEmbed(t(locale, 'buffer.unknown_creature'), t(locale, 'buffer.unknown_creature_desc', { input: creatureInput }))],
             ephemeral: true,
         });
         return;
@@ -128,28 +143,29 @@ export async function execute(interaction) {
     const bufferCoversJuvenile = bufferTime >= timeToJuvenile;
 
     // Build embed
-    const statusColor = bufferCoversJuvenile ? 0x22C55E : 0xF59E0B; // Green if safe, yellow if not
+    const statusColor = bufferCoversJuvenile ? 0x22C55E : 0xF59E0B;
     const statusEmoji = bufferCoversJuvenile ? '✅' : '⚠️';
+    const statusText = bufferCoversJuvenile ? t(locale, 'buffer.safe') : t(locale, 'buffer.danger');
 
     const embed = new EmbedBuilder()
         .setColor(statusColor)
-        .setTitle(`⏰ Buffer Time: ${creatureName}`)
-        .setDescription(`${statusEmoji} ${bufferCoversJuvenile ? 'Safe until Juvenile!' : 'May need hand-feeding!'}`)
+        .setTitle(t(locale, 'buffer.title', { creature: creatureName }))
+        .setDescription(`${statusEmoji} ${statusText}`)
         .addFields(
-            { name: '📊 Maturation', value: `${(progress * 100).toFixed(1)}%`, inline: true },
-            { name: '🍖 Food', value: foodName, inline: true },
-            { name: '📦 Amount', value: `${foodAmount} items`, inline: true },
-            { name: '⏱️ Buffer Time', value: `**${formatTime(bufferTime)}**`, inline: true },
-            { name: '🐣 To Juvenile', value: formatTime(timeToJuvenile), inline: true },
-            { name: '⚖️ Carry Weight', value: `${carryWeight.toFixed(1)}`, inline: true },
+            { name: t(locale, 'buffer.maturation'), value: `${(progress * 100).toFixed(1)}%`, inline: true },
+            { name: t(locale, 'buffer.food'), value: foodName, inline: true },
+            { name: t(locale, 'buffer.amount'), value: t(locale, 'buffer.amount_value', { count: foodAmount }), inline: true },
+            { name: t(locale, 'buffer.buffer_time'), value: `**${formatTime(bufferTime)}**`, inline: true },
+            { name: t(locale, 'buffer.to_juvenile'), value: formatTime(timeToJuvenile), inline: true },
+            { name: t(locale, 'buffer.carry_weight'), value: `${carryWeight.toFixed(1)}`, inline: true },
         )
         .setFooter({ text: 'Arktic Assistant' })
         .setTimestamp();
 
     if (progress < 0.1 && !bufferCoversJuvenile) {
         embed.addFields({
-            name: '💡 Tip',
-            value: `You need **${formatTime(timeToJuvenile - bufferTime)}** more buffer to reach Juvenile safely.`,
+            name: t(locale, 'buffer.tip'),
+            value: t(locale, 'buffer.tip_desc', { time: formatTime(timeToJuvenile - bufferTime) }),
             inline: false,
         });
     }
