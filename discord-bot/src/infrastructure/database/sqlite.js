@@ -131,6 +131,17 @@ function runMigrations() {
         )
     `);
 
+    // Create news_subscriptions table
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS news_subscriptions (
+            guild_id TEXT PRIMARY KEY,
+            channel_id TEXT NOT NULL,
+            last_post_guid TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
     // Create global_settings table
     db.exec(`
         CREATE TABLE IF NOT EXISTS global_settings (

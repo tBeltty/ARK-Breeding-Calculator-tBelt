@@ -8,12 +8,16 @@ import { Events, ActivityType } from 'discord.js';
 import { logger } from '../../../shared/logger.js';
 import { GuildRepository } from '../../database/repositories/GuildRepository.js';
 import { registerCommands } from '../commandLoader.js';
+import { NewsService } from '../../../application/NewsService.js';
 
 export const name = Events.ClientReady;
 export const once = true;
 
 export async function execute(client) {
     logger.success(`Logged in as ${client.user.tag}`);
+
+    // Initialize NewsService
+    NewsService.init(client);
 
     // Register commands (Global + Guilds) now that the client is ready
     await registerCommands(client);

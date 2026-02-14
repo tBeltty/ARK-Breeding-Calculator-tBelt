@@ -140,5 +140,14 @@
         "channel_not_found": "❌ Servidor **{{id}}** no encontrado en la lista.",
         "channel_all_updated": "✅ Canal predeterminado cambiado a {{channel}}.\n📝 Se movieron **{{count}}** servidores a este canal.",
         "error": "Ocurrió un error al gestionar el monitoreo de servidores."
+    },
+    "news": {
+        "setup_success_title": "✅ Noticias Configuradas",
+        "setup_success_desc": "Las noticias oficiales de ARK se publicarán en {{channel}}.",
+        "remove_success_title": "🗑️ Suscripción Eliminada",
+        "remove_success_desc": "Este servidor ya no recibirá noticias automáticas.",
+        "no_perms": "❌ No tengo permisos suficientes en {{channel}}. Necesito: Ver canal, Enviar mensajes y Enviar enlaces.",
+        "read_more": "Leer más",
+        "published_at": "Publicado"
     }
 }
