@@ -27,12 +27,23 @@
 - **Server Infrastructure (mi-vps)**:
     - **Port 3001**: Finances Backend (DO NOT INTERFERE).
     - **Port 3005**: Arktic Assistant API (Production).
-    - **Environment**: Bot requires `DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, and `NODE_ENV=production`.
+    - **Required Production `.env`** (`/var/www/ark.tbelt.online/bot/.env`):
+        - `DISCORD_TOKEN` — Bot token from Discord Developer Portal.
+        - `DISCORD_CLIENT_ID` — Application ID.
+        - `NODE_ENV=production`
+        - `API_PORT=3005`
+        - `ARK_STATUS_API_KEY` — ArkStatus.com API key. **Without this, ALL server monitoring fails silently (401 on every API call).**
     - **Logging**: Use `pm2 logs ark-bot` to verify initialization and command registration.
+    - **Post-Deploy Verification**: The CI/CD pipeline (`deploy.yml`) includes automated checks:
+        1. Verifies all required env vars exist in production `.env` (fails the build if missing).
+        2. Health-checks `localhost:3005/api/stats` to confirm the bot API responds and Discord is connected.
 
 
 
 - **Repository Quirks & Incidents (READ BEFORE ACTING)**:
+    - **Incident 2026-02-13 (Missing API Key)**: `ARK_STATUS_API_KEY` was never added to the production `.env`. The bot ran for 14 days with every ArkStatus API call returning 401, causing all servers to appear offline.
+        - **Resolution**: Added the key to production `.env`, restarted PM2. Added automated env var verification to `deploy.yml`.
+        - **Rule**: When adding a new env var to the codebase, it MUST also be added to the production `.env` on the VPS. The CI/CD will now fail the build if any required var is missing.
     - **Incident 2026-02-13 (Security Leak)**: API keys were hardcoded in temporary test scripts (`test_id_endpoint.js`, etc.).
         - **Resolution**: All test scripts were deleted. Global repository scan performed. Secret rotation initiated.
         - **Rule**: No test code containing real data may be committed. All local debugging MUST use environment variables.
