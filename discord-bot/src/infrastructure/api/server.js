@@ -11,6 +11,7 @@ import { logger } from '../../shared/logger.js';
 import { ratesService } from '../../application/RatesService.js';
 import { serverService } from '../../application/ServerService.js';
 import { TrackingRepository } from '../database/repositories/TrackingRepository.js';
+import { version } from '../../shared/version.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3005;
@@ -37,7 +38,7 @@ import guildRoutes from './routes/guilds.js';
 app.get('/api/stats', (req, res) => {
     const client = req.app.locals.client;
     res.json({
-        version: '3.2.1',
+        version,
         name: 'Arktic Assistant',
         status: client && client.isReady() ? 'running' : 'starting_or_disconnected',
         discord_ready: client ? client.isReady() : false,
