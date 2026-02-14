@@ -140,5 +140,14 @@
         "channel_not_found": "❌ Server **{{id}}** not found in tracking list.",
         "channel_all_updated": "✅ Default notification channel updated to {{channel}}.\n📝 Moved **{{count}}** existing tracked servers to this channel.",
         "error": "An error occurred while managing server tracking."
+    },
+    "news": {
+        "setup_success_title": "✅ News Setup Complete",
+        "setup_success_desc": "Official ARK news will now be published to {{channel}}.",
+        "remove_success_title": "🗑️ News Unsubscribed",
+        "remove_success_desc": "This server will no longer receive news updates.",
+        "no_perms": "❌ I don't have enough permissions to post news in {{channel}}. I need: View Channel, Send Messages, and Embed Links.",
+        "read_more": "Read More",
+        "published_at": "Published"
     }
 }
