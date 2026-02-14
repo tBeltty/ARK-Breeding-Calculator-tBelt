@@ -143,6 +143,18 @@
     "gestationspeedmult": 1,
     "weight": 280
   },
+  "Aureliax": {
+    "birthtype": "Incubation",
+    "type": "Carnivore",
+    "basefoodrate": 0.002314,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 1,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 500
+  },
   "Baryonyx": {
     "birthtype": "Incubation",
     "type": "Piscivore",
