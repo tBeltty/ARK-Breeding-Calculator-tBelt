@@ -162,6 +162,10 @@ export function ActiveSessionDetail({
                 isOpen={panelStates.food}
                 onToggle={() => onTogglePanel('food')}
                 calculations={calculations}
+                foods={foods}
+                availableFoods={availableFoods}
+                activeData={activeData}
+                onUpdateSession={onUpdateSession}
             />
         </>
     );
