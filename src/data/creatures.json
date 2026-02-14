@@ -1442,7 +1442,7 @@
   "Gigadesmodus": {
     "birthtype": "Incubation",
     "type": "Carnivore",
-    "basefoodrate": 0.006667,
+    "basefoodrate": 0.000261,
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
