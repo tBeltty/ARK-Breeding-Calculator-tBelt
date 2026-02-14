@@ -10,7 +10,7 @@
         - **Major**: Incompatible API changes.
         - **Minor**: New functionality in a backwards compatible manner.
         - **Patch**: Backwards compatible bug fixes (including data updates).
-        - **Action**: Always update `package.json`, `discord-bot/package.json`, and the hardcoded version in the API/Bot info.
+        - **Action**: Always update `package.json` and `discord-bot/package.json`. The API and Bot UI will sync automatically.
     - **CI/CD**: Deployment is handled by the self-hosted GitHub Actions runner defined in `.github/workflows/deploy.yml`.
     - **Trigger**: Push to `main` branch.
     - **Actions**:

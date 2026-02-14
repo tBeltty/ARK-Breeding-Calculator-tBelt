@@ -6,6 +6,7 @@
 
 import { SlashCommandBuilder, version as djsVersion } from 'discord.js';
 import { EmbedBuilder } from 'discord.js';
+import { version } from '../../../shared/version.js';
 
 export const data = new SlashCommandBuilder()
     .setName('info')
@@ -35,7 +36,7 @@ export async function execute(interaction) {
             },
             {
                 name: '🔧 Technical', value:
-                    `**Version:** 3.2.1\n` +
+                    `**Version:** ${version}\n` +
                     `**Discord.js:** v${djsVersion}\n` +
                     `**Node.js:** ${process.version}`,
                 inline: true
