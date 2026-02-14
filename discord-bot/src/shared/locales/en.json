@@ -148,6 +148,9 @@
         "remove_success_desc": "This server will no longer receive news updates.",
         "no_perms": "❌ I don't have enough permissions to post news in {{channel}}. I need: View Channel, Send Messages, and Embed Links.",
         "read_more": "Read More",
-        "published_at": "Published"
+        "published_at": "Published",
+        "option_send_last": "Send latest post now?",
+        "option_yes": "Yes",
+        "option_no": "No"
     }
 }

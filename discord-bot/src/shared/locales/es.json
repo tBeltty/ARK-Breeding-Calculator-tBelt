@@ -148,6 +148,9 @@
         "remove_success_desc": "Este servidor ya no recibirá noticias automáticas.",
         "no_perms": "❌ No tengo permisos suficientes en {{channel}}. Necesito: Ver canal, Enviar mensajes y Enviar enlaces.",
         "read_more": "Leer más",
-        "published_at": "Publicado"
+        "published_at": "Publicado",
+        "option_send_last": "¿Enviar el último post ahora?",
+        "option_yes": "Sí",
+        "option_no": "No"
     }
 }

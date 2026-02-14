@@ -2,6 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits, ChannelType } from 'discord.j
 import { NewsRepository } from '../../database/repositories/NewsRepository.js';
 import { EmbedBuilder } from '../EmbedBuilder.js';
 import { t, getLocale } from '../../../shared/i18n.js';
+import { NewsService } from '../../../application/NewsService.js';
 
 export const data = new SlashCommandBuilder()
     .setName('news')
@@ -22,6 +23,16 @@ export const data = new SlashCommandBuilder()
                 .setRequired(true)
                 .addChannelTypes(ChannelType.GuildText)
             )
+            .addStringOption(opt => opt
+                .setName('send-last_post')
+                .setNameLocalizations({ 'es-ES': 'enviar-ultimo', 'es-419': 'enviar-ultimo' })
+                .setDescription('Send the latest post immediately?')
+                .setDescriptionLocalizations({ 'es-ES': '¿Enviar el último post ahora?', 'es-419': '¿Enviar el último post ahora?' })
+                .addChoices(
+                    { name: 'Yes', value: 'yes', name_localizations: { 'es-ES': 'Sí', 'es-419': 'Sí' } },
+                    { name: 'No', value: 'no', name_localizations: { 'es-ES': 'No', 'es-419': 'No' } }
+                )
+            )
     )
     .addSubcommand(sub =>
         sub.setName('remove')
@@ -37,6 +48,7 @@ export async function execute(interaction) {
     try {
         if (subcommand === 'setup') {
             const channel = interaction.options.getChannel('channel');
+            const sendLast = interaction.options.getString('send-last_post') === 'yes';
 
             // Permission check for the bot in that channel
             if (!channel.permissionsFor(interaction.guild.members.me).has(['SendMessages', 'ViewChannel', 'EmbedLinks'])) {
@@ -44,6 +56,14 @@ export async function execute(interaction) {
             }
 
             NewsRepository.subscribe(interaction.guildId, channel.id);
+
+            // If user wants the last post now
+            if (sendLast) {
+                const guid = await NewsService.sendLatestNow(interaction.guildId, channel.id);
+                if (guid) {
+                    NewsRepository.updateLastPost(interaction.guildId, guid);
+                }
+            }
 
             return interaction.reply({
                 embeds: [EmbedBuilder.createInfo(t(locale, 'news.setup_success_title'), t(locale, 'news.setup_success_desc', { channel: channel.toString() }))],
