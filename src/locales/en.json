@@ -119,6 +119,7 @@
         "credit_prefix": "Original by",
         "remake_credit": "Remake by tBelt",
         "stacks": "stacks",
+        "total_required": "Total required: {{count}}",
         "food_rate_value": "{{rate}} /min",
         "smart_efficiency": "Smart Efficiency",
         "max_efficient_stacks": "Max Efficient Stacks: {{count}}",

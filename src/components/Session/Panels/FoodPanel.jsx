@@ -29,7 +29,7 @@ export function FoodPanel({
             />
             {calculations?.toJuvFoodItems > 0 && (
                 <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
-                    {translate('ui.total_required', { count: calculations?.totalJuvFoodItems.toLocaleString() })}
+                    {translate('ui.total_required', { count: (calculations?.totalJuvFoodItems || 0).toLocaleString() })}
                 </div>
             )}
 
@@ -40,7 +40,7 @@ export function FoodPanel({
             />
             {calculations?.toAdultFoodItems > 0 && (
                 <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
-                    {translate('ui.total_required', { count: calculations?.totalFoodItems.toLocaleString() })}
+                    {translate('ui.total_required', { count: (calculations?.totalFoodItems || 0).toLocaleString() })}
                 </div>
             )}
 
