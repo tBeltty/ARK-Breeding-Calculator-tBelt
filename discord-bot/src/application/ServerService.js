@@ -376,7 +376,7 @@ class ServerService {
                     name: row.server_name,
                     map: cache?.map || 'Unknown',
                     players: cache?.players || 0,
-                    max_players: cache?.maxPlayers || 70,
+                    maxPlayers: cache?.maxPlayers || 70,
                     status: cache?.status || row.last_status,
                     type: row.type,
                     isTracked: true
@@ -399,42 +399,38 @@ class ServerService {
             }));
 
             if (response.data && response.data.success) {
-                apiResults = response.data.data.map(s => ({
-                    ...s,
-                    maxPlayers: s.max_players || 70,
-                    type: onlyOfficial ? 'official' : (s.official ? 'official' : 'unofficial'), // Infer type if mixed
-                    isTracked: localMatches.some(l => l.id === String(s.id))
-                }));
+                apiResults = response.data.data.map(s => {
+                    const local = localMatches.find(l => String(l.id) === String(s.id));
+                    return {
+                        id: String(s.id),
+                        name: s.name,
+                        map: s.map || 'Unknown',
+                        players: s.players || 0,
+                        maxPlayers: s.max_players || 70,
+                        status: s.status || 'unknown',
+                        type: s.official ? 'official' : 'unofficial',
+                        isTracked: !!local,
+                        platform: s.platform,
+                        version: s.version
+                    };
+                });
             }
         } catch (e) {
             if (e.isRateLimit) {
                 logger.warn(`Search failed due to rate limit: ${e.retryAfter}s`);
-                // Return a special object that frontend can detect
                 return { error: 'RATE_LIMIT', retryAfter: e.retryAfter };
             }
             logger.error('API Search failed:', e.message);
         }
 
-        // Merge: API results + Local results that weren't in API (e.g. unofficials)
+        // Merge: API results + Local results that weren't in API (e.g. unofficials not found by search)
         // Deduplicate by ID
         const combined = [...apiResults];
 
         localMatches.forEach(local => {
-            // Apply official filter to local results too if strict? 
-            // The user implies strictness for ID matching on OFFICIALs.
-            // If onlyOfficial is true, we should probably filter out local unofficials too?
-            // Actually, keep local matches as high priority, but maybe filter if needed.
-            // For now, let's keep them but maybe the UI handles it.
-
-            // Re-adding local match logic logic
             if (!combined.some(c => String(c.id) === String(local.id))) {
                 if (!onlyOfficial || local.type === 'official') {
                     combined.unshift(local);
-                }
-            } else {
-                const idx = combined.findIndex(c => String(c.id) === String(local.id));
-                if (idx !== -1) {
-                    combined[idx].isTracked = true;
                 }
             }
         });
