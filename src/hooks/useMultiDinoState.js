@@ -47,7 +47,6 @@ export function useMultiDinoState(_initialGlobalSettings) {
 
             setSessions(loadedSessions);
             setActiveSessionId(activeId || loadedSessions[0].id);
-            console.log(`[Persistence] Initial load: ${loadedSessions.length} sessions. Active: ${activeId}`);
         } else {
             console.log('[Persistence] Initial load: No sessions found.');
             setSessions([]);
@@ -59,7 +58,6 @@ export function useMultiDinoState(_initialGlobalSettings) {
     // Persistence Effect
     useEffect(() => {
         if (!isInitialized) {
-            console.log('[Persistence] Save blocked: Not initialized.');
             return;
         }
 
