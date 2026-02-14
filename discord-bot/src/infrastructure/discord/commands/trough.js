@@ -19,31 +19,40 @@ import {
     getDefaultFoodForCreature,
     DEFAULT_SETTINGS
 } from '../../../domain/breeding.js';
+import { t, getLocale } from '../../../shared/i18n.js';
 
 const creatureNames = Object.keys(creatures).sort();
 const foodNames = Object.keys(foods).sort();
 
 export const data = new SlashCommandBuilder()
     .setName('trough')
+    .setNameLocalizations({ 'es-ES': 'comedero', 'es-419': 'comedero' })
     .setDescription('Calculate trough food requirements')
+    .setDescriptionLocalizations({ 'es-ES': 'Calcula la comida necesaria en el comedero', 'es-419': 'Calcula la comida necesaria en el comedero' })
     .addStringOption(option =>
         option
             .setName('creature')
+            .setNameLocalizations({ 'es-ES': 'criatura', 'es-419': 'criatura' })
             .setDescription('The creature type')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de criatura', 'es-419': 'Tipo de criatura' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addStringOption(option =>
         option
             .setName('food')
+            .setNameLocalizations({ 'es-ES': 'comida', 'es-419': 'comida' })
             .setDescription('The food type (default: Raw Meat/Mejoberry based on diet)')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de comida (según dieta)', 'es-419': 'Tipo de comida (según dieta)' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addNumberOption(option =>
         option
             .setName('count')
+            .setNameLocalizations({ 'es-ES': 'cantidad', 'es-419': 'cantidad' })
             .setDescription('Number of creatures (default: 1)')
+            .setDescriptionLocalizations({ 'es-ES': 'Cantidad de criaturas (predeterminado: 1)', 'es-419': 'Cantidad de criaturas (predeterminado: 1)' })
             .setRequired(false)
             .setMinValue(1)
             .setMaxValue(50)
@@ -75,11 +84,13 @@ export async function execute(interaction) {
     const foodInput = interaction.options.getString('food');
     const count = interaction.options.getNumber('count') || 1;
 
+    const locale = getLocale(interaction.guildId);
+
     // Find creature
     const creatureName = findMatch(creatureInput, creatureNames);
     if (!creatureName) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Unknown Creature', `"${creatureInput}" not found.`)],
+            embeds: [createErrorEmbed(t(locale, 'trough.unknown_creature'), t(locale, 'trough.unknown_creature_desc', { input: creatureInput }))],
             ephemeral: true,
         });
         return;
@@ -109,26 +120,28 @@ export async function execute(interaction) {
     const dailyFood = calculateDailyFood(creature, food, settings);
 
     // Build embed
+    const plural = count > 1 ? 's' : '';
     const embed = new EmbedBuilder()
         .setColor(0x6366F1)
-        .setTitle(`🥩 Trough Calculator: ${creatureName}`)
-        .setDescription(`Food requirements for **${count}** ${creatureName}${count > 1 ? 's' : ''}`)
+        .setTitle(t(locale, 'trough.title', { creature: creatureName }))
+        .setDescription(t(locale, 'trough.desc', { count, creature: creatureName, plural }))
         .addFields(
-            { name: '🍖 Food Type', value: foodName, inline: true },
-            { name: '⏱️ Total Time', value: formatTime(maturationTime), inline: true },
-            { name: '📊 Server Rates', value: `${settings.maturationSpeed}x`, inline: true },
-            { name: '🧮 Total Food Needed', value: `**${totalFoodItems.toLocaleString()}** ${foodName}`, inline: false },
+            { name: t(locale, 'trough.food_type'), value: foodName, inline: true },
+            { name: t(locale, 'trough.total_time'), value: formatTime(maturationTime), inline: true },
+            { name: t(locale, 'trough.server_rates'), value: `${settings.maturationSpeed}x`, inline: true },
+            { name: t(locale, 'trough.total_food'), value: t(locale, 'trough.total_food_value', { count: totalFoodItems.toLocaleString(), food: foodName }), inline: false },
         )
-        .setFooter({ text: 'Arktic Assistant • Spoilage not included' })
+        .setFooter({ text: 'Arktic Assistant' })
         .setTimestamp();
 
     // Add daily breakdown (first 5 days)
     const dailyEntries = Object.entries(dailyFood).slice(0, 5);
     if (dailyEntries.length > 0) {
+        const dayLabel = locale === 'es' ? 'Día' : 'Day';
         const dailyText = dailyEntries
-            .map(([day, items]) => `Day ${day}: ${(items * count).toLocaleString()}`)
+            .map(([day, items]) => `${dayLabel} ${day}: ${(items * count).toLocaleString()}`)
             .join('\n');
-        embed.addFields({ name: '📅 Daily Breakdown', value: dailyText, inline: false });
+        embed.addFields({ name: t(locale, 'trough.daily_breakdown'), value: dailyText, inline: false });
     }
 
     await interaction.reply({ embeds: [embed] });

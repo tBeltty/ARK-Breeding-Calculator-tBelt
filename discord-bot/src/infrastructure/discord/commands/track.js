@@ -19,37 +19,48 @@ import {
     DEFAULT_SETTINGS
 } from '../../../domain/breeding.js';
 import { logger } from '../../../shared/logger.js';
+import { t, getLocale } from '../../../shared/i18n.js';
 
 // Get list of creature names for autocomplete
 const creatureNames = Object.keys(creatures).sort();
 
 export const data = new SlashCommandBuilder()
     .setName('track')
+    .setNameLocalizations({ 'es-ES': 'criar', 'es-419': 'criar' })
     .setDescription('Start tracking a baby creature')
+    .setDescriptionLocalizations({ 'es-ES': 'Empieza a seguir un bebé en crecimiento', 'es-419': 'Empieza a seguir un bebé en crecimiento' })
     .addStringOption(option =>
         option
             .setName('creature')
+            .setNameLocalizations({ 'es-ES': 'criatura', 'es-419': 'criatura' })
             .setDescription('The type of creature (e.g., Rex, Wyvern)')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de criatura (ej. Rex, Wyvern)', 'es-419': 'Tipo de criatura (ej. Rex, Wyvern)' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addStringOption(option =>
         option
             .setName('food')
+            .setNameLocalizations({ 'es-ES': 'comida', 'es-419': 'comida' })
             .setDescription('Food type for buffer (default: primary for diet)')
+            .setDescriptionLocalizations({ 'es-ES': 'Tipo de comida (predeterminado: según dieta)', 'es-419': 'Tipo de comida (predeterminado: según dieta)' })
             .setRequired(true)
             .setAutocomplete(true)
     )
     .addStringOption(option =>
         option
             .setName('nickname')
+            .setNameLocalizations({ 'es-ES': 'apodo', 'es-419': 'apodo' })
             .setDescription('Optional nickname for this baby')
+            .setDescriptionLocalizations({ 'es-ES': 'Apodo para el bebé (opcional)', 'es-419': 'Apodo para el bebé (opcional)' })
             .setRequired(false)
     )
     .addNumberOption(option =>
         option
             .setName('progress')
+            .setNameLocalizations({ 'es-ES': 'progreso', 'es-419': 'progreso' })
             .setDescription('Current maturation % (default: 0)')
+            .setDescriptionLocalizations({ 'es-ES': '% de maduración actual (predeterminado: 0)', 'es-419': '% de maduración actual (predeterminado: 0)' })
             .setRequired(false)
             .setMinValue(0)
             .setMaxValue(99.9)
@@ -57,14 +68,18 @@ export const data = new SlashCommandBuilder()
     .addNumberOption(option =>
         option
             .setName('weight')
+            .setNameLocalizations({ 'es-ES': 'peso', 'es-419': 'peso' })
             .setDescription('Creature weight stat (for accurate buffer)')
+            .setDescriptionLocalizations({ 'es-ES': 'Peso de la criatura (para cálculo preciso)', 'es-419': 'Peso de la criatura (para cálculo preciso)' })
             .setRequired(false)
             .setMinValue(1)
     )
     .addStringOption(option =>
         option
             .setName('notify_mode')
+            .setNameLocalizations({ 'es-ES': 'aviso', 'es-419': 'aviso' })
             .setDescription('How to notify you')
+            .setDescriptionLocalizations({ 'es-ES': 'Cómo avisarte', 'es-419': 'Cómo avisarte' })
             .setRequired(false)
             .addChoices(
                 { name: 'DM', value: 'dm' },
@@ -74,13 +89,12 @@ export const data = new SlashCommandBuilder()
     .addChannelOption(option =>
         option
             .setName('channel')
+            .setNameLocalizations({ 'es-ES': 'canal', 'es-419': 'canal' })
             .setDescription('Discord channel for alerts (if mode is channel)')
+            .setDescriptionLocalizations({ 'es-ES': 'Canal para alertas (si el modo es canal)', 'es-419': 'Canal para alertas (si el modo es canal)' })
             .setRequired(false)
     );
 
-/**
- * Handle autocomplete for creature names
- */
 /**
  * Handle autocomplete for creature names
  */
@@ -122,17 +136,19 @@ export async function execute(interaction) {
     const notifyMode = interaction.options.getString('notify_mode');
     const notifyChannel = interaction.options.getChannel('channel');
 
+    const locale = getLocale(interaction.guildId);
+
     // 0. Rate Limit Check
     const { RateLimitService } = await import('../../../application/RateLimitService.js');
     const isAllowed = await RateLimitService.check(`cmd:track:${interaction.user.id}`, 5, 60);
     if (!isAllowed) {
-        return interaction.reply({ content: 'Slow down! You can only track 5 creatures per minute.', ephemeral: true });
+        return interaction.reply({ content: t(locale, 'common.rate_limit', { limit: 5 }), ephemeral: true });
     }
 
     // 1. Get guild settings and check RBAC
     const { checkCommandPermission } = await import('../security/permissionCheck.js');
     if (!checkCommandPermission(interaction, 'track')) {
-        return interaction.reply({ content: '⛔ You do not have permission to use this command here (Channel or Role restricted).', ephemeral: true });
+        return interaction.reply({ content: t(locale, 'common.no_permission'), ephemeral: true });
     }
     const guild = GuildRepository.findOrCreate(interaction.guildId);
 
@@ -140,7 +156,7 @@ export async function execute(interaction) {
     const creatureValidation = validateCreatureName(creatureInput);
     if (!creatureValidation.valid) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Invalid Creature', creatureValidation.error)],
+            embeds: [createErrorEmbed(t(locale, 'track.invalid_creature'), creatureValidation.error)],
             ephemeral: true,
         });
         return;
@@ -150,7 +166,7 @@ export async function execute(interaction) {
     const creatureType = findCreatureType(creatureValidation.value);
     if (!creatureType) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Unknown Creature', `"${creatureInput}" is not a recognized creature. Use autocomplete for suggestions.`)],
+            embeds: [createErrorEmbed(t(locale, 'track.invalid_creature'), t(locale, 'track.invalid_creature_desc', { input: creatureInput }))],
             ephemeral: true,
         });
         return;
@@ -160,7 +176,7 @@ export async function execute(interaction) {
     const nicknameValidation = validateNickname(nicknameInput);
     if (!nicknameValidation.valid) {
         await interaction.reply({
-            embeds: [createErrorEmbed('Invalid Nickname', nicknameValidation.error)],
+            embeds: [createErrorEmbed(t(locale, 'track.invalid_nickname'), nicknameValidation.error)],
             ephemeral: true,
         });
         return;
@@ -170,9 +186,8 @@ export async function execute(interaction) {
     if (!CreatureRepository.canAddCreature(interaction.guildId, guild.premium_tier)) {
         const limits = { free: 2, pro: 50, tribe: 1000 };
         await interaction.reply({
-            embeds: [createErrorEmbed('Limit Reached',
-                `You've reached the maximum of ${limits[guild.premium_tier] || 2} creatures for your tier.\n` +
-                `Use \`/stop\` to remove old creatures or upgrade your plan.`
+            embeds: [createErrorEmbed(t(locale, 'track.limit_reached'),
+                t(locale, 'track.limit_reached_desc', { max: limits[guild.premium_tier] || 2 })
             )],
             ephemeral: true,
         });
@@ -232,10 +247,11 @@ export async function execute(interaction) {
         bufferMinutes: Math.floor(bufferSeconds / 60),
     };
 
+    const nicknamePart = nicknameValidation.value ? t(locale, 'track.nickname_fmt', { nickname: nicknameValidation.value }) : '';
     const embed = createCreatureEmbed(tracked, progressData);
-    embed.setDescription(`🎉 Now tracking **${creatureType}**${nicknameValidation.value ? ` (${nicknameValidation.value})` : ''}!`);
+    embed.setDescription(t(locale, 'track.success', { name: creatureType, nickname: nicknamePart }));
     embed.addFields({
-        name: '📅 Estimated Maturity',
+        name: t(locale, 'track.mature_at'),
         value: `<t:${Math.floor(matureTime.getTime() / 1000)}:R>`,
         inline: true
     });
