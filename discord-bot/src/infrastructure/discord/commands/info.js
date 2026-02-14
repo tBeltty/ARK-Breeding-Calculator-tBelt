@@ -35,7 +35,7 @@ export async function execute(interaction) {
             },
             {
                 name: '🔧 Technical', value:
-                    `**Version:** 3.0.0\n` +
+                    `**Version:** 3.2.0\n` +
                     `**Discord.js:** v${djsVersion}\n` +
                     `**Node.js:** ${process.version}`,
                 inline: true

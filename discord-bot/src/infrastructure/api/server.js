@@ -37,7 +37,7 @@ import guildRoutes from './routes/guilds.js';
 app.get('/api/stats', (req, res) => {
     const client = req.app.locals.client;
     res.json({
-        version: '3.0.1',
+        version: '3.2.0',
         name: 'Arktic Assistant',
         status: client && client.isReady() ? 'running' : 'starting_or_disconnected',
         discord_ready: client ? client.isReady() : false,

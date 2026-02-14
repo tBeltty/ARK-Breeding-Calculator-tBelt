@@ -304,27 +304,41 @@ class ServerService {
 
     async emitAlert(record, statusInfo) {
         try {
-            if (!this.client) return;
+            if (!this.client) {
+                logger.warn(`Cannot send alert for ${record.server_id}: Discord client not initialized.`);
+                return;
+            }
 
             let targetChannelId = record.channel_id;
 
             // Priority: Specific Channel Override > Guild Global Setting
             // If the record has no specific channel (or is just 'WEB'), use the Global Setting.
-            if ((!targetChannelId || targetChannelId === 'WEB') && record.guild_id) {
+            if ((!targetChannelId || targetChannelId === 'WEB') && record.guild_id && record.guild_id !== 'WEB') {
                 try {
                     const settings = GuildRepository.findById(record.guild_id);
                     if (settings && settings.notify_channel_id) {
                         targetChannelId = settings.notify_channel_id;
+                        logger.info(`Using global notify channel ${targetChannelId} for guild ${record.guild_id}`);
                     }
                 } catch (e) {
-                    // fall back
+                    logger.error(`Error fetching guild settings for ${record.guild_id}:`, e.message);
                 }
             }
 
-            if (!targetChannelId) return;
+            if (!targetChannelId || targetChannelId === 'WEB') {
+                logger.debug(`Skipping notification for ${record.server_id}: No valid Discord channel configured (Mode: WEB/None).`);
+                return;
+            }
 
-            const channel = await this.client.channels.fetch(targetChannelId);
-            if (!channel) return;
+            const channel = await this.client.channels.fetch(targetChannelId).catch(err => {
+                logger.error(`Failed to fetch channel ${targetChannelId}: ${err.message}`);
+                return null;
+            });
+
+            if (!channel) {
+                logger.warn(`Could not find channel ${targetChannelId} for server alert ${record.server_id}. Check bot permissions.`);
+                return;
+            }
 
             const name = record.server_name || `Server ${record.server_id}`;
             const embed = EmbedBuilder.createServerStatus(statusInfo, name);
@@ -334,8 +348,9 @@ class ServerService {
                 `⚠️ **${name}** has gone **OFFLINE**!`;
 
             await channel.send({ content: message, embeds: [embed] });
+            logger.info(`Alert sent to channel ${targetChannelId} for server ${name} (${statusInfo.status})`);
         } catch (e) {
-            logger.error(`Failed to send alert for ${record.server_id}:`, e.message);
+            logger.error(`Failed to emit alert for ${record.server_id}:`, e.message);
         }
     }
 
