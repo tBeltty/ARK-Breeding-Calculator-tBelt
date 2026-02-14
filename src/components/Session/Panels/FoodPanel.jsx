@@ -36,6 +36,35 @@ export function FoodPanel({
             )}
 
             <DataRow
+                label={translate('fields.selected_food')}
+                tooltip={translate('tooltips.selected_food')}
+            >
+                <select
+                    value={activeData?.selectedFood || ''}
+                    onChange={(e) => {
+                        onUpdateSession({
+                            data: { ...activeData, selectedFood: e.target.value }
+                        });
+                    }}
+                    style={{
+                        padding: '4px 8px',
+                        borderRadius: 'var(--radius-sm)',
+                        border: '1px solid rgb(var(--outline) / 0.3)',
+                        background: 'rgb(var(--surface-container-high))',
+                        color: 'rgb(var(--on-surface))',
+                        width: '100%',
+                        maxWidth: '200px'
+                    }}
+                >
+                    {availableFoods?.map(foodKey => (
+                        <option key={foodKey} value={foodKey}>
+                            {foods?.[foodKey]?.name || foodKey}
+                        </option>
+                    ))}
+                </select>
+            </DataRow>
+
+            <DataRow
                 label={translate('fields.food_to_adult')}
                 tooltip={translate('tooltips.to_adult_food')}
                 value={calculations?.toAdultFoodItems.toLocaleString()}
