@@ -21,13 +21,29 @@ export function FoodPanel({
             <DataRow
                 label={translate('fields.food_to_juvenile')}
                 tooltip={translate('tooltips.to_juv_food')}
-                value={calculations?.toJuvFoodItems.toLocaleString()}
+                value={
+                    calculations?.toJuvFoodItems > 0
+                        ? calculations.toJuvFoodItems.toLocaleString()
+                        : translate('ui.ready')
+                }
             />
+            {calculations?.toJuvFoodItems > 0 && (
+                <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
+                    {translate('ui.total_required', { count: calculations?.totalJuvFoodItems.toLocaleString() })}
+                </div>
+            )}
+
             <DataRow
                 label={translate('fields.food_to_adult')}
                 tooltip={translate('tooltips.to_adult_food')}
                 value={calculations?.toAdultFoodItems.toLocaleString()}
             />
+            {calculations?.toAdultFoodItems > 0 && (
+                <div style={{ fontSize: '0.85em', opacity: 0.6, marginTop: '-12px', marginLeft: '12px', marginBottom: '8px' }}>
+                    {translate('ui.total_required', { count: calculations?.totalFoodItems.toLocaleString() })}
+                </div>
+            )}
+
             <DataRow
                 label={translate('fields.food_rate')}
                 tooltip={translate('tooltips.food_rate')}

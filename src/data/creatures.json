@@ -408,16 +408,16 @@
     "weight": 800
   },
   "Desmodus": {
-    "birthtype": "Gestation",
-    "type": "BloodStalker",
+    "birthtype": "Incubation",
+    "type": "Carnivore",
     "basefoodrate": 0.001543,
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
-    "agespeedmult": 1.3,
-    "gestationspeed": 0.000035,
-    "gestationspeedmult": 1,
-    "weight": 350
+    "agespeedmult": 0.7,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 600
   },
   "Dilophosaurus": {
     "birthtype": "Incubation",
@@ -738,9 +738,9 @@
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
-    "agespeedmult": 1.95,
-    "eggspeed": 0.005699,
-    "eggspeedmult": 1,
+    "agespeedmult": 1.9,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 3.5,
     "weight": 100
   },
   "Glowtail": {
@@ -1390,6 +1390,18 @@
     "eggspeed": 0.005556,
     "eggspeedmult": 1,
     "weight": 500
+  },
+  "Gigadesmodus": {
+    "birthtype": "Incubation",
+    "type": "Carnivore",
+    "basefoodrate": 0.006667,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 0.7,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 600
   },
   "Rock Drake": {
     "birthtype": "Incubation",

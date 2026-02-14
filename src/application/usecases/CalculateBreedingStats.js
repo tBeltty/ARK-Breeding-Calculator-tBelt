@@ -84,9 +84,11 @@ export function calculateBreedingStats({ creature, food, weight, maxFood, matura
     const babyTimeRemaining = Math.max(0, babyTime - maturationTimeComplete);
 
     // Calculate food requirements
-    const totalFood = calculateFoodForPeriod(0, maturationTime, creature, settings);
-    const toJuvFood = calculateFoodForPeriod(maturationTimeComplete, babyTime, creature, settings);
-    const toAdultFood = calculateFoodForPeriod(maturationTimeComplete, maturationTime, creature, settings);
+    const totalFoodPoints = calculateFoodForPeriod(0, maturationTime, creature, settings);
+    const totalJuvFoodPoints = calculateFoodForPeriod(0, babyTime, creature, settings);
+
+    const remainingToJuvFoodPoints = calculateFoodForPeriod(maturationTimeComplete, babyTime, creature, settings);
+    const remainingToAdultFoodPoints = calculateFoodForPeriod(maturationTimeComplete, maturationTime, creature, settings);
 
     // Calculate inventory-based stats (Weighted Capacity)
     const currentWeight = safeWeight * safeMaturation;
@@ -122,9 +124,10 @@ export function calculateBreedingStats({ creature, food, weight, maxFood, matura
         maturationTimeComplete,
         maturationTimeRemaining,
         babyTimeRemaining,
-        totalFoodItems: Math.ceil(foodPointsToItems(totalFood, food)),
-        toJuvFoodItems: Math.ceil(foodPointsToItems(toJuvFood, food)),
-        toAdultFoodItems: Math.ceil(foodPointsToItems(toAdultFood, food)),
+        totalFoodItems: Math.ceil(foodPointsToItems(totalFoodPoints, food)),
+        totalJuvFoodItems: Math.ceil(foodPointsToItems(totalJuvFoodPoints, food)),
+        toJuvFoodItems: Math.ceil(foodPointsToItems(remainingToJuvFoodPoints, food)),
+        toAdultFoodItems: Math.ceil(foodPointsToItems(remainingToAdultFoodPoints, food)),
         currentBuffer,
         foodCapacity,
         currentFoodRate: currentFoodRate * 60, // Convert to per minute
