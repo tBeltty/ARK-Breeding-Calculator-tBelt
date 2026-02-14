@@ -47,6 +47,7 @@
         "max_food": "Max Food",
         "food_to_adult": "Food to Adult",
         "food_to_juvenile": "Food to Juvenile",
+        "total_required": "Total Required",
         "auto_sort": "Auto-Sort Stacks"
     },
     "ui": {

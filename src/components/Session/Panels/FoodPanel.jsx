@@ -28,9 +28,11 @@ export function FoodPanel({
                 }
             />
             {calculations?.toJuvFoodItems > 0 && (
-                <div style={{ fontSize: '0.8em', opacity: 0.6, marginTop: '-5px', textAlign: 'right', marginBottom: '8px' }}>
-                    {translate('ui.total_required', { count: (calculations?.totalJuvFoodItems || 0).toLocaleString() })}
-                </div>
+                <DataRow
+                    label={translate('fields.total_required')}
+                    value={(calculations?.totalJuvFoodItems || 0).toLocaleString()}
+                    highlight={false}
+                />
             )}
 
             <DataRow
@@ -39,9 +41,11 @@ export function FoodPanel({
                 value={calculations?.toAdultFoodItems.toLocaleString()}
             />
             {calculations?.toAdultFoodItems > 0 && (
-                <div style={{ fontSize: '0.8em', opacity: 0.6, marginTop: '-5px', textAlign: 'right', marginBottom: '8px' }}>
-                    {translate('ui.total_required', { count: (calculations?.totalFoodItems || 0).toLocaleString() })}
-                </div>
+                <DataRow
+                    label={translate('fields.total_required')}
+                    value={(calculations?.totalFoodItems || 0).toLocaleString()}
+                    highlight={false}
+                />
             )}
 
             <DataRow
