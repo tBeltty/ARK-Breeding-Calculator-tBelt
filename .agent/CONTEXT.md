@@ -6,6 +6,11 @@
 - **Development Workflow (CRITICAL)**:
     - **Git Mediation**: GitHub is the mediator for all patches and updates. NEVER deploy to production without first committing changes. Updating production blindly without Git history is FORBIDDEN.
 - **Deployment Protocol (AUTOMATED)**:
+    - **Versioning (MANDATORY)**: Before every push to `main`, analyze if the changes warrant a version bump. Follow Semantic Versioning:
+        - **Major**: Incompatible API changes.
+        - **Minor**: New functionality in a backwards compatible manner.
+        - **Patch**: Backwards compatible bug fixes (including data updates).
+        - **Action**: Always update `package.json`, `discord-bot/package.json`, and the hardcoded version in the API/Bot info.
     - **CI/CD**: Deployment is handled by the self-hosted GitHub Actions runner defined in `.github/workflows/deploy.yml`.
     - **Trigger**: Push to `main` branch.
     - **Actions**:
