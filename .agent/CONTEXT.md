@@ -5,6 +5,11 @@
 - **Repository Strategy**: GitHub (`tBeltty/ARK-Breeding-Calculator-tBelt`) is the Source of Truth. Ensure `origin` points to this fork. ALWAYS use `main` branch (not `master`). Use `--allow-unrelated-histories` if syncing for the first time.
 - **Development Workflow (CRITICAL)**:
     - **Git Mediation**: GitHub is the mediator for all patches and updates. NEVER deploy to production without first committing changes. Updating production blindly without Git history is FORBIDDEN.
+- **Security & Secret Management (MAXIMUM PRIORITY)**:
+    - **ZERO SECRET LEAKAGE**: Before EVERY push or deployment, perform a mandatory scan for hardcoded credentials (API keys, tokens, passwords). 
+    - **Prohibited**: Never hardcode secrets in source code, even in temporary test scripts (`test_*.js`, `debug_*.js`).
+    - **Environment Variables**: All secrets MUST reside in `.env` files, which are excluded from Git.
+    - **Remediation**: If a leak is detected, rotation is mandatory and must be documented immediately.
 - **Deployment Protocol (AUTOMATED)**:
     - **Versioning (MANDATORY)**: Before every push to `main`, analyze if the changes warrant a version bump. Follow Semantic Versioning:
         - **Major**: Incompatible API changes.
@@ -28,6 +33,9 @@
 
 
 - **Repository Quirks & Incidents (READ BEFORE ACTING)**:
+    - **Incident 2026-02-13 (Security Leak)**: API keys were hardcoded in temporary test scripts (`test_id_endpoint.js`, etc.).
+        - **Resolution**: All test scripts were deleted. Global repository scan performed. Secret rotation initiated.
+        - **Rule**: No test code containing real data may be committed. All local debugging MUST use environment variables.
     - **Incident 2026-01-24 (Submodules)**: `src_new` was a nested Git repository causing CI issues.
         - **Resolution**: Refactored to standard Monorepo structure (Flattened Source). `src_new` is DELETED. Source is now in `/src`.
         - **Rule**: Standard `src/` folder only. No nested submodules for core code.

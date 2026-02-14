@@ -107,7 +107,11 @@ export default function ServerTrackingPage() {
                 body: JSON.stringify({
                     serverId: server.id,
                     type: server.type || 'official', // Ensure type is passed
-                    name: server.name
+                    name: server.name,
+                    status: server.status,
+                    map: server.map,
+                    players: server.players,
+                    maxPlayers: server.maxPlayers
                 })
             });
 
