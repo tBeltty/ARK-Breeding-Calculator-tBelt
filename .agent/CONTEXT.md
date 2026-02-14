@@ -57,4 +57,12 @@
         - **Rule**: Standard `src/` folder only. No nested submodules for core code.
     - **Incident 2026-01-24 (PM2 Cold Start)**: `pm2 restart` failed because the process didn't exist (first run or manual stop).
         - **Fix**: Updated usage to `pm2 restart <name> || pm2 start <file> --name <name>`.
-        - **Rule**: Deployment scripts must be idempotent. Always use `restart || start` logic for process management.
+        - **Rule**:### SHARED VPS SAFETY PROTOCOL
+**CRITICAL: This VPS hosts multiple critical services (Finances, ARK, etc.)**
+
+1. **PROACTIVE ISOLATION**: Before performing any system-level change (DNS, Nginx, Runner), identify ALL active virtual hosts (`ls /etc/nginx/sites-enabled`).
+2. **THE "SECOND RULE"**: After *any* infrastructure restart, verify the health of ALL vhosts, not just the one currently being modified.
+3. **DEPENDENCY MAPPING**: If a service (like finances-backend) relies on a database (PostgreSQL), ensure that database cluster is checked whenever the system is restarted.
+4. **IMMEDIATE ROLLBACK**: If a change causes a 521 or 500 on a secondary site, prioritize its recovery above all other tasks.
+5. **CI/CD IMMUTABILITY**: Manual file transfers (`scp`, manual `rsync`) for deployment are **STRICTLY FORBIDDEN**. All changes to production code or data MUST be pushed to the repository and deployed via the GitHub Actions runner to ensure state consistency and auditable history.
+ Always use `restart || start` logic for process management.

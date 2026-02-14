@@ -11,10 +11,17 @@ export class TrackingRepository {
     static add(data) {
         const db = getDatabase();
         const stmt = db.prepare(`
-            INSERT INTO server_tracking (guild_id, channel_id, server_id, server_name, type)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO server_tracking (guild_id, channel_id, server_id, server_name, type, last_status)
+            VALUES (?, ?, ?, ?, ?, ?)
         `);
-        return stmt.run(data.guildId, data.channelId, data.serverId, data.serverName, data.type || 'official');
+        return stmt.run(
+            data.guildId,
+            data.channelId,
+            data.serverId,
+            data.serverName,
+            data.type || 'official',
+            data.lastStatus || 'unknown'
+        );
     }
 
     /**
