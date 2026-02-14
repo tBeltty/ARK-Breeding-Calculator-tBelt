@@ -587,6 +587,18 @@
     "gestationspeedmult": 1,
     "weight": 910
   },
+  "Elderclaw": {
+    "birthtype": "Incubation",
+    "type": "Omnivore",
+    "basefoodrate": 0.003156,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 1,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 500
+  },
   "Electrophorus": {
     "birthtype": "Gestation",
     "type": "Carnivore",
@@ -754,6 +766,18 @@
     "eggspeed": 0.005556,
     "eggspeedmult": 2,
     "weight": 70
+  },
+  "Helicoprion": {
+    "birthtype": "Incubation",
+    "type": "Piscivore",
+    "basefoodrate": 0.001852,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 0.9,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 300
   },
   "Hesperornis": {
     "birthtype": "Incubation",
@@ -1030,6 +1054,18 @@
     "eggspeed": 0.005556,
     "eggspeedmult": 3,
     "weight": 300
+  },
+  "Megaraptor": {
+    "birthtype": "Incubation",
+    "type": "Carnivore",
+    "basefoodrate": 0.001852,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 2,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 3,
+    "weight": 350
   },
   "Megatherium": {
     "birthtype": "Gestation",
