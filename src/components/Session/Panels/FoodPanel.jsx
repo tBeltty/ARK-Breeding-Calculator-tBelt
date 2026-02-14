@@ -6,6 +6,10 @@ export function FoodPanel({
     isOpen,
     onToggle,
     calculations,
+    foods,
+    availableFoods,
+    activeData,
+    onUpdateSession,
     t // pass t if needed or use hook
 }) {
     // If we use hook here it duplicates, but it's fine
