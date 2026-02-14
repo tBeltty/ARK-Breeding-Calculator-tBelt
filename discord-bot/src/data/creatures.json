@@ -695,6 +695,18 @@
     "gestationspeedmult": 1,
     "weight": 3000
   },
+  "Gigadesmodus": {
+    "birthtype": "Incubation",
+    "type": "Carnivore",
+    "basefoodrate": 0.006667,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 0.7,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 600
+  },
   "Giganotosaurus": {
     "birthtype": "Incubation",
     "type": "Carnivore",
