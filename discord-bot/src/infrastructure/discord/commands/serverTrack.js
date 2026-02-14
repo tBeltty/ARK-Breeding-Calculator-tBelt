@@ -106,6 +106,8 @@ export async function execute(interaction) {
 
             const server = results[0];
 
+            const status = serverService.getStatus(String(server.id)) || server;
+
             if (TrackingRepository.isTracked(interaction.guildId, String(server.id))) {
                 return interaction.reply({ content: t(locale, 'server_track.already_tracked'), ephemeral: true });
             }
@@ -115,10 +117,9 @@ export async function execute(interaction) {
                 channelId: interaction.channelId,
                 serverId: String(server.id),
                 serverName: server.name,
-                type: 'official'
+                type: 'official',
+                lastStatus: status.status || 'unknown'
             });
-
-            const status = serverService.getStatus(String(server.id)) || server;
             return interaction.reply({
                 embeds: [
                     EmbedBuilder.createInfo(t(locale, 'server_track.tracking_started'), t(locale, 'server_track.tracking_started_desc', { name: server.name })),

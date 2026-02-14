@@ -1,6 +1,6 @@
 {
     "name": "arktic-assistant-bot",
-    "version": "3.4.2",
+    "version": "3.4.3",
     "description": "Discord bot for tracking ARK Survival creature breeding",
     "main": "src/index.js",
     "type": "module",

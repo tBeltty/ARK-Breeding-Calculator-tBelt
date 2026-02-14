@@ -236,11 +236,7 @@ class ServerService {
                 }
             } else {
                 logger.error(`[Sync] Failed to check official ${record.server_id}:`, error.message);
-                this.statusCache.set(record.server_id, {
-                    status: 'offline',
-                    name: record.server_name,
-                    lastUpdated: Date.now()
-                });
+                // Do NOT set status to offline on generic API errors to avoid flapping
             }
         }
     }
