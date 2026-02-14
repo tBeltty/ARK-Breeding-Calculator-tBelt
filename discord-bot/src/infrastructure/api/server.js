@@ -86,14 +86,16 @@ app.get('/api/servers/search', async (req, res) => {
 });
 
 app.post('/api/servers/track', async (req, res) => {
-    const { serverId, type, name, guildId, channelId } = req.body;
+    const { serverId, type, name, guildId, channelId, status, map, players, maxPlayers } = req.body;
     if (!serverId) return res.status(400).json({ error: 'Server ID required' });
 
     // Use default 'WEB' guild if not provided, allowing basic web tracking
     const targetGuild = guildId || 'WEB';
     const targetChannel = channelId || 'WEB';
 
-    await serverService.addTrackedServer(serverId, type || 'unofficial', name, targetGuild, targetChannel);
+    const initialData = status ? { status, name, map, players, maxPlayers } : null;
+
+    await serverService.addTrackedServer(serverId, type || 'unofficial', name, targetGuild, targetChannel, initialData);
     res.json({ success: true, message: 'Server added to tracking.' });
 });
 
@@ -152,6 +154,10 @@ app.get('/api/servers/status/:id', (req, res) => {
     const status = serverService.getStatus(id);
     if (!status) return res.status(404).json({ error: 'Server not tracked or found' });
     res.json(status);
+});
+
+app.get('/api/servers/debug/cache', (req, res) => {
+    res.json(Object.fromEntries(serverService.statusCache));
 });
 
 app.get('/api/servers/tracked', (req, res) => {
