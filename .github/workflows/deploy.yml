@@ -5,7 +5,112 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # ──────────────────────────────────────────────
+  # GATE: Security & Compliance (blocks deploy)
+  # ──────────────────────────────────────────────
+  security-and-compliance:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔒 Secret Scan
+        run: |
+          echo "Scanning repository for hardcoded secrets..."
+          FOUND=0
+
+          # Pattern 1: ArkStatus API keys (ark_ prefix + 40+ hex chars)
+          if grep -rn 'ark_[a-zA-Z0-9]\{20,\}' --include='*.js' --include='*.jsx' --include='*.ts' --include='*.json' --include='*.yml' --include='*.yaml' --include='*.md' . --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null; then
+            echo "::error::LEAKED: ArkStatus API key found in source code!"
+            FOUND=1
+          fi
+
+          # Pattern 2: Discord tokens (base64-like, 59+ chars with dots)
+          if grep -rn '[MN][A-Za-z0-9]\{23,\}\.[A-Za-z0-9_-]\{6,\}\.[A-Za-z0-9_-]\{27,\}' --include='*.js' --include='*.jsx' --include='*.ts' --include='*.json' . --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null; then
+            echo "::error::LEAKED: Discord token found in source code!"
+            FOUND=1
+          fi
+
+          # Pattern 3: Generic API keys/secrets in assignments
+          if grep -rn "API_KEY\s*=\s*['\"][a-zA-Z0-9_]\{20,\}['\"]" --include='*.js' --include='*.jsx' --include='*.ts' . --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null; then
+            echo "::error::LEAKED: Hardcoded API key assignment found!"
+            FOUND=1
+          fi
+
+          # Pattern 4: Temporary test/debug files with real data
+          TEST_FILES=$(find . -name 'test_*.js' -o -name 'debug_*.js' -o -name 'tmp_*.js' | grep -v node_modules | grep -v .git || true)
+          if [ -n "$TEST_FILES" ]; then
+            echo "::error::Prohibited files found (test_*/debug_*/tmp_* scripts): $TEST_FILES"
+            FOUND=1
+          fi
+
+          if [ "$FOUND" -eq 1 ]; then
+            echo ""
+            echo "============================================"
+            echo "  🚨 DEPLOY BLOCKED: Secret leak detected"
+            echo "  Remove secrets and use .env variables."
+            echo "============================================"
+            exit 1
+          fi
+
+          echo "✅ Secret scan passed — no hardcoded credentials found."
+
+      - name: 📋 Guidelines Compliance
+        run: |
+          echo "Checking project guidelines compliance..."
+          VIOLATIONS=0
+
+          # Rule 1: Version sync — both package.json files must have the same version
+          ROOT_VER=$(node -p "require('./package.json').version" 2>/dev/null)
+          BOT_VER=$(node -p "require('./discord-bot/package.json').version" 2>/dev/null)
+          if [ "$ROOT_VER" != "$BOT_VER" ]; then
+            echo "::error::VERSION MISMATCH: package.json ($ROOT_VER) ≠ discord-bot/package.json ($BOT_VER)"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  ✓ Versions synced: $ROOT_VER"
+          fi
+
+          # Rule 2: No nested git repos (submodule incident)
+          NESTED_GIT=$(find . -name '.git' -mindepth 2 -not -path './node_modules/*' 2>/dev/null || true)
+          if [ -n "$NESTED_GIT" ]; then
+            echo "::error::NESTED GIT REPO found: $NESTED_GIT — Flatten per CONTEXT.md rules."
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  ✓ No nested git repositories"
+          fi
+
+          # Rule 3: No src_new directory (legacy structure)
+          if [ -d "src_new" ]; then
+            echo "::error::LEGACY DIRECTORY 'src_new' still exists — must use 'src/' only."
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  ✓ No legacy directories"
+          fi
+
+          # Rule 4: .env files must not be tracked in git
+          if git ls-files --cached | grep -q '\.env$'; then
+            echo "::error::.env file is tracked in git! Remove with: git rm --cached .env"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "  ✓ No .env files tracked in git"
+          fi
+
+          if [ "$VIOLATIONS" -gt 0 ]; then
+            echo ""
+            echo "============================================"
+            echo "  🚨 DEPLOY BLOCKED: $VIOLATIONS violation(s)"
+            echo "  Fix issues above before deploying."
+            echo "============================================"
+            exit 1
+          fi
+
+          echo "✅ All compliance checks passed."
+
+  # ──────────────────────────────────────────────
+  # DEPLOY: Only runs if gate passes
+  # ──────────────────────────────────────────────
   build-and-deploy:
+    needs: security-and-compliance
     runs-on: self-hosted
     steps:
       - name: Checkout code
