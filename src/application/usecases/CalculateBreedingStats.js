@@ -92,7 +92,11 @@ export function calculateBreedingStats({ creature, food, weight, maxFood, matura
 
     // Calculate inventory-based stats (Weighted Capacity)
     const currentWeight = safeWeight * safeMaturation;
-    let itemsByWeight = Math.floor(currentWeight / food.weight);
+    let effectiveFoodWeight = food.weight;
+    if (creature.weightmultipliers && food.name && creature.weightmultipliers[food.name]) {
+        effectiveFoodWeight *= creature.weightmultipliers[food.name];
+    }
+    let itemsByWeight = Math.floor(currentWeight / effectiveFoodWeight);
 
     // Stomach Capacity (Max Food Stat)
     // If user provided a maxFood stat, the dino cannot hold more than that in its stomach (in pts)

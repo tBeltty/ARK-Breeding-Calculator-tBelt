@@ -235,7 +235,12 @@ export async function execute(interaction) {
 
     const carryWeight = weight || creatureData.weight;
     const currentCarryWeight = carryWeight * (progress / 100);
-    const capacity = Math.floor(currentCarryWeight / foodData.weight);
+
+    let effectiveFoodWeight = foodData.weight;
+    if (creatureData.weightmultipliers && creatureData.weightmultipliers[foodName]) {
+        effectiveFoodWeight *= creatureData.weightmultipliers[foodName];
+    }
+    const capacity = Math.floor(currentCarryWeight / effectiveFoodWeight);
 
     // Survival time in seconds with full inventory
     const bufferSeconds = calculateBufferTime(capacity, foodData, creatureData, progress / 100, settings);

@@ -122,7 +122,7 @@ export async function execute(interaction) {
     if (!foodName || !foods[foodName]) {
         foodName = 'Raw Meat';
     }
-    const food = foods[foodName];
+    const food = { ...foods[foodName], name: foodName };
 
     // Get guild settings
     const guild = GuildRepository.findOrCreate(interaction.guildId);
@@ -134,7 +134,7 @@ export async function execute(interaction) {
     // Calculate values
     const maturationTime = calculateMaturationTime(creature, settings);
     const carryWeight = calculateCarryWeight(weightInput || creature.weight, progress);
-    const foodCapacity = calculateFoodCapacity(carryWeight, food);
+    const foodCapacity = calculateFoodCapacity(carryWeight, food, creature);
     const foodAmount = foodAmountInput || foodCapacity;
     const bufferTime = calculateBufferTime(foodAmount, food, creature, progress, settings);
 
