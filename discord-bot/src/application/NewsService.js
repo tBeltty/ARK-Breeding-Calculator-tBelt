@@ -1,6 +1,6 @@
 import axios from 'axios';
 import cron from 'node-cron';
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder } from '../infrastructure/discord/EmbedBuilder.js';
 import { NewsRepository } from '../infrastructure/database/repositories/NewsRepository.js';
 import { logger } from '../shared/logger.js';
 import { t } from '../shared/i18n.js';
@@ -104,17 +104,13 @@ export class NewsService {
         const locale = guildSettings.locale || 'en';
 
         for (const post of posts) {
-            const embed = new EmbedBuilder()
-                .setTitle(post.title)
-                .setURL(post.link)
-                .setDescription(this.truncate(post.description, 400))
-                .setColor(0x6366F1)
-                .setTimestamp(new Date(post.pubDate))
-                .setFooter({ text: 'survivetheark.com' });
-
-            if (post.image) {
-                embed.setImage(post.image);
-            }
+            const embed = EmbedBuilder.createNewsEmbed(
+                post.title,
+                this.truncate(post.description, 400),
+                post.link,
+                post.image,
+                post.pubDate
+            );
 
             await channel.send({ embeds: [embed] }).catch(err => {
                 logger.error(`Failed to send news to ${subscription.guild_id}: ${err.message}`);
@@ -166,12 +162,17 @@ export class NewsService {
     }
 
     static extractImage(itemContent) {
-        // Try to find image in description or media tags
-        const imgMatch = itemContent.match(/<img[^>]+src="([^">]+)"/i);
-        if (imgMatch) return imgMatch[1];
+        // 1. Try enclosure (Standard for Ark News featured images)
+        const enclosureMatch = itemContent.match(/<enclosure[^>]+url="([^">]+)"/i);
+        if (enclosureMatch) return enclosureMatch[1];
 
+        // 2. Try media:content
         const mediaMatch = itemContent.match(/<media:content[^>]+url="([^">]+)"/i);
         if (mediaMatch) return mediaMatch[1];
+
+        // 3. Try img tag in description
+        const imgMatch = itemContent.match(/<img[^>]+src="([^">]+)"/i);
+        if (imgMatch) return imgMatch[1];
 
         return null;
     }

@@ -59,6 +59,25 @@ export class EmbedBuilder {
     }
 
     /**
+     * Create a news update embed
+     */
+    static createNewsEmbed(title, description, url, imageUrl, timestamp) {
+        const embed = new DiscordEmbedBuilder()
+            .setColor(this.COLORS.SAPPHIRE)
+            .setTitle(title)
+            .setURL(url)
+            .setDescription(description)
+            .setTimestamp(new Date(timestamp))
+            .setFooter({ text: 'survivetheark.com • Arktic News' });
+
+        if (imageUrl) {
+            embed.setImage(imageUrl);
+        }
+
+        return embed;
+    }
+
+    /**
      * Create a simple info/success embed
      */
     static createInfo(title, description, color = this.COLORS.SLATE) {
@@ -69,3 +88,5 @@ export class EmbedBuilder {
             .setTimestamp();
     }
 }
+
+
