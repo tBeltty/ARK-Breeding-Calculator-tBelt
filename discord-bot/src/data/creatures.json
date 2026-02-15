@@ -1291,14 +1291,26 @@
   "Pelagornis": {
     "birthtype": "Incubation",
     "type": "Piscivore",
-    "basefoodrate": 0.001543,
+    "basefoodrate": 0.001852,
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
-    "agespeedmult": 2.5,
+    "agespeedmult": 1.5,
     "eggspeed": 0.005556,
     "eggspeedmult": 3,
-    "weight": 150
+    "weight": 140
+  },
+  "Phoenix": {
+    "birthtype": "Incubation",
+    "type": "Phoenix",
+    "basefoodrate": 0.001852,
+    "babyfoodrate": 25.5,
+    "extrababyfoodrate": 20,
+    "agespeed": 0.000003,
+    "agespeedmult": 1,
+    "eggspeed": 0.005556,
+    "eggspeedmult": 1,
+    "weight": 300
   },
   "Phiomia": {
     "birthtype": "Gestation",
