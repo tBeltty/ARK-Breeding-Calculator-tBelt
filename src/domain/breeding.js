@@ -205,8 +205,12 @@ export function calculateCarryWeight(creatureWeight, maturationProgress) {
  * @param {Object} food - Food data
  * @returns {number} Max food items that fit
  */
-export function calculateFoodCapacity(carryWeight, food) {
-    return Math.floor(carryWeight / food.weight);
+export function calculateFoodCapacity(carryWeight, food, creature = null) {
+    let effectiveWeight = food.weight;
+    if (creature && creature.weightmultipliers && food.name && creature.weightmultipliers[food.name]) {
+        effectiveWeight *= creature.weightmultipliers[food.name];
+    }
+    return Math.floor(carryWeight / effectiveWeight);
 }
 
 /**
@@ -309,7 +313,11 @@ export function calculateHandFeedThreshold(creature, food, creatureWeight, setti
 
         // Calculate food capacity at this maturation
         const currentWeight = creatureWeight * mid;
-        const foodCapacity = Math.floor(currentWeight / food.weight);
+        let effectiveFoodWeight = food.weight;
+        if (creature.weightmultipliers && food.name && creature.weightmultipliers[food.name]) {
+            effectiveFoodWeight *= creature.weightmultipliers[food.name];
+        }
+        const foodCapacity = Math.floor(currentWeight / effectiveFoodWeight);
 
         // Calculate buffer at this point using simulation (accounts for spoilage)
         const bufferTime = calculateBufferTime(foodCapacity, food, creature, mid, settings);

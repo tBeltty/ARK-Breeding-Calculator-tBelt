@@ -49,13 +49,17 @@ export default function CalculatorPage() {
   const calculations = useMemo(() => {
     if (!activeSession || !activeSession.creature) return null;
     const creature = creatures[activeSession.creature];
-    const food = foods[activeSession.data.selectedFood || 'Raw Meat'];
+    const foodName = activeSession.data.selectedFood || 'Raw Meat';
+    const food = foods[foodName];
     if (!food || !creature) return null;
+
+    // Attach name for weight reduction logic
+    const foodWithName = { ...food, name: foodName };
 
     try {
       return calculateBreedingStats({
         creature,
-        food,
+        food: foodWithName,
         weight: activeSession.data.weight || 0,
         maxFood: activeSession.data.maxFood || 0,
         maturationProgress: activeSession.data.maturation || 0,

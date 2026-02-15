@@ -786,10 +786,15 @@
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,
     "agespeed": 0.000003,
-    "agespeedmult": 0.9,
+    "agespeedmult": 0.900122,
     "eggspeed": 0.005556,
     "eggspeedmult": 1,
-    "weight": 300
+    "weight": 500,
+    "weightmultipliers": {
+      "Raw Fish Meat": 0.5,
+      "Raw Fish Meat (Carrion)": 0.5,
+      "Cooked Fish Meat": 0.5
+    }
   },
   "Hesperornis": {
     "birthtype": "Incubation",
