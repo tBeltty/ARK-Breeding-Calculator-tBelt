@@ -104,6 +104,7 @@ export class NewsService {
         const locale = guildSettings.locale || 'en';
 
         for (const post of posts) {
+            logger.info(`[News] Distributing post "${post.title}" (Image: ${post.image || 'None'})`);
             const embed = EmbedBuilder.createNewsEmbed(
                 post.title,
                 this.truncate(post.description, 400),
@@ -163,15 +164,16 @@ export class NewsService {
 
     static extractImage(itemContent) {
         // 1. Try enclosure (Standard for Ark News featured images)
-        const enclosureMatch = itemContent.match(/<enclosure[^>]+url="([^">]+)"/i);
+        // Handles both single and double quotes, and attributes in any order
+        const enclosureMatch = itemContent.match(/<enclosure[^>]+url=["']([^"']+)["']/i);
         if (enclosureMatch) return enclosureMatch[1];
 
         // 2. Try media:content
-        const mediaMatch = itemContent.match(/<media:content[^>]+url="([^">]+)"/i);
+        const mediaMatch = itemContent.match(/<media:content[^>]+url=["']([^"']+)["']/i);
         if (mediaMatch) return mediaMatch[1];
 
         // 3. Try img tag in description
-        const imgMatch = itemContent.match(/<img[^>]+src="([^">]+)"/i);
+        const imgMatch = itemContent.match(/<img[^>]+src=["']([^"']+)["']/i);
         if (imgMatch) return imgMatch[1];
 
         return null;
