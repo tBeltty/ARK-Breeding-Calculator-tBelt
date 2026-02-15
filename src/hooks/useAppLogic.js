@@ -190,6 +190,28 @@ export function useAppLogic(addToast) {
         localStorage.setItem('language', language);
     }, [gameVersion, language]);
 
+    // PWA Force Update: Detect version bump and hard reload
+    useEffect(() => {
+        if (import.meta.env.DEV) return;
+
+        const storedVersion = localStorage.getItem('appVersion');
+        const currentVersion = __APP_VERSION__;
+
+        if (storedVersion && storedVersion !== currentVersion) {
+            console.log(`[PWA] Version bump detected: ${storedVersion} -> ${currentVersion}. Forcing reload...`);
+
+            // 1. Update localStorage immediately to prevent infinite reload loop
+            localStorage.setItem('appVersion', currentVersion);
+
+            // 2. Clear application caches if possible (standard PWA cache is handled by SW)
+            // 3. Perform hard reload
+            window.location.reload(true);
+        } else if (!storedVersion) {
+            // Initial visit or cleared storage
+            localStorage.setItem('appVersion', currentVersion);
+        }
+    }, []);
+
     return {
         // State
         sessions,

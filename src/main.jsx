@@ -6,14 +6,14 @@ import { registerSW } from 'virtual:pwa-register'
 
 const updateSW = registerSW({
   onNeedRefresh() {
-    if (confirm('New content available. Reload?')) {
-      updateSW(true)
-    }
+    // Force immediate update without prompt to ensure users are always on latest
+    updateSW(true)
   },
   onOfflineReady() {
     console.log('App ready to work offline')
   },
 })
+
 
 import { BrowserRouter } from 'react-router-dom'
 
