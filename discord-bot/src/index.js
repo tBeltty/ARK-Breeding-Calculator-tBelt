@@ -71,7 +71,7 @@ async function main() {
         // 5. Start API Server (for dashboard)
         if (process.env.NODE_ENV !== 'test') {
             logger.info('🌐 Starting API server...');
-            await startApi(client, () => lastError);
+            await startApi(client, () => lastError, serverService);
         }
 
         // 6. Start Notification Scheduler
