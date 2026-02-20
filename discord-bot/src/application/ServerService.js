@@ -4,6 +4,7 @@ import { getDatabase } from '../infrastructure/database/sqlite.js';
 import { logger } from '../shared/logger.js';
 import { EmbedBuilder } from '../infrastructure/discord/EmbedBuilder.js';
 import { GuildRepository } from '../infrastructure/database/repositories/GuildRepository.js';
+import { SettingsRepository } from '../infrastructure/database/repositories/SettingsRepository.js';
 
 /**
  * RequestQueue
@@ -91,6 +92,9 @@ class ServerService {
         this.apiKey = process.env.ARK_STATUS_API_KEY;
         this.client = null;
         this.requestQueue = new RequestQueue();
+        this.isSyncStable = true;
+        this.consecutiveFailures = 0;
+        this.wasStableInPreviousCycle = true;
     }
 
     /**
@@ -124,6 +128,7 @@ class ServerService {
 
             logger.info(`[Sync] Syncing status for ${tracked.length} tracked servers...`);
 
+            let failuresThisCycle = 0;
             for (const rawRecord of tracked) {
                 // Sanitize ID: remove trailing .0 if present (SQLite/Type issue)
                 const record = {
@@ -131,10 +136,39 @@ class ServerService {
                     server_id: String(rawRecord.server_id).replace(/\.0$/, '')
                 };
 
-                if (record.type === 'unofficial') {
-                    await this.checkUnofficial(record);
+                try {
+                    if (record.type === 'unofficial') {
+                        await this.checkUnofficial(record);
+                    } else {
+                        await this.checkOfficial(record);
+                    }
+                } catch (e) {
+                    failuresThisCycle++;
+                    logger.error(`[Sync] Check failed for ${record.server_id}: ${e.message}`);
+                }
+            }
+
+            // Update stability status
+            const failureRate = failuresThisCycle / tracked.length;
+            const cycleSucceeded = failureRate < 0.5;
+
+            if (cycleSucceeded) {
+                if (!this.isSyncStable) {
+                    logger.success('[Sync] Reliability RESTORED. Entering Recovery cycle (Suppressing alerts).');
+                    this.wasStableInPreviousCycle = false; // Trigger Baseline Sync (no alerts)
                 } else {
-                    await this.checkOfficial(record);
+                    this.wasStableInPreviousCycle = true;
+                }
+                this.isSyncStable = true;
+                this.consecutiveFailures = 0;
+            } else {
+                this.consecutiveFailures++;
+                this.isSyncStable = false;
+                logger.warn(`[Sync] Connectivity unstable (${failuresThisCycle}/${tracked.length} failed). Cycle #${this.consecutiveFailures}`);
+
+                // Watchdog: If failures persist for 10 minutes (5 cycles), force restart
+                if (this.consecutiveFailures >= 5) {
+                    this.triggerAutoRecovery();
                 }
             }
 
@@ -143,6 +177,23 @@ class ServerService {
         } catch (error) {
             logger.error('Sync cycle failed:', error.message);
         }
+    }
+
+    async triggerAutoRecovery() {
+        logger.error('🚨 [WATCHDOG] Persistant connectivity failure detected (10+ mins). Triggering AUTO-RECOVERY RESTART.');
+
+        try {
+            const adminChannelId = SettingsRepository.get('admin_channel_id');
+            if (adminChannelId && this.client) {
+                const channel = await this.client.channels.fetch(adminChannelId).catch(() => null);
+                if (channel) {
+                    await channel.send('🚨 **CRITICAL**: Bot has lost internet connectivity for 10+ minutes. **Triggering auto-recovery restart.**');
+                }
+            }
+        } catch (e) { /* ignore */ }
+
+        // Exit and let PM2 restart the process
+        setTimeout(() => process.exit(1), 1000);
     }
 
     async checkOfficial(record) {
@@ -236,7 +287,9 @@ class ServerService {
                 }
             } else {
                 logger.error(`[Sync] Failed to check official ${record.server_id}:`, error.message);
-                // Do NOT set status to offline on generic API errors to avoid flapping
+                // CRITICAL FIX: Do NOT set status to offline on generic API/Network errors
+                // We throw instead so 'sync' knows this check failed and increments failure rate
+                throw error;
             }
         }
     }
@@ -284,8 +337,13 @@ class ServerService {
                 db.prepare("UPDATE server_tracking SET last_status = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?")
                     .run(current.status, record.id);
 
-                // Notify Discord
-                this.emitAlert(record, current);
+                // Smart Alerting: Only notify if bot connectivity was stable in the PREVIOUS cycle
+                // This prevents "Back Online" spam when the bot recovers from its own network issues
+                if (this.wasStableInPreviousCycle) {
+                    this.emitAlert(record, current);
+                } else {
+                    logger.info(`[Alert] Suppressing alert for ${record.server_id} (Recovery Baseline)`);
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NewsService } from './src/application/NewsService.js';
-import { EmbedBuilder } from '../infrastructure/discord/EmbedBuilder.js';
+import { EmbedBuilder } from './src/infrastructure/discord/EmbedBuilder.js';
 
 const RSS_URL = 'https://survivetheark.com/index.php?/rss/3-ark-news.xml/';
 

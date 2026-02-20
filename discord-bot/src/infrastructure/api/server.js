@@ -33,6 +33,7 @@ app.get('/health', (req, res) => {
 });
 
 import guildRoutes from './routes/guilds.js';
+import settingsRoutes from './routes/settings.js';
 
 // API Status Endpoint
 app.get('/api/stats', (req, res) => {
@@ -193,6 +194,7 @@ app.get('/api/servers/tracked', (req, res) => {
 });
 
 app.use('/api/guilds', guildRoutes);
+app.use('/api/settings', settingsRoutes);
 
 /**
  * Start the API server
