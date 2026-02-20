@@ -208,10 +208,11 @@ app.use('/api/settings', settingsRoutes);
  * @param {Client} client - Discord JS Client instance
  * @param {Function} getLastError - Callback to get the last recorded global error
  */
-export async function startApi(client, getLastError) {
+export async function startApi(client, getLastError, serverService) {
     // Make variables available to routes
     app.locals.client = client;
     app.locals.getLastError = getLastError;
+    app.locals.serverService = serverService;
 
     return new Promise((resolve) => {
         app.listen(PORT, () => {
