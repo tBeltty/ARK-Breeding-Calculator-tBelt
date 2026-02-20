@@ -20,6 +20,10 @@ const foods = JSON.parse(fs.readFileSync(path.join(__dirname, '../../../data/foo
 
 const router = express.Router();
 
+// Simple in-memory cache for user guilds to avoid Discord 429s
+const guildCache = new Map();
+const CACHE_TTL = 60 * 1000; // 1 minute
+
 /**
  * Middleware: requireAuth
  * Verifies Discord token and gets user info
@@ -111,6 +115,15 @@ async function isGuildAdmin(userId, guildId, client) {
  * List all guilds where the user has Admin rights OR the bot is present.
  */
 router.get('/', requireAuth, async (req, res) => {
+    const userId = req.user.id;
+
+    // Check cache
+    const cached = guildCache.get(userId);
+    if (cached && (Date.now() - cached.timestamp) < CACHE_TTL) {
+        // logger.debug(`[API] Returning cached guilds for user ${userId}`);
+        return res.json({ guilds: cached.data });
+    }
+
     try {
         // 1. Fetch user's guilds from Discord
         const response = await fetch('https://discord.com/api/v10/users/@me/guilds', {
@@ -118,6 +131,12 @@ router.get('/', requireAuth, async (req, res) => {
         });
 
         if (!response.ok) {
+            // If we have stale cache, return it instead of erroring on 429
+            if (response.status === 429 && cached) {
+                logger.warn(`[API] Discord 429 for ${userId}, returning stale cache.`);
+                return res.json({ guilds: cached.data });
+            }
+
             logger.error(`[API] Failed to fetch user guilds: ${response.status} ${response.statusText}`);
             return res.status(response.status).json({ error: 'Failed to fetch Discord guilds' });
         }
@@ -162,6 +181,12 @@ router.get('/', requireAuth, async (req, res) => {
             })
             .filter(Boolean)
             .sort((a, b) => (b.in_server ? 1 : 0) - (a.in_server ? 1 : 0)); // Sort: Bot In > Bot Out
+
+        // Update cache
+        guildCache.set(userId, {
+            data: mutualGuilds,
+            timestamp: Date.now()
+        });
 
         res.json({ guilds: mutualGuilds });
     } catch (e) {
