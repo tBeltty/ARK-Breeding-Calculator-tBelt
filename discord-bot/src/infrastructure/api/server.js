@@ -66,17 +66,14 @@ app.get('/api/debug', (req, res) => {
             uptime: process.uptime(),
             memory: process.memoryUsage(),
             env: process.env.NODE_ENV
+        },
+        discord: {
+            ready: client ? client.isReady() : false,
+            status: client ? client.ws.status : 'N/A',
+            ping: client ? client.ws.ping : -1,
+            guilds: client ? client.guilds.cache.size : 0,
+            user: client?.user?.tag || 'none'
         }
-    });
-},
-    discord: {
-    ready: client ? client.isReady() : false,
-    status: client ? client.ws.status : 'N/A',
-    ping: client ? client.ws.ping : -1,
-    guilds: client ? client.guilds.cache.size : 0,
-    user: client?.user?.tag || 'none'
-},
-    last_error: getLastError ? getLastError() : null
     });
 });
 
