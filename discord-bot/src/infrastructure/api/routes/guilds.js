@@ -22,7 +22,9 @@ const router = express.Router();
 
 // Simple in-memory cache for user guilds to avoid Discord 429s
 const guildCache = new Map();
-const CACHE_TTL = 60 * 1000; // 1 minute
+const authCache = new Map(); // Cache user profiles to avoid hitting /@me too often
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes for guilds
+const AUTH_TTL = 5 * 60 * 1000;  // 5 minutes for auth
 
 /**
  * Middleware: requireAuth
@@ -34,13 +36,30 @@ const requireAuth = async (req, res, next) => {
 
     req.discordToken = authHeader;
 
+    // Check auth cache
+    const cachedUser = authCache.get(authHeader);
+    if (cachedUser && (Date.now() - cachedUser.timestamp) < AUTH_TTL) {
+        req.user = cachedUser.data;
+        return next();
+    }
+
     try {
         const response = await fetch('https://discord.com/api/v10/users/@me', {
             headers: { Authorization: authHeader }
         });
 
-        if (!response.ok) return res.status(401).json({ error: 'Invalid or expired token' });
-        req.user = await response.json();
+        if (!response.ok) {
+            // If rate limited but we have cached user, let them through
+            if (response.status === 429 && cachedUser) {
+                req.user = cachedUser.data;
+                return next();
+            }
+            return res.status(401).json({ error: 'Invalid or expired token' });
+        }
+
+        const userData = await response.json();
+        authCache.set(authHeader, { data: userData, timestamp: Date.now() });
+        req.user = userData;
         next();
     } catch (error) {
         logger.error('Auth Middleware Error:', error);
