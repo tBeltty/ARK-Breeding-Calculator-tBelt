@@ -143,7 +143,7 @@ class RatesService {
                 this.cache = JSON.parse(row.value);
                 logger.info(`Loaded official rates from DB cache (M:${this.cache.maturation}x).`);
             }
-        } catch (e) {
+        } catch {
             // Table might not exist yet, that's fine
         }
     }

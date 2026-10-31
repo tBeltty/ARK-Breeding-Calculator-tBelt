@@ -8,7 +8,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { GuildRepository } from '../../database/repositories/GuildRepository.js';
 import { CreatureRepository } from '../../database/repositories/CreatureRepository.js';
-import { createSuccessEmbed, createErrorEmbed, createCreatureEmbed } from '../../../shared/embeds.js';
+import { createErrorEmbed, createCreatureEmbed } from '../../../shared/embeds.js';
 import { validateCreatureName, validateNickname } from '../../../shared/validation.js';
 import { creatures } from '../../../shared/dataLoader.js';
 import {

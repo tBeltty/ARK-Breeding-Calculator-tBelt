@@ -116,7 +116,7 @@ app.delete('/api/servers/track', async (req, res) => {
     try {
         TrackingRepository.remove(targetGuild, serverId);
         res.json({ success: true, message: 'Server removed from tracking.' });
-    } catch (e) {
+    } catch {
         res.status(500).json({ error: 'Failed to remove server' });
     }
 });

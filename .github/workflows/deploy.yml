@@ -107,10 +107,46 @@ jobs:
           echo "✅ All compliance checks passed."
 
   # ──────────────────────────────────────────────
-  # DEPLOY: Only runs if gate passes
+  # GATE: Tests & Lint (blocks deploy)
+  # ──────────────────────────────────────────────
+  test-and-lint:
+    needs: security-and-compliance
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Lint root project
+        run: npm run lint
+
+      - name: Test root project
+        run: npm test
+
+      - name: Install bot dependencies
+        run: npm ci
+        working-directory: discord-bot
+
+      - name: Lint bot
+        run: npm run lint
+        working-directory: discord-bot
+
+      - name: Test bot
+        run: npm test
+        working-directory: discord-bot
+
+  # ──────────────────────────────────────────────
+  # DEPLOY: Only runs if all gates pass
   # ──────────────────────────────────────────────
   build-and-deploy:
-    needs: security-and-compliance
+    needs: [security-and-compliance, test-and-lint]
     runs-on: self-hosted
     steps:
       - name: Checkout code

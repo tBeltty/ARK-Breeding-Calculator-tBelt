@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './ServerStatusManager.module.css';
 
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
     const [searchError, setSearchError] = useState(null);
 
     // Fetch Servers
-    const fetchServers = async () => {
+    const fetchServers = useCallback(async () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/servers/tracked?guildId=${guildId}`);
@@ -30,11 +30,11 @@ export function ServerStatusManager({ guildId, channels, globalSettings }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [guildId]);
 
     useEffect(() => {
         if (guildId) fetchServers();
-    }, [guildId]);
+    }, [guildId, fetchServers]);
 
     const handleSearch = async (e) => {
         e.preventDefault();

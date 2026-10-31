@@ -3,7 +3,6 @@ import cron from 'node-cron';
 import { EmbedBuilder } from '../infrastructure/discord/EmbedBuilder.js';
 import { NewsRepository } from '../infrastructure/database/repositories/NewsRepository.js';
 import { logger } from '../shared/logger.js';
-import { t } from '../shared/i18n.js';
 import { GuildRepository } from '../infrastructure/database/repositories/GuildRepository.js';
 
 const RSS_URL = 'https://survivetheark.com/index.php?/rss/3-ark-news.xml/';
@@ -100,8 +99,7 @@ export class NewsService {
         const channel = await this.client.channels.fetch(subscription.channel_id).catch(() => null);
         if (!channel) return;
 
-        const guildSettings = GuildRepository.findOrCreate(subscription.guild_id);
-        const locale = guildSettings.locale || 'en';
+        GuildRepository.findOrCreate(subscription.guild_id);
 
         for (const post of posts) {
             logger.info(`[News] Distributing post "${post.title}" (Image: ${post.image || 'None'})`);

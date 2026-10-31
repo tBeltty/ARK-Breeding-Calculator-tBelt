@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { DataPanel, DataInput, LabelWithTooltip } from '../../DataPanel';
 import { CreatureSelector } from '../../CreatureSelector';
 import styles from '../../../App.module.css'; // Assuming shared styles
-import { getNickname } from '../../../domain/constants/nicknames'; // Updated import path
 
 export function CreaturePanel({
     isOpen,
@@ -13,30 +12,12 @@ export function CreaturePanel({
     onUpdateSession, // Passed down handler
     settings,
     trackedServers,
-    createGhostSession,
-    isGhostMode,
     activeData,
     onCreatureSelect // New prop
 }) {
     const { t } = useTranslation();
     const weight = activeData.weight || 0;
     const maxFood = activeData.maxFood || 0;
-
-    const handleCreatureChange = (newCreature) => {
-        // Logic moved from ActiveSessionDetail
-        // But we need calculateMaturationTime dependency?
-        // Or callback from parent?
-        // Parent passed onUpdateSession.
-        // The logic for ghost session creation was in parent.
-        // We should probably lift the complex ghost logic to parent or pass a specific handler 'onCreatureChange'.
-        // For strict refactor without changing logic flow too much, let's assume parent handles the heavy lifting if we expose the right callback.
-
-        // HOWEVER, to keep refactor simple, I will replicate the logic if dependencies are available, 
-        // OR better: keep the handler in ActiveSessionDetail and pass it down.
-    };
-
-    // Wait, ActiveSessionDetail had complex handleCreatureChange.
-    // I should pass `onCreatureChange` prop from ActiveSessionDetail to this panel.
 
     const updateDinoData = (key, value) => {
         onUpdateSession({
