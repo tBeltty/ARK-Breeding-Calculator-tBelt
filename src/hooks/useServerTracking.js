@@ -18,6 +18,8 @@ export function useServerTracking(sessions, updateSession, addToast) {
     }, []);
 
     useEffect(() => {
+        // Initial load is asynchronous; state is only updated after the response resolves.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchTrackedServers();
     }, [fetchTrackedServers]);
 

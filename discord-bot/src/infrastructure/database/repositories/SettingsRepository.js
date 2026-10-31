@@ -17,7 +17,7 @@ export class SettingsRepository {
             const db = getDatabase();
             const row = db.prepare('SELECT value FROM global_settings WHERE key = ?').get(key);
             return row ? row.value : null;
-        } catch (e) {
+        } catch {
             return null;
         }
     }

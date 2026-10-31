@@ -1,7 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { calculateMaturationTime } from '../../domain/breeding';
-import { getNickname } from '../../domain/constants/nicknames';
 
 // Panels
 import { CreaturePanel } from './Panels/CreaturePanel';
@@ -25,56 +22,12 @@ export function ActiveSessionDetail({
     isGhostMode,
     trackedServers = []
 }) {
-    const { t } = useTranslation();
-
     const activeData = session?.data || {};
     const weight = activeData.weight || 0;
     const selectedFood = activeData.selectedFood || availableFoods?.[0];
     const desiredBuffer = activeData.desiredBuffer || 60;
     const desiredBufferUnit = activeData.desiredBufferUnit || 'm';
     const creature = session?.creature ? creatures[session.creature] : null;
-
-    // Helper for updating session data
-    const updateDinoData = (key, value) => {
-        onUpdateSession({
-            data: { ...activeData, [key]: value }
-        });
-    };
-
-    const handleCreatureChange = (newCreature) => {
-        const creatureData = creatures[newCreature];
-        if (creatureData) {
-            const totalMaturationSeconds = calculateMaturationTime(creatureData, settings);
-
-            // UX IMPROVEMENT: If we are in a 'real' session, don't overwrite it. 
-            // Spawn a ghost session instead.
-            if (!isGhostMode && createGhostSession) {
-                createGhostSession({
-                    creature: newCreature,
-                    name: getNickname(newCreature),
-                    data: {
-                        weight: creatureData.weight,
-                        maturation: 0,
-                        maxFood: 0,
-                        totalMaturationSeconds
-                    }
-                });
-            } else {
-                // If already in ghost mode or no creator, just update normally
-                onUpdateSession({
-                    creature: newCreature,
-                    name: getNickname(newCreature),
-                    data: {
-                        ...activeData,
-                        weight: creatureData.weight,
-                        maturation: 0,
-                        maxFood: 0,
-                        totalMaturationSeconds
-                    }
-                });
-            }
-        }
-    };
 
     // Maturation needed calc
     const maturationNeededForBuffer = useMemo(() => {

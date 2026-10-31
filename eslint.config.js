@@ -15,7 +15,10 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        __APP_VERSION__: 'readonly',
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -63,6 +66,13 @@ export default defineConfig([
         ...globals.node,
         ...globals.browser // Some files might share logic
       }
+    }
+  },
+  // Node.js globals for build and maintenance scripts
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      globals: globals.node
     }
   }
 ])

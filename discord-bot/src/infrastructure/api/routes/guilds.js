@@ -121,7 +121,7 @@ async function isGuildAdmin(userId, guildId, client) {
     try {
         const member = await guild.members.fetch(userId);
         return member.permissions.has('ManageGuild') || member.permissions.has('Administrator');
-    } catch (e) {
+    } catch {
         return false;
     }
 }
@@ -179,7 +179,7 @@ router.get('/', requireAuth, async (req, res) => {
                 try {
                     const p = BigInt(g.permissions || 0);
                     isAdmin = (p & 0x20n) === 0x20n || (p & 0x8n) === 0x8n;
-                } catch (e) {
+                } catch {
                     // ignore invalid permissions
                 }
                 const isOwner = g.owner === true;
@@ -271,7 +271,7 @@ router.patch('/:id/settings', requireAuth, async (req, res) => {
     try {
         GuildRepository.updateSettings(id, filtered);
         res.json({ success: true, settings: GuildRepository.findById(id) });
-    } catch (e) { res.status(500).json({ error: 'Failed' }); }
+    } catch { res.status(500).json({ error: 'Failed' }); }
 });
 
 /**
@@ -318,7 +318,7 @@ router.post('/:id/commands/track', requireAuth, rateLimitMiddleware(5, 60), asyn
             }
         }
         res.json({ success: true, creature: tracked });
-    } catch (e) { res.status(500).json({ error: 'Error' }); }
+    } catch { res.status(500).json({ error: 'Error' }); }
 });
 
 /**
@@ -342,7 +342,7 @@ router.post('/:id/creatures/:creatureId/stop', requireAuth, async (req, res) => 
 
         CreatureRepository.stop(creatureId);
         res.json({ success: true });
-    } catch (e) { res.status(500).json({ error: 'Error' }); }
+    } catch { res.status(500).json({ error: 'Error' }); }
 });
 
 export default router;

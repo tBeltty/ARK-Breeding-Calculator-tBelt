@@ -71,14 +71,14 @@ function runMigrations() {
     // Ensure weight column exists (Migration for existing databases)
     try {
         db.exec('ALTER TABLE creatures ADD COLUMN weight REAL');
-    } catch (e) {
+    } catch {
         // Column likely already exists
     }
 
     // Ensure command_restrictions column exists (Migration for existing databases)
     try {
         db.exec('ALTER TABLE guilds ADD COLUMN command_restrictions TEXT');
-    } catch (e) {
+    } catch {
         // Column likely already exists
     }
 
@@ -102,10 +102,10 @@ function runMigrations() {
     `);
 
     // Migrations for existing databases
-    try { db.exec('ALTER TABLE creatures ADD COLUMN weight REAL'); } catch (e) { }
-    try { db.exec('ALTER TABLE creatures ADD COLUMN notify_mode TEXT'); } catch (e) { }
-    try { db.exec('ALTER TABLE creatures ADD COLUMN notify_channel_id TEXT'); } catch (e) { }
-    try { db.exec('ALTER TABLE guilds ADD COLUMN command_restrictions TEXT'); } catch (e) { }
+    try { db.exec('ALTER TABLE creatures ADD COLUMN weight REAL'); } catch { /* Column already exists */ }
+    try { db.exec('ALTER TABLE creatures ADD COLUMN notify_mode TEXT'); } catch { /* Column already exists */ }
+    try { db.exec('ALTER TABLE creatures ADD COLUMN notify_channel_id TEXT'); } catch { /* Column already exists */ }
+    try { db.exec('ALTER TABLE guilds ADD COLUMN command_restrictions TEXT'); } catch { /* Column already exists */ }
 
     // Create rate_limits table (for anti-abuse)
     db.exec(`

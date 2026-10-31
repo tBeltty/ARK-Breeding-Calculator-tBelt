@@ -190,7 +190,7 @@ class ServerService {
                     await channel.send('🚨 **CRITICAL**: Bot has lost internet connectivity for 10+ minutes. **Triggering auto-recovery restart.**');
                 }
             }
-        } catch (e) { /* ignore */ }
+        } catch { /* ignore */ }
 
         // Exit and let PM2 restart the process
         setTimeout(() => process.exit(1), 1000);
@@ -311,7 +311,7 @@ class ServerService {
                 name: result.name || record.server_name,
                 lastUpdated: Date.now()
             });
-        } catch (e) {
+        } catch {
             this.statusCache.set(record.server_id, {
                 status: 'offline',
                 name: record.server_name,
@@ -428,7 +428,7 @@ class ServerService {
                     if (idResponse.data?.success && idResponse.data.data) {
                         rawApiResults.push(idResponse.data.data);
                     }
-                } catch (e) { /* ignore and try search */ }
+                } catch { /* ignore and try search */ }
             }
 
             // Search query

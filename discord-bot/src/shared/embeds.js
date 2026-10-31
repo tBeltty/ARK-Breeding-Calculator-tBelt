@@ -116,7 +116,7 @@ export function createCreatureEmbed(creature, progress) {
 /**
  * Create a list embed for multiple creatures
  */
-export function createCreatureListEmbed(creatures, guildName) {
+export function createCreatureListEmbed(creatures, _guildName) {
     const embed = new EmbedBuilder()
         .setColor(COLORS.primary)
         .setTitle(`🦕 Active Creatures`)

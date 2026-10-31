@@ -1,5 +1,5 @@
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useAppLogic } from '../useAppLogic';
 import { NotificationManager } from '../../infrastructure/NotificationManager';
@@ -59,13 +59,13 @@ describe('useAppLogic Hook (Regression Tests)', () => {
         addToastMock = vi.fn();
         vi.clearAllMocks();
 
-        global.fetch = vi.fn(() => Promise.resolve({
+        globalThis.fetch = vi.fn(() => Promise.resolve({
             ok: true,
             json: () => Promise.resolve([])
         }));
 
         // Reset localStorage mocks if any
-        global.localStorage = {
+        globalThis.localStorage = {
             getItem: vi.fn(),
             setItem: vi.fn(),
             removeItem: vi.fn(),

@@ -421,7 +421,7 @@
   },
   "Desmodus": {
     "birthtype": "Incubation",
-    "type": "Carnivore",
+    "type": "BloodStalker",
     "basefoodrate": 0.001543,
     "babyfoodrate": 25.5,
     "extrababyfoodrate": 20,

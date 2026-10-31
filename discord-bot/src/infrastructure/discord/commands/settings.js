@@ -6,7 +6,7 @@
 
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { GuildRepository } from '../../database/repositories/GuildRepository.js';
-import { createSuccessEmbed, createErrorEmbed, createInfoEmbed } from '../../../shared/embeds.js';
+import { createSuccessEmbed, createErrorEmbed } from '../../../shared/embeds.js';
 import { t, getLocale } from '../../../shared/i18n.js';
 
 export const data = new SlashCommandBuilder()
@@ -227,7 +227,7 @@ async function handleNotify(interaction, guild, locale) {
     });
 }
 
-async function handleChannel(interaction, guild, locale) {
+async function handleChannel(interaction, _guild, locale) {
     const channel = interaction.options.getChannel('target');
     GuildRepository.updateSettings(interaction.guildId, { notify_channel_id: channel.id });
 
@@ -236,7 +236,7 @@ async function handleChannel(interaction, guild, locale) {
     });
 }
 
-async function handleLanguage(interaction, guild, locale) {
+async function handleLanguage(interaction, _guild, _locale) {
     const newLocale = interaction.options.getString('locale');
     GuildRepository.updateSettings(interaction.guildId, { locale: newLocale });
 
